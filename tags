@@ -2064,6 +2064,7 @@ Builder	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=n
 Builder	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e.TokenSet
 Ce	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Constructor	_site/assets/js/plugins/gumshoe.js	/^	var Constructor = function (selector, options) {$/;"	f	function:AnonymousFunctioncfd5b82a0200
+Contact	_site/contact/index.html	/^<\/h1>$/;"	h
 Ct	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 D	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	v
 DOMEval	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	function DOMEval( code, node, doc ) {$/;"	f	function:AnonymousFunctionf615336f0100
@@ -2495,6 +2496,7 @@ fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	jQuery.fn[ name ] = function
 footer	_site/404.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/about/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
+footer	_site/contact/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/update/2022/02/16/welcome.html	/^    <div id="footer" class="page__footer">$/;"	I
@@ -2770,6 +2772,7 @@ magnitude	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.magnitude = funct
 magnitude	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 main	_site/about/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
+main	_site/contact/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<div id="main" role="main">$/;"	I
 main	_site/update/2022/02/16/welcome.html	/^<div id="main" role="main">$/;"	I
@@ -2858,6 +2861,7 @@ p > code	_site/assets/css/main.css	/^p > code, a > code, li > code, figcaption >
 p > code:after	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
 p > code:before	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
 page-title	_site/about/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">About$/;"	I
+page-title	_site/contact/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Contact$/;"	I
 page-title	_site/index.html	/^      <h1 id="page-title" class="page__title" itemprop="headline">$/;"	I
 page-title	_site/misc/2022/02/16/diy-jtag-debugger.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">A DIY jtag debugger$/;"	I
 page-title	_site/update/2022/02/16/welcome.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Welcome$/;"	I
@@ -2880,6 +2884,7 @@ pe	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 peekLexeme	_site/assets/js/lunr/lunr.js	/^lunr.QueryParser.prototype.peekLexeme = function () {$/;"	m	class:lunr.QueryParser
 peekLexeme	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.QueryParser
 permalink: /about/	about.markdown	/^permalink: \/about\/$/;"	s
+permalink: /contact/	contact.md	/^permalink: \/contact\/$/;"	s
 pipe	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				pipe: function( \/* fnDone, fnFail, fnProgress *\/ ) {$/;"	m	class:AnonymousFunctionf615336f9f00.promise
 popstate	_site/assets/js/plugins/smooth-scroll.js	/^		popstate: true,$/;"	p	class:AnonymousFunction3ab267480200.defaults
 popstateHandler	_site/assets/js/plugins/smooth-scroll.js	/^		var popstateHandler = function (event) {$/;"	f	function:AnonymousFunction3ab267480200.SmoothScroll
@@ -2933,7 +2938,13 @@ resizeHandler	_site/assets/js/plugins/gumshoe.js	/^		var resizeHandler = functio
 resolve	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^					function resolve( depth, deferred, handler, special ) {$/;"	f	function:AnonymousFunctionf615336f9f00.promise.then
 resolve	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^			resolve = function() {$/;"	f	function:AnonymousFunctionf615336fcb00
 restoreScript	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function restoreScript( elem ) {$/;"	f
+results	_site/404.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/about/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/assets/js/lunr/lunr.js	/^      results = [],$/;"	v
+results	_site/contact/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/update/2022/02/16/welcome.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 returnFalse	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function returnFalse() {$/;"	f
 returnTrue	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function returnTrue() {$/;"	f
 roundPixelMeasures	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	function roundPixelMeasures( measure ) {$/;"	f	function:AnonymousFunctionf615336f10a00
@@ -2954,8 +2965,14 @@ score	_site/assets/js/lunr/lunr.js	/^        score: score,$/;"	p	class:match
 score	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:z
 scrollHandler	_site/assets/js/plugins/gumshoe.js	/^		var scrollHandler = function (event) {$/;"	f	function:AnonymousFunctioncfd5b82a0200.Constructor
 se	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+search	_site/404.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/about/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/assets/js/lunr/lunr.js	/^lunr.Index.prototype.search = function (queryString) {$/;"	m	class:lunr.Index
 search	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Index
+search	_site/contact/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/update/2022/02/16/welcome.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 section	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
 select	_site/assets/css/main.css	/^button, input, select, textarea { margin: 0; font-size: 100%; vertical-align: middle; }$/;"	s
 select	_site/assets/css/main.css	/^input, button, select, textarea { box-sizing: border-box; font-family: -apple-system, BlinkMacSy/;"	s
@@ -2989,6 +3006,7 @@ similarity	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.similarity = fun
 similarity	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 site-nav	_site/404.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/about/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/contact/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/misc/2022/02/16/diy-jtag-debugger.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/update/2022/02/16/welcome.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
