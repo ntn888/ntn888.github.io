@@ -2,7 +2,7 @@
 layout: single
 title:  "A DIY jtag debugger"
 date:   2022-02-16 10:27:43 +1100
-categories: jekyll update
+categories: misc
 
 ---
 One of openocd's hidden perks is it could use a typical ftdi232rl USB to Serial converter into a makeshift JTAG programmer. Not only is this cheap, it's quick convenience than to wait and order a new programmer.
