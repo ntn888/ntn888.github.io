@@ -6,9 +6,7 @@ side:
 
 
 main:
-  - title: ""
-    children:
-      - title: "About"
-        url: https://duckduckgo.com
-      - title: "Contact"
-        url: https://duckduckgo.com
+  - title: "About"
+    url: /about/
+  - title: "Contact"
+    url: https://duckduckgo.com

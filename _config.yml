@@ -21,6 +21,9 @@
 title: SimplyCreate
 email: contact@simplycreate.online
 description: Interested in Everything Embedded
+logo: "/assets/logo.png"
+masthead_title: " "
+search: true
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://simplycreate.online" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ananthadevan
@@ -53,6 +56,13 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      show_date: true
+      read_time: true
   # _nav
   - scope:
       path: ""

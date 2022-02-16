@@ -868,6 +868,7 @@ A	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.B
 A	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 A DIY jtag debugger	_site/index.html	/^    <\/h2>$/;"	i
 A DIY jtag debugger	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<\/h1>$/;"	h
+About	_site/about/index.html	/^<\/h1>$/;"	h
 Ajit Ananthadevan	_site/index.html	/^      <h3 class="author__name" itemprop="name">Ajit Ananthadevan<\/h3>$/;"	j
 Animation	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Animation( elem, properties, options ) {$/;"	f
 AnonymousFunction35ca10c50100	_site/assets/js/_main.js	/^$(document).ready(function() {$/;"	f
@@ -2137,8 +2138,8 @@ V	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.B
 Ve	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Vector	_site/assets/js/lunr/lunr.js	/^lunr.Vector = function (elements) {$/;"	c	class:lunr
 Vector	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
-Welcome	_site/2022/02/16/welcome.html	/^<\/h1>$/;"	h
 Welcome	_site/index.html	/^    <\/h2>$/;"	i
+Welcome	_site/update/2022/02/16/welcome.html	/^<\/h1>$/;"	h
 X	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Xt	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Y	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	c
@@ -2175,9 +2176,8 @@ abbr[title] .no-reformat:after	_site/assets/css/main.css	/^  abbr[title].no-refo
 abbr[title] :after	_site/assets/css/main.css	/^  abbr[title]:after, acronym[title]:after { content: " (" attr(title) ")"; }$/;"	s
 abort	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:AnonymousFunction92cdadd817300.x
 abort	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				abort: function( statusText ) {$/;"	m	class:AnonymousFunctionf615336f17200.jqXHR
-ac-toc	_site/2022/02/16/welcome.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/index.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/update/2022/02/16/welcome.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 acceptDigitRun	_site/assets/js/lunr/lunr.js	/^lunr.QueryLexer.prototype.acceptDigitRun = function () {$/;"	m	class:lunr.QueryLexer
 acceptDigitRun	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.QueryLexer
 acronym[title]	_site/assets/css/main.css	/^  abbr[title], acronym[title] { border: 0; text-decoration: none; }$/;"	s
@@ -2492,11 +2492,12 @@ fn	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				fn = function( elem, _key, value ) {$/;"	f	function:AnonymousFunctionf615336faf00
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		fn = function( event ) {$/;"	f	function:on
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	jQuery.fn[ name ] = function( until, selector ) {$/;"	f	function:jQuery
-footer	_site/2022/02/16/welcome.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/404.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/about/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
 footer	_site/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/update/2022/02/16/welcome.html	/^    <div id="footer" class="page__footer">$/;"	I
 forEach	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:Array
 forEach	_site/assets/js/plugins/gumshoe.js	/^			Array.prototype.forEach.call(navItems, (function (item) {$/;"	m	class:Array
 forEach	_site/assets/js/plugins/gumshoe.js	/^		Array.prototype.forEach.call(arguments, (function (obj) {$/;"	m	class:Array
@@ -2631,7 +2632,7 @@ ignore	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=ne
 ignore	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	p	class:i.fn.fitVids.o
 ignore	_site/assets/js/plugins/jquery.fitvids.js	/^      ignore: null$/;"	p	class:$.fn.fitVids.settings
 ignore	_site/assets/js/plugins/smooth-scroll.js	/^		ignore: '[data-scroll-ignore]',$/;"	p	class:AnonymousFunction3ab267480200.defaults
-image: /assets/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg	_posts/2022-02-16-welcome.markdown	/^    image: \/assets\/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg$/;"	s
+image: /assets/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg	_posts/update/2022-02-16-welcome.markdown	/^    image: \/assets\/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg$/;"	s
 img	_site/assets/css/main.css	/^  img { border: 0; display: block; max-width: 100% !important; vertical-align: middle; }$/;"	s
 img	_site/assets/css/main.css	/^  img { page-break-after: auto; page-break-before: auto; page-break-inside: avoid; }$/;"	s
 img	_site/assets/css/main.css	/^b, i, strong, em, blockquote, p, q, span, figure, img, h1, h2, header, input, a, tr, td, form bu/;"	s
@@ -2767,10 +2768,11 @@ m	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mod
 m	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd80100
 magnitude	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.magnitude = function () {$/;"	m	class:lunr.Vector
 magnitude	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
-main	_site/2022/02/16/welcome.html	/^<div id="main" role="main">$/;"	I
+main	_site/about/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
 main	_site/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<div id="main" role="main">$/;"	I
+main	_site/update/2022/02/16/welcome.html	/^<div id="main" role="main">$/;"	I
 manipulationTarget	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function manipulationTarget( elem, content ) {$/;"	f
 marginRight	_site/assets/js/plugins/jquery.magnific-popup.js	/^        var windowStyles = {marginRight: ''};$/;"	p	class:AnonymousFunctionca11c4df1200.windowStyles
 markFunction	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function markFunction( fn ) {$/;"	f
@@ -2855,9 +2857,10 @@ p	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mod
 p > code	_site/assets/css/main.css	/^p > code, a > code, li > code, figcaption > code, td > code { padding-top: 0.1rem; padding-botto/;"	s
 p > code:after	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
 p > code:before	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
-page-title	_site/2022/02/16/welcome.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Welcome$/;"	I
+page-title	_site/about/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">About$/;"	I
 page-title	_site/index.html	/^      <h1 id="page-title" class="page__title" itemprop="headline">$/;"	I
 page-title	_site/misc/2022/02/16/diy-jtag-debugger.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">A DIY jtag debugger$/;"	I
+page-title	_site/update/2022/02/16/welcome.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Welcome$/;"	I
 parentOffset	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^			parentOffset = { top: 0, left: 0 };$/;"	c	class:AnonymousFunctionf615336f19d00
 parse	_site/assets/js/lunr/lunr.js	/^lunr.QueryParser.prototype.parse = function () {$/;"	m	class:lunr.QueryParser
 parse	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.QueryParser
@@ -2984,10 +2987,11 @@ sibling	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function sibling( cur, d
 siblingCheck	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function siblingCheck( a, b ) {$/;"	f
 similarity	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.similarity = function (otherVector) {$/;"	m	class:lunr.Vector
 similarity	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
-site-nav	_site/2022/02/16/welcome.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/404.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/about/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/misc/2022/02/16/diy-jtag-debugger.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/update/2022/02/16/welcome.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 sliceString	_site/assets/js/lunr/lunr.js	/^lunr.QueryLexer.prototype.sliceString = function () {$/;"	m	class:lunr.QueryLexer
 sliceString	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.QueryLexer
 small	_site/assets/css/main.css	/^small, .small { font-size: 0.75em; }$/;"	s
