@@ -2,7 +2,7 @@
 layout: single
 title:  "Welcome"
 date:   2022-02-16 10:27:43 +1100
-categories: latest
+categories: update
 header:
     image: /assets/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg
 ---
