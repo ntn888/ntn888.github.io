@@ -1,0 +1,14 @@
+side:
+  - title: Extras
+    children:
+      - title: "External site"
+        url: https://duckduckgo.com
+
+
+main:
+  - title: ""
+    children:
+      - title: "About"
+        url: https://duckduckgo.com
+      - title: "Contact"
+        url: https://duckduckgo.com

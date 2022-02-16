@@ -18,19 +18,17 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Your awesome title
-email: your-email@example.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+title: SimplyCreate
+email: contact@simplycreate.online
+description: Interested in Everything Embedded
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "https://simplycreate.online" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: ananthadevan
+github_username:  ntn888
 
 # Build settings
 remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+minimal_mistakes_skin: "dark"
 plugins:
   - jekyll-feed
   - jekyll-include-cache
@@ -54,3 +52,28 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+defaults:
+  # _nav
+  - scope:
+      path: ""
+      type: posts
+    values:
+      sidebar:
+        nav: "side"
+
+
+author:
+  name: "Ajit Ananthadevan"
+  avatar: "/assets/bio-photo.jpg"
+  bio: "Interested in everything Embedded." # Note: Markdown is allowed
+  location: "Sydney"
+  links:
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/ananthadevan"
+    - label: "Reddit"
+      icon: "fab fa-fw fa-reddit"
+      url: "https://www.reddit.com/user/ntn8888"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/ntn888"

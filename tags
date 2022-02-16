@@ -127,9 +127,7 @@
 404	404.html	/^  <h1>404<\/h1>$/;"	h
 404	_site/404.html	/^  <h1>404<\/h1>$/;"	h
 About	_site/about/index.html	/^    <h1 class="post-title">About<\/h1>$/;"	h
-Feel free to add content and custom Front Matter to this file.	index.markdown	/^# Feel free to add content and custom Front Matter to this file.$/;"	c
 Posts	_site/index.html	/^<h2 class="post-list-heading">Posts<\/h2>$/;"	i
-To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults	index.markdown	/^# To modify the layout, see https:\/\/jekyllrb.com\/docs\/themes\/#overriding-theme-defaults$/;"	c
 Welcome to Jekyll!	_site/index.html	/^        <\/h3><\/li><\/ul>$/;"	j
 Welcome to Jekyll!	_site/jekyll/update/2022/02/16/welcome-to-jekyll.html	/^    <h1 class="post-title p-name" itemprop="name headline">Welcome to Jekyll!<\/h1>$/;"	h
 Your awesome title	_site/404.html	/^    <h2 class="footer-heading">Your awesome title<\/h2>$/;"	i
@@ -145,7 +143,6 @@ blockquote	_site/assets/main.css	/^h1, h2, h3, h4, h5, h6, p, blockquote, pre, u
 blockquote > :last-child	_site/assets/main.css	/^blockquote > :last-child { margin-bottom: 0; }$/;"	s
 body	_site/assets/main.css	/^body { font: 400 16px\/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Ari/;"	s
 body	_site/assets/main.css	/^body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { margin: 0; paddin/;"	s
-categories: jekyll update	_posts/2022-02-16-welcome-to-jekyll.markdown	/^categories: jekyll update$/;"	s
 code	_site/assets/main.css	/^code { padding: 1px 5px; }$/;"	s
 code	_site/assets/main.css	/^pre, code { font-size: 15px; border: 1px solid #e8e8e8; border-radius: 3px; background-color: #e/;"	s
 dd	_site/assets/main.css	/^body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { margin: 0; paddin/;"	s
@@ -179,9 +176,9 @@ h6	_site/assets/main.css	/^body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr,
 h6	_site/assets/main.css	/^h1, h2, h3, h4, h5, h6 { font-weight: 400; }$/;"	s
 h6	_site/assets/main.css	/^h1, h2, h3, h4, h5, h6, p, blockquote, pre, ul, ol, dl, figure, .highlight { margin-bottom: 15px/;"	s
 hr	_site/assets/main.css	/^body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { margin: 0; paddin/;"	s
+image: /assets/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg	_posts/2022-02-16-welcome.markdown	/^    image: \/assets\/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg$/;"	s
 img	_site/assets/main.css	/^img { max-width: 100%; vertical-align: middle; }$/;"	s
 instagram	_site/assets/minima-social-icons.svg	/^<symbol id="instagram" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-mi/;"	i
-layout: home	index.markdown	/^layout: home$/;"	s	chapter:To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 li > ol	_site/assets/main.css	/^li > ul, li > ol { margin-bottom: 0; }$/;"	s
 li > ul	_site/assets/main.css	/^li > ul, li > ol { margin-bottom: 0; }$/;"	s
 linkedin	_site/assets/minima-social-icons.svg	/^<symbol id="linkedin" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-mit/;"	i
