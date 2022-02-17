@@ -11,4 +11,3 @@ Hello and Welcome!
 
 In this blog we are interested in all things embedded! Primarily the topics will revolve around the [RT-Thread](https://github.com/RT-Thread/rt-thread) RTOS and cheap parts from outlets such as AliExpress.
 
-[//]: # ![welcome image](/assets/kyle-bushnell-wjrlOqZCvCM-unsplash.jpg)
