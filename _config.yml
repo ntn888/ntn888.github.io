@@ -55,6 +55,12 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "simplycreate-online"
+
 defaults:
   # _posts
   - scope:
@@ -63,6 +69,7 @@ defaults:
     values:
       show_date: true
       read_time: true
+      comments: true
   # _nav
   - scope:
       path: ""

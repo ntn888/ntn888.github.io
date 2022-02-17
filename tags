@@ -2493,6 +2493,8 @@ fn	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				fn = function( elem, _key, value ) {$/;"	f	function:AnonymousFunctionf615336faf00
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		fn = function( event ) {$/;"	f	function:on
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	jQuery.fn[ name ] = function( until, selector ) {$/;"	f	function:jQuery
+fn:1	_site/about/index.html	/^    <li id="fn:1" role="doc-endnote">$/;"	I
+fnref:1	_site/about/index.html	/^<p>Before I discovered RT-Thread though, I picked up on the linux based RTOS - Zephyr<sup id="fn/;"	I
 footer	_site/404.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/about/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
