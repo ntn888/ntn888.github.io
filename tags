@@ -870,6 +870,7 @@ A DIY jtag debugger	_site/index.html	/^    <\/h2>$/;"	i
 A DIY jtag debugger	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<\/h1>$/;"	h
 About	_site/about/index.html	/^<\/h1>$/;"	h
 Ajit Ananthadevan	_site/index.html	/^      <h3 class="author__name" itemprop="name">Ajit Ananthadevan<\/h3>$/;"	j
+An Embedded Engineer’s retreat	_site/index.html	/^      <\/h1>$/;"	h
 Animation	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Animation( elem, properties, options ) {$/;"	f
 AnonymousFunction35ca10c50100	_site/assets/js/_main.js	/^$(document).ready(function() {$/;"	f
 AnonymousFunction35ca10c50200	_site/assets/js/_main.js	/^  $(window).resize(function() {$/;"	f
@@ -2120,7 +2121,6 @@ Se	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 Set	_site/assets/js/lunr/lunr.js	/^lunr.Set = function (elements) {$/;"	c	class:lunr
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e
-SimplyCreate	_site/index.html	/^      <\/h1>$/;"	h
 Sizzle	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Sizzle( selector, context, results, seed ) {$/;"	f
 SmoothScroll	_site/assets/js/plugins/smooth-scroll.js	/^	var SmoothScroll = function (selector, options) {$/;"	f	function:AnonymousFunction3ab267480200
 T	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f

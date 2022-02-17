@@ -4,15 +4,17 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+RT-Thread is a mature, free-for commercial-use, RTOS that started way back in 2006. It provides a complete framework (including peripheral APIs) that is standardised across the many platforms it supports.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+An excellent documentation is available at the official [website](https://www.rt-thread.io/document/site/). I will try to complement these docs with practical use-cases and tips here.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+The RTOS has good support for RISC-V chips, and mainly for the cheap chips/boards that can be purchased through outlets such as Aliexpress. I'm a big fan of these cheap low cost dev boards.
+
+Good resources about RTOS theory include:
+- Digi-key [Youtube series](https://www.youtube.com/watch?v=F321087yYy4)
+- μC/OS-II User's Manual Chapter 2: "Real-Time Systems Concepts" pp47. Accessible [here](http://www.farnell.com/datasheets/1950186.pdf) is an excellent intro into the world of RTOS. It has slow paced, thorough treatment.
+
+Before I discovered RT-Thread though, I picked up on the linux based RTOS - Zephyr[^1]. I made a write-up on the process and it is available at [Zephyr-guide](https://simplycreate.online/zephyr-guide/). Since I discovered RT-Thread I abandoned it, and only covers the very basics.
 
 
-[jekyll-organization]: https://github.com/jekyll
+[^1]: https://www.zephyrproject.org/
