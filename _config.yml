@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: An Embedded Engineer's retreat
+title: "Embedded Systems: A state of mind"
 email: contact@simplycreate.online
 description: Interested in Everything Embedded
 logo: "/assets/logo.png"
