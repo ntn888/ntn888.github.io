@@ -47,7 +47,7 @@ void main(void)
 }
   
 ```
-< walkthrough main code >
+The specifics of this file are not important to us right now. We will study the contents in the next post.
 
 The other three makefiles are simply copied over from the official blinky sample, and are required to successfully build the project.
 
