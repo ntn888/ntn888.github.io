@@ -2058,6 +2058,8 @@ Array	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof
 Array	_site/assets/js/plugins/gumshoe.js	/^		Array.prototype.forEach.call(arguments, (function (obj) {$/;"	c
 Array	_site/assets/js/plugins/smooth-scroll.js	/^		Array.prototype.forEach.call(arguments, (function (obj) {$/;"	c
 B	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+Basic application structure	_site/bl602/2022/02/22/basic-app-structure.html	/^<\/h1>$/;"	h
+Basic application structure	_site/index.html	/^    <\/h2>$/;"	i
 Blinky for DT-BL10 board in NuttX	_site/index.html	/^    <\/h2>$/;"	i
 Blinky for DT-BL10 board in NuttX	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^<\/h1>$/;"	h
 Builder	_site/assets/js/lunr/lunr.js	/^lunr.Builder = function () {$/;"	c	class:lunr
@@ -2125,6 +2127,8 @@ Se	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 Set	_site/assets/js/lunr/lunr.js	/^lunr.Set = function (elements) {$/;"	c	class:lunr
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e
+Setup a development environment	_site/bl602/2022/02/22/dev-env.html	/^<\/h1>$/;"	h
+Setup a development environment	_site/index.html	/^    <\/h2>$/;"	i
 Sizzle	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Sizzle( selector, context, results, seed ) {$/;"	f
 SmoothScroll	_site/assets/js/plugins/smooth-scroll.js	/^	var SmoothScroll = function (selector, options) {$/;"	f	function:AnonymousFunction3ab267480200
 T	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -2183,6 +2187,8 @@ abbr[title] .no-reformat:after	_site/assets/css/main.css	/^  abbr[title].no-refo
 abbr[title] :after	_site/assets/css/main.css	/^  abbr[title]:after, acronym[title]:after { content: " (" attr(title) ")"; }$/;"	s
 abort	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:AnonymousFunction92cdadd817300.x
 abort	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				abort: function( statusText ) {$/;"	m	class:AnonymousFunctionf615336f17200.jqXHR
+ac-toc	_site/bl602/2022/02/22/basic-app-structure.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl602/2022/02/22/dev-env.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
@@ -2503,10 +2509,12 @@ fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				fn = function( elem, _key
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		fn = function( event ) {$/;"	f	function:on
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	jQuery.fn[ name ] = function( until, selector ) {$/;"	f	function:jQuery
 fn:1	_site/about/index.html	/^    <li id="fn:1" role="doc-endnote">$/;"	I
-fnref:1	_site/about/index.html	/^<p>Before I discovered NuttX though, I picked up on the linux based RTOS - Zephyr<sup id="fnref:/;"	I
+fnref:1	_site/about/index.html	/^<p>Before I ventured into the BL chips though, I picked up on the linux based RTOS - Zephyr<sup /;"	I
 footer	_site/404.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/about/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
+footer	_site/bl602/2022/02/22/basic-app-structure.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl602/2022/02/22/dev-env.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/contact/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <div id="footer" class="page__footer">$/;"	I
@@ -2786,6 +2794,8 @@ magnitude	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.magnitude = funct
 magnitude	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 main	_site/about/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
+main	_site/bl602/2022/02/22/basic-app-structure.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl602/2022/02/22/dev-env.html	/^<div id="main" role="main">$/;"	I
 main	_site/contact/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<div id="main" role="main">$/;"	I
@@ -2878,6 +2888,8 @@ p > code	_site/assets/css/main.css	/^p > code, a > code, li > code, figcaption >
 p > code:after	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
 p > code:before	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
 page-title	_site/about/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">About$/;"	I
+page-title	_site/bl602/2022/02/22/basic-app-structure.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Basic application structur/;"	I
+page-title	_site/bl602/2022/02/22/dev-env.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Setup a development enviro/;"	I
 page-title	_site/contact/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Contact$/;"	I
 page-title	_site/index.html	/^      <h1 id="page-title" class="page__title" itemprop="headline">$/;"	I
 page-title	_site/misc/2022/02/16/diy-jtag-debugger.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">A DIY jtag debugger$/;"	I
@@ -2961,6 +2973,8 @@ restoreScript	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function restoreSc
 results	_site/404.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/about/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/assets/js/lunr/lunr.js	/^      results = [],$/;"	v
+results	_site/bl602/2022/02/22/basic-app-structure.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl602/2022/02/22/dev-env.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/contact/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
@@ -2992,6 +3006,8 @@ search	_site/404.html	/^    <input type="search" id="search" class="search-input
 search	_site/about/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/assets/js/lunr/lunr.js	/^lunr.Index.prototype.search = function (queryString) {$/;"	m	class:lunr.Index
 search	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Index
+search	_site/bl602/2022/02/22/basic-app-structure.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl602/2022/02/22/dev-env.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/contact/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
@@ -3032,6 +3048,8 @@ similarity	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.similarity = fun
 similarity	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 site-nav	_site/404.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/about/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl602/2022/02/22/basic-app-structure.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl602/2022/02/22/dev-env.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/contact/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/misc/2022/02/16/diy-jtag-debugger.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
