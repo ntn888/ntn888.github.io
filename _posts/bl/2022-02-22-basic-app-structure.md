@@ -83,6 +83,8 @@ include $(BL60X_SDK_PATH)/make_scripts_riscv/project.mk
 ```
 We have hardcoded the chip name and the sdk path. This makes the make command simpler. Also note that we have changed the ```PROJECT_NAME``` to a generic name: main. This avoids the need to modify the variable to match each project.
 
+A quick tutorial on Make is viewable [here](https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/).
+
 NOTE: The makefile variable ```BL60X_SDK_PATH``` assumes that you have cloned the sdk into your home directory. If not please modify this variable to reflect your chosen path.
 
 Once the above files are in place all you have to do is run:
