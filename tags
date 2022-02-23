@@ -869,6 +869,7 @@ A	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mod
 A DIY jtag debugger	_site/index.html	/^    <\/h2>$/;"	i
 A DIY jtag debugger	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<\/h1>$/;"	h
 ALT Function Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## ALT Function Mode$/;"	s
+ALT Function Mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="alt-function-mode">ALT Function Mode<\/h2>$/;"	i
 About	_site/about/index.html	/^<\/h1>$/;"	h
 Ajit Ananthadevan	_site/index.html	/^      <h3 class="author__name" itemprop="name">Ajit Ananthadevan<\/h3>$/;"	j
 Animation	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Animation( elem, properties, options ) {$/;"	f
@@ -2059,10 +2060,10 @@ Array	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof
 Array	_site/assets/js/plugins/gumshoe.js	/^		Array.prototype.forEach.call(arguments, (function (obj) {$/;"	c
 Array	_site/assets/js/plugins/smooth-scroll.js	/^		Array.prototype.forEach.call(arguments, (function (obj) {$/;"	c
 B	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+Basic GPIO BL602	_site/bl602/2022/02/23/basic-gpio.html	/^<\/h1>$/;"	h
+Basic GPIO BL602	_site/index.html	/^    <\/h2>$/;"	i
 Basic application structure	_site/bl602/2022/02/22/basic-app-structure.html	/^<\/h1>$/;"	h
 Basic application structure	_site/index.html	/^    <\/h2>$/;"	i
-Blinky for DT-BL10 board in NuttX	_site/index.html	/^    <\/h2>$/;"	i
-Blinky for DT-BL10 board in NuttX	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^<\/h1>$/;"	h
 Builder	_site/assets/js/lunr/lunr.js	/^lunr.Builder = function () {$/;"	c	class:lunr
 Builder	_site/assets/js/lunr/lunr.js	/^lunr.TokenSet.Builder = function () {$/;"	c	class:lunr.TokenSet
 Builder	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
@@ -2091,9 +2092,11 @@ Ie	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 Index	_site/assets/js/lunr/lunr.js	/^lunr.Index = function (attrs) {$/;"	c	class:lunr
 Index	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Interrupt Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## Interrupt Mode$/;"	s
+Interrupt Mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
 J	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 L	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd81f00
 Le	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+Led Fade with DMA & Interrupts (Idle CPU)	_posts/bl/2022-02-24-pwm.md	/^## Led Fade with DMA & Interrupts (Idle CPU)$/;"	s
 M	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 MagnificPopup	_site/assets/js/plugins/jquery.magnific-popup.js	/^    MagnificPopup = function(){},$/;"	f	function:AnonymousFunctionca11c4df0100
 MatchData	_site/assets/js/lunr/lunr.js	/^lunr.MatchData = function (term, field, metadata) {$/;"	c	class:lunr
@@ -2126,6 +2129,7 @@ REQUIRED	_site/assets/js/lunr/lunr.js	/^  REQUIRED: 2,$/;"	p	class:lunr.Query.pr
 REQUIRED	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.Query.presence
 Recent Posts	_site/index.html	/^<h3 class="archive__subtitle">Recent Posts<\/h3>$/;"	j
 S	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+SSD1306 OLED Display	_posts/bl/2022-02-24-device-drivers-101.md	/^## SSD1306 OLED Display$/;"	s
 Se	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Set	_site/assets/js/lunr/lunr.js	/^lunr.Set = function (elements) {$/;"	c	class:lunr
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
@@ -2134,6 +2138,7 @@ Setup a development environment	_site/bl602/2022/02/22/dev-env.html	/^<\/h1>$/;"
 Setup a development environment	_site/index.html	/^    <\/h2>$/;"	i
 Sizzle	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Sizzle( selector, context, results, seed ) {$/;"	f
 SmoothScroll	_site/assets/js/plugins/smooth-scroll.js	/^	var SmoothScroll = function (selector, options) {$/;"	f	function:AnonymousFunction3ab267480200
+Step 1: Led Fade	_posts/bl/2022-02-24-pwm.md	/^## Step 1: Led Fade$/;"	s
 T	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/index.html	/^    <\/h2>$/;"	i
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/update/2022/02/20/xt-zb1-bl702.html	/^<\/h1>$/;"	h
@@ -2149,6 +2154,7 @@ Tt	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 Tween	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Tween( elem, options, prop, end, easing ) {$/;"	f
 U	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Using GPIO	_posts/bl/2022-02-23-basic-gpio.md	/^## Using GPIO$/;"	s
+Using GPIO	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="using-gpio">Using GPIO<\/h2>$/;"	i
 Ut	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 V	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	v
 Ve	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -2194,8 +2200,8 @@ abort	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof
 abort	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				abort: function( statusText ) {$/;"	m	class:AnonymousFunctionf615336f17200.jqXHR
 ac-toc	_site/bl602/2022/02/22/basic-app-structure.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/bl602/2022/02/22/dev-env.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl602/2022/02/23/basic-gpio.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/update/2022/02/16/welcome.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/update/2022/02/20/xt-zb1-bl702.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
@@ -2235,6 +2241,7 @@ alize	_site/assets/js/lunr/lunr.js	/^      "alize" : "al",$/;"	p	class:lunr.stem
 alize	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.stemmer.t
 alli	_site/assets/js/lunr/lunr.js	/^      "alli" : "al",$/;"	p	class:lunr.stemmer.step2list
 alli	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.stemmer.e
+alt-function-mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="alt-function-mode">ALT Function Mode<\/h2>$/;"	I
 always	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:AnonymousFunction92cdadd89e00.a
 always	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				always: function() {$/;"	m	class:AnonymousFunctionf615336f9f00.promise
 anci	_site/assets/js/lunr/lunr.js	/^      "anci" : "ance",$/;"	p	class:lunr.stemmer.step2list
@@ -2520,10 +2527,10 @@ footer	_site/about/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
 footer	_site/bl602/2022/02/22/basic-app-structure.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/bl602/2022/02/22/dev-env.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl602/2022/02/23/basic-gpio.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/contact/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/update/2022/02/16/welcome.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/update/2022/02/20/xt-zb1-bl702.html	/^    <div id="footer" class="page__footer">$/;"	I
@@ -2714,6 +2721,7 @@ insert	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=ne
 insert	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 inspect	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	function inspect( dataType ) {$/;"	f
 inspectPrefiltersOrTransports	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function inspectPrefiltersOrTransports( structure, options, originalOptions, jqXHR ) {$/;"	f
+interrupt-mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	I
 intersect	_site/assets/js/lunr/lunr.js	/^  intersect: function () {$/;"	m	class:lunr.Set.empty
 intersect	_site/assets/js/lunr/lunr.js	/^  intersect: function (other) {$/;"	m	class:lunr.Set.complete
 intersect	_site/assets/js/lunr/lunr.js	/^lunr.Set.prototype.intersect = function (other) {$/;"	m	class:lunr.Set
@@ -2801,10 +2809,10 @@ main	_site/about/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
 main	_site/bl602/2022/02/22/basic-app-structure.html	/^<div id="main" role="main">$/;"	I
 main	_site/bl602/2022/02/22/dev-env.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl602/2022/02/23/basic-gpio.html	/^<div id="main" role="main">$/;"	I
 main	_site/contact/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<div id="main" role="main">$/;"	I
-main	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^<div id="main" role="main">$/;"	I
 main	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^<div id="main" role="main">$/;"	I
 main	_site/update/2022/02/16/welcome.html	/^<div id="main" role="main">$/;"	I
 main	_site/update/2022/02/20/xt-zb1-bl702.html	/^<div id="main" role="main">$/;"	I
@@ -2895,10 +2903,10 @@ p > code:before	_site/assets/css/main.css	/^p > code:before, p > code:after, a >
 page-title	_site/about/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">About$/;"	I
 page-title	_site/bl602/2022/02/22/basic-app-structure.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Basic application structur/;"	I
 page-title	_site/bl602/2022/02/22/dev-env.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Setup a development enviro/;"	I
+page-title	_site/bl602/2022/02/23/basic-gpio.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Basic GPIO BL602$/;"	I
 page-title	_site/contact/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Contact$/;"	I
 page-title	_site/index.html	/^      <h1 id="page-title" class="page__title" itemprop="headline">$/;"	I
 page-title	_site/misc/2022/02/16/diy-jtag-debugger.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">A DIY jtag debugger$/;"	I
-page-title	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Blinky for DT-BL10 board i/;"	I
 page-title	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">NuttX Supported Boards$/;"	I
 page-title	_site/update/2022/02/16/welcome.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Welcome$/;"	I
 page-title	_site/update/2022/02/20/xt-zb1-bl702.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">THE Dev board you’ve bee/;"	I
@@ -2980,10 +2988,10 @@ results	_site/about/index.html	/^  <div id="results" class="results"><\/div><\/d
 results	_site/assets/js/lunr/lunr.js	/^      results = [],$/;"	v
 results	_site/bl602/2022/02/22/basic-app-structure.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/bl602/2022/02/22/dev-env.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl602/2022/02/23/basic-gpio.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/contact/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/update/2022/02/16/welcome.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/update/2022/02/20/xt-zb1-bl702.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
@@ -3013,10 +3021,10 @@ search	_site/assets/js/lunr/lunr.js	/^lunr.Index.prototype.search = function (qu
 search	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Index
 search	_site/bl602/2022/02/22/basic-app-structure.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/bl602/2022/02/22/dev-env.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl602/2022/02/23/basic-gpio.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/contact/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/update/2022/02/16/welcome.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/update/2022/02/20/xt-zb1-bl702.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
@@ -3055,10 +3063,10 @@ site-nav	_site/404.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/about/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/bl602/2022/02/22/basic-app-structure.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/bl602/2022/02/22/dev-env.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl602/2022/02/23/basic-gpio.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/contact/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/misc/2022/02/16/diy-jtag-debugger.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/nuttx/2022/02/18/nuttx-blinky-dtbl10.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/update/2022/02/16/welcome.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/update/2022/02/20/xt-zb1-bl702.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
@@ -3208,6 +3216,7 @@ upsert	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=ne
 use	_site/assets/js/lunr/lunr.js	/^lunr.Builder.prototype.use = function (fn) {$/;"	m	class:lunr.Builder
 use	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Builder
 useLastItem	_site/assets/js/plugins/gumshoe.js	/^	var useLastItem = function (item, settings) {$/;"	f	function:AnonymousFunctioncfd5b82a0200
+using-gpio	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="using-gpio">Using GPIO<\/h2>$/;"	I
 ut	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 valHooks	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		jQuery.valHooks[ this ].get = function( elem ) {$/;"	f	function:jQuery
 ve	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
