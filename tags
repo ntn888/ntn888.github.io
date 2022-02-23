@@ -2083,6 +2083,7 @@ FieldRef	_site/assets/js/lunr/lunr.js	/^lunr.FieldRef = function (docRef, fieldN
 FieldRef	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Ge	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 H	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+Hardware Timers with Interrupts	_posts/bl/2022-02-23-timers.md	/^## Hardware Timers with Interrupts$/;"	s
 He	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 I	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e.stemmer
 Identity	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Identity( v ) {$/;"	f
@@ -2138,6 +2139,7 @@ THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit fea
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/update/2022/02/20/xt-zb1-bl702.html	/^<\/h1>$/;"	h
 Te	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Thrower	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Thrower( ex ) {$/;"	f
+Tick Timing	_posts/bl/2022-02-23-timers.md	/^## Tick Timing$/;"	s
 Token	_site/assets/js/lunr/lunr.js	/^lunr.Token = function (str, metadata) {$/;"	c	class:lunr
 Token	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 TokenSet	_site/assets/js/lunr/lunr.js	/^lunr.Pipeline.registerFunction(lunr.trimmer, 'trimmer')$/;"	c	class:lunr.Pipeline.registerFunction
