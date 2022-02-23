@@ -6,6 +6,13 @@ categories: bl602
 
 ---
 
+---
+**ProTip**
+
+The sdk docs are available at [https://bouffalolab.github.io/bl_iot_sdk/index.html](https://bouffalolab.github.io/bl_iot_sdk/index.html). Use the firefox translate [plugin](https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/) to view it in English. I found that the chrome version is a bit finnicky...
+
+---
+
 A basic bl-iot-sdk project structure is as follows:
 ```
 .
