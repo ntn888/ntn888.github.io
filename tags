@@ -868,6 +868,7 @@ A	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.B
 A	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 A DIY jtag debugger	_site/index.html	/^    <\/h2>$/;"	i
 A DIY jtag debugger	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<\/h1>$/;"	h
+ALT Function Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## ALT Function Mode$/;"	s
 About	_site/about/index.html	/^<\/h1>$/;"	h
 Ajit Ananthadevan	_site/index.html	/^      <h3 class="author__name" itemprop="name">Ajit Ananthadevan<\/h3>$/;"	j
 Animation	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Animation( elem, properties, options ) {$/;"	f
@@ -2088,6 +2089,7 @@ Identity	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Identity( v ) 
 Ie	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Index	_site/assets/js/lunr/lunr.js	/^lunr.Index = function (attrs) {$/;"	c	class:lunr
 Index	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
+Interrupt Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## Interrupt Mode$/;"	s
 J	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 L	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd81f00
 Le	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -2144,6 +2146,7 @@ TokenSet	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=
 Tt	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Tween	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Tween( elem, options, prop, end, easing ) {$/;"	f
 U	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+Using GPIO	_posts/bl/2022-02-23-basic-gpio.md	/^## Using GPIO$/;"	s
 Ut	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 V	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	v
 Ve	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
