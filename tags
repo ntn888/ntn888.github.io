@@ -2094,6 +2094,7 @@ Ie	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 Index	_site/assets/js/lunr/lunr.js	/^lunr.Index = function (attrs) {$/;"	c	class:lunr
 Index	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Interrupt Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## Interrupt Mode$/;"	s
+Interrupt Mode	_posts/bl/2022-02-24-serial.md	/^## Interrupt Mode$/;"	s
 Interrupt Mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
 J	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 L	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd81f00
@@ -2104,6 +2105,7 @@ M	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mod
 MagnificPopup	_site/assets/js/plugins/jquery.magnific-popup.js	/^    MagnificPopup = function(){},$/;"	f	function:AnonymousFunctionca11c4df0100
 MatchData	_site/assets/js/lunr/lunr.js	/^lunr.MatchData = function (term, field, metadata) {$/;"	c	class:lunr
 MatchData	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
+Mutex	_posts/bl/2022-02-24-freeRTOS.md	/^### Mutex$/;"	S	section:Semaphores
 N	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	v
 N	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 NuttX Supported Boards	_site/index.html	/^    <\/h2>$/;"	i
@@ -2119,6 +2121,7 @@ PWM	_site/index.html	/^    <\/h2>$/;"	i
 Pe	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Pipeline	_site/assets/js/lunr/lunr.js	/^lunr.Pipeline = function () {$/;"	c	class:lunr
 Pipeline	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
+Priorities	_posts/bl/2022-02-24-freeRTOS.md	/^### Priorities$/;"	S	section:Tasks
 Q	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Qe	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Qt	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -2130,12 +2133,14 @@ QueryParseError	_site/assets/js/lunr/lunr.js	/^lunr.QueryParseError = function (
 QueryParseError	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 QueryParser	_site/assets/js/lunr/lunr.js	/^lunr.QueryParser = function (str, query) {$/;"	c	class:lunr
 QueryParser	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
+Queues	_posts/bl/2022-02-24-freeRTOS.md	/^## Queues$/;"	s
 REQUIRED	_site/assets/js/lunr/lunr.js	/^  REQUIRED: 2,$/;"	p	class:lunr.Query.presence
 REQUIRED	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.Query.presence
 Recent Posts	_site/index.html	/^<h3 class="archive__subtitle">Recent Posts<\/h3>$/;"	j
 S	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 SSD1306 OLED Display	_posts/bl/2022-02-24-device-drivers-101.md	/^## SSD1306 OLED Display$/;"	s
 Se	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+Semaphores	_posts/bl/2022-02-24-freeRTOS.md	/^## Semaphores$/;"	s
 Set	_site/assets/js/lunr/lunr.js	/^lunr.Set = function (elements) {$/;"	c	class:lunr
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e
@@ -2148,6 +2153,7 @@ Step 1: Led Fade	_site/bl602/2022/02/24/pwm.html	/^<h2 id="step-1-led-fade">Step
 T	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/index.html	/^    <\/h2>$/;"	i
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/update/2022/02/20/xt-zb1-bl702.html	/^<\/h1>$/;"	h
+Tasks	_posts/bl/2022-02-24-freeRTOS.md	/^## Tasks$/;"	s
 Te	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Thrower	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Thrower( ex ) {$/;"	f
 Tick Timing	_posts/bl/2022-02-23-timers.md	/^## Tick Timing$/;"	s
