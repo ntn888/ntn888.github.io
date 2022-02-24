@@ -74,6 +74,7 @@ void main (void)
       vTaskDelay(500);
    }
 }
+
 {% endhighlight %}
 
 Before we could use the GPIO API, the GPIO struct must be defined and assigned as in line6. Here we're naming it as ```gp1``` to reference later.
@@ -97,7 +98,46 @@ I've looked for a GPIO 'toggle' function to simplify this example, but unfortuna
 
 ## Interrupt Mode
 
-< TODO >
+We look into interrupts using GPIO pins. The main idea is to register a callback functionusing the Interrupt API, and define it's contents. As follows:
+
+{% highlight c linenos %}
+#include <stdio.h>
+#include <hosal_gpio.h>
+#include <FreeRTOS.h>
+#include <task.h>
+
+static hosal_gpio_dev_t gp1;
+static hosal_gpio_dev_t key1;
+uint8_t value = 1;
+
+void key1_irq(void *arg)
+{
+   hosal_gpio_output_set(&gp1, value );
+   value = !value;
+}
+
+void main (void)
+{
+   // setup
+   key1.port = 8; // the d8 button; note that it's active LOW
+   key1.config = INPUT_HIGH_IMPEDANCE; // button includes external pullup
+   hosal_gpio_init(&key1);
+   hosal_gpio_irq_set(&key1, HOSAL_IRQ_TRIG_NEG_PULSE, key1_irq, NULL); // 'key1_irq' indicates the desired procedure at interrupt.
+
+   gp1.port = 5;
+   gp1.config = OUTPUT_OPEN_DRAIN_PULL_UP;
+   hosal_gpio_init(&gp1);
+   hosal_gpio_output_set(&gp1, 1);
+
+   while (1) {
+   }
+}
+{% endhighlight %}
+
+Line 10 defines the callback function named ```key1_irq```. Here we are simply toggling the D8 LED.
+
+Initialising the Interrupt requires a string of statements beginning on line 19. Notably we initialise it as an input Pin as we covered in the previous section. Then finally use the 'irq-set' function to configure it and indicate our callback function. Note that we had to define the device on line 7.
+> This is a very basic demonstration of push button with no debounce mechanism. The led may inadvertently toggle multiple times for a single push.
 
 ## ALT Function Mode
 
