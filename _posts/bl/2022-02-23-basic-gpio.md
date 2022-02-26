@@ -98,7 +98,7 @@ I've looked for a GPIO 'toggle' function to simplify this example, but unfortuna
 
 ## Interrupt Mode
 
-We look into interrupts using GPIO pins. The main idea is to register a callback functionusing the Interrupt API, and define it's contents. As follows:
+We look into interrupts using GPIO pins. Each GPIO can be set as an interrupt function. The main idea is to register a callback functionusing the Interrupt API, and define it's contents. As follows:
 
 {% highlight c linenos %}
 #include <stdio.h>
