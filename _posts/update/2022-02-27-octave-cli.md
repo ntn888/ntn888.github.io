@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Octave Command Line Mode"
-date:   2022-02-27 60:27:43 +1100
+date:   2022-02-27 06:27:43 +1100
 categories: update
 
 ---
