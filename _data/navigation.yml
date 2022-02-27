@@ -8,5 +8,7 @@ side:
 main:
   - title: "About"
     url: /about/
+  - title: "Categories"
+    url: /categories/
   - title: "Contact"
     url: /contact/
