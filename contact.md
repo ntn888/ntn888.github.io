@@ -4,6 +4,8 @@ title: Contact
 permalink: /contact/
 ---
 
+Got a project in mind? Feedback? Suggestions? Drop a line...
+
 <form
   action="https://formspree.io/f/mrgjqqod"
   method="POST"
