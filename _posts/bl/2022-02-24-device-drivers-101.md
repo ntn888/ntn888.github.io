@@ -2,7 +2,7 @@
 layout: single
 title:  "Device Drivers 101"
 date:   2022-02-24 02:27:43 +1100
-categories: bl602
+categories: bl702
 
 ---
 

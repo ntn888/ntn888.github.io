@@ -13,6 +13,7 @@
 #main::after	_site/assets/css/main.css	/^#main::after { clear: both; content: ""; display: table; }$/;"	i
 #map_canvas img	_site/assets/css/main.css	/^#map_canvas img, .google-maps img { max-width: none; }$/;"	s
 $	_site/assets/js/plugins/jquery.ba-throttle-debounce.js	/^  var $ = window.jQuery || window.Cowboy || ( window.Cowboy = {} ),$/;"	v
+(Uses default behaviour of compiling all source files in directory, adding ‘include’ to include path.)	_site/bl702/2022/02/22/basic-app-structure.html	/^<h1 id="uses-default-behaviour-of-compiling-all-source-files-in-directory-adding-include-to-incl/;"	h
 *	_site/assets/css/main.css	/^  * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }$/;"	s
 *	_site/assets/css/main.css	/^* { box-sizing: border-box; }$/;"	s
 -webkit-backface-visibility	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	p	class:AnonymousFunction92cdadd81f400.r
@@ -870,7 +871,7 @@ A DIY jtag debugger	_site/categories/index.html	/^    <\/h2>$/;"	i
 A DIY jtag debugger	_site/index.html	/^    <\/h2>$/;"	i
 A DIY jtag debugger	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<\/h1>$/;"	h
 ALT Function Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## ALT Function Mode$/;"	s
-ALT Function Mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="alt-function-mode">ALT Function Mode<\/h2>$/;"	i
+ALT Function Mode	_site/bl702/2022/02/23/basic-gpio.html	/^<h2 id="alt-function-mode">ALT Function Mode<\/h2>$/;"	i
 About	_site/about/index.html	/^<\/h1>$/;"	h
 Ajit Ananthadevan	_site/categories/index.html	/^      <h3 class="author__name" itemprop="name">Ajit Ananthadevan<\/h3>$/;"	j
 Ajit Ananthadevan	_site/index.html	/^      <h3 class="author__name" itemprop="name">Ajit Ananthadevan<\/h3>$/;"	j
@@ -2065,10 +2066,10 @@ Array	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof
 Array	_site/assets/js/plugins/gumshoe.js	/^		Array.prototype.forEach.call(arguments, (function (obj) {$/;"	c
 Array	_site/assets/js/plugins/smooth-scroll.js	/^		Array.prototype.forEach.call(arguments, (function (obj) {$/;"	c
 B	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
-Basic GPIO BL602	_site/bl602/2022/02/23/basic-gpio.html	/^<\/h1>$/;"	h
+Basic GPIO BL602	_site/bl702/2022/02/23/basic-gpio.html	/^<\/h1>$/;"	h
 Basic GPIO BL602	_site/categories/index.html	/^    <\/h2>$/;"	i
 Basic GPIO BL602	_site/index.html	/^    <\/h2>$/;"	i
-Basic application structure	_site/bl602/2022/02/22/basic-app-structure.html	/^<\/h1>$/;"	h
+Basic application structure	_site/bl702/2022/02/22/basic-app-structure.html	/^<\/h1>$/;"	h
 Basic application structure	_site/categories/index.html	/^    <\/h2>$/;"	i
 Basic application structure	_site/index.html	/^    <\/h2>$/;"	i
 Builder	_site/assets/js/lunr/lunr.js	/^lunr.Builder = function () {$/;"	c	class:lunr
@@ -2083,7 +2084,7 @@ D	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.B
 DOMEval	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	function DOMEval( code, node, doc ) {$/;"	f	function:AnonymousFunctionf615336f0100
 Data	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Data() {$/;"	c
 De	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
-Device Drivers 101	_site/bl602/2022/02/24/device-drivers-101.html	/^<\/h1>$/;"	h
+Device Drivers 101	_site/bl702/2022/02/24/device-drivers-101.html	/^<\/h1>$/;"	h
 Device Drivers 101	_site/categories/index.html	/^    <\/h2>$/;"	i
 Device Drivers 101	_site/index.html	/^    <\/h2>$/;"	i
 E	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd817a00
@@ -2095,7 +2096,7 @@ FieldRef	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=
 Ge	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 H	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Hardware Timers with Interrupts	_posts/bl/2022-02-23-timers.md	/^## Hardware Timers with Interrupts$/;"	s
-Hardware Timers with Interrupts	_site/bl602/2022/02/23/timers.html	/^<h2 id="hardware-timers-with-interrupts">Hardware Timers with Interrupts<\/h2>$/;"	i
+Hardware Timers with Interrupts	_site/bl702/2022/02/23/timers.html	/^<h2 id="hardware-timers-with-interrupts">Hardware Timers with Interrupts<\/h2>$/;"	i
 He	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 I	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e.stemmer
 Identity	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Identity( v ) {$/;"	f
@@ -2104,19 +2105,19 @@ Index	_site/assets/js/lunr/lunr.js	/^lunr.Index = function (attrs) {$/;"	c	class
 Index	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Interrupt Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## Interrupt Mode$/;"	s
 Interrupt Mode	_posts/bl/2022-02-24-serial.md	/^## Interrupt Mode$/;"	s
-Interrupt Mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
-Interrupt Mode	_site/bl602/2022/02/24/serial.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
+Interrupt Mode	_site/bl702/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
+Interrupt Mode	_site/bl702/2022/02/24/serial.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
 J	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 L	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd81f00
 Le	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Led Fade with DMA & Interrupts (Idle CPU)	_posts/bl/2022-02-24-pwm.md	/^## Led Fade with DMA & Interrupts (Idle CPU)$/;"	s
-Led Fade with DMA &amp; Interrupts (Idle CPU)	_site/bl602/2022/02/24/pwm.html	/^<h2 id="led-fade-with-dma--interrupts-idle-cpu">Led Fade with DMA &amp; Interrupts (Idle CPU)<\//;"	i
+Led Fade with DMA &amp; Interrupts (Idle CPU)	_site/bl702/2022/02/24/pwm.html	/^<h2 id="led-fade-with-dma--interrupts-idle-cpu">Led Fade with DMA &amp; Interrupts (Idle CPU)<\//;"	i
 M	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 MagnificPopup	_site/assets/js/plugins/jquery.magnific-popup.js	/^    MagnificPopup = function(){},$/;"	f	function:AnonymousFunctionca11c4df0100
 MatchData	_site/assets/js/lunr/lunr.js	/^lunr.MatchData = function (term, field, metadata) {$/;"	c	class:lunr
 MatchData	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Mutex	_posts/bl/2022-02-24-freeRTOS.md	/^### Mutex$/;"	S	section:Semaphores
-Mutex	_site/bl602/2022/02/24/freeRTOS.html	/^<h3 id="mutex">Mutex<\/h3>$/;"	j
+Mutex	_site/bl702/2022/02/24/freeRTOS.html	/^<h3 id="mutex">Mutex<\/h3>$/;"	j
 N	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	v
 N	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 NuttX Supported Boards	_site/categories/index.html	/^    <\/h2>$/;"	i
@@ -2131,7 +2132,7 @@ Octave Command Line Mode	_site/update/2022/02/27/octave-cli.html	/^<\/h1>$/;"	h
 Oe	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 PROHIBITED	_site/assets/js/lunr/lunr.js	/^  PROHIBITED: 3$/;"	p	class:lunr.Query.presence
 PROHIBITED	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.Query.presence
-PWM	_site/bl602/2022/02/24/pwm.html	/^<\/h1>$/;"	h
+PWM	_site/bl702/2022/02/24/pwm.html	/^<\/h1>$/;"	h
 PWM	_site/categories/index.html	/^    <\/h2>$/;"	i
 PWM	_site/index.html	/^    <\/h2>$/;"	i
 Pe	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -2139,7 +2140,7 @@ Pipeline	_site/assets/js/lunr/lunr.js	/^lunr.Pipeline = function () {$/;"	c	clas
 Pipeline	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Posts by Category	_site/categories/index.html	/^      <h1 id="page-title" class="page__title">Posts by Category<\/h1>$/;"	h
 Priorities	_posts/bl/2022-02-24-freeRTOS.md	/^### Priorities$/;"	S	section:Tasks
-Priorities	_site/bl602/2022/02/24/freeRTOS.html	/^<h3 id="priorities">Priorities<\/h3>$/;"	j
+Priorities	_site/bl702/2022/02/24/freeRTOS.html	/^<h3 id="priorities">Priorities<\/h3>$/;"	j
 Q	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Qe	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Qt	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -2152,40 +2153,40 @@ QueryParseError	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t)
 QueryParser	_site/assets/js/lunr/lunr.js	/^lunr.QueryParser = function (str, query) {$/;"	c	class:lunr
 QueryParser	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Queues	_posts/bl/2022-02-24-freeRTOS.md	/^## Queues$/;"	s
-Queues	_site/bl602/2022/02/24/freeRTOS.html	/^<h2 id="queues">Queues<\/h2>$/;"	i
+Queues	_site/bl702/2022/02/24/freeRTOS.html	/^<h2 id="queues">Queues<\/h2>$/;"	i
 REQUIRED	_site/assets/js/lunr/lunr.js	/^  REQUIRED: 2,$/;"	p	class:lunr.Query.presence
 REQUIRED	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.Query.presence
 Recent Posts	_site/index.html	/^<h3 class="archive__subtitle">Recent Posts<\/h3>$/;"	j
 S	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 SSD1306 OLED Display	_posts/bl/2022-02-24-device-drivers-101.md	/^## SSD1306 OLED Display$/;"	s
-SSD1306 OLED Display	_site/bl602/2022/02/24/device-drivers-101.html	/^<h2 id="ssd1306-oled-display">SSD1306 OLED Display<\/h2>$/;"	i
+SSD1306 OLED Display	_site/bl702/2022/02/24/device-drivers-101.html	/^<h2 id="ssd1306-oled-display">SSD1306 OLED Display<\/h2>$/;"	i
 Se	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Semaphores	_posts/bl/2022-02-24-freeRTOS.md	/^## Semaphores$/;"	s
-Semaphores	_site/bl602/2022/02/24/freeRTOS.html	/^<h2 id="semaphores">Semaphores<\/h2>$/;"	i
-Serial UART	_site/bl602/2022/02/24/serial.html	/^<\/h1>$/;"	h
+Semaphores	_site/bl702/2022/02/24/freeRTOS.html	/^<h2 id="semaphores">Semaphores<\/h2>$/;"	i
+Serial UART	_site/bl702/2022/02/24/serial.html	/^<\/h1>$/;"	h
 Serial UART	_site/categories/index.html	/^    <\/h2>$/;"	i
 Serial UART	_site/index.html	/^    <\/h2>$/;"	i
 Set	_site/assets/js/lunr/lunr.js	/^lunr.Set = function (elements) {$/;"	c	class:lunr
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
 Set	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e
-Setup a development environment	_site/bl602/2022/02/22/dev-env.html	/^<\/h1>$/;"	h
+Setup a development environment	_site/bl702/2022/02/22/dev-env.html	/^<\/h1>$/;"	h
 Setup a development environment	_site/categories/index.html	/^    <\/h2>$/;"	i
 Setup a development environment	_site/index.html	/^    <\/h2>$/;"	i
 Sizzle	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Sizzle( selector, context, results, seed ) {$/;"	f
 SmoothScroll	_site/assets/js/plugins/smooth-scroll.js	/^	var SmoothScroll = function (selector, options) {$/;"	f	function:AnonymousFunction3ab267480200
 Step 1: Led Fade	_posts/bl/2022-02-24-pwm.md	/^## Step 1: Led Fade$/;"	s
-Step 1: Led Fade	_site/bl602/2022/02/24/pwm.html	/^<h2 id="step-1-led-fade">Step 1: Led Fade<\/h2>$/;"	i
+Step 1: Led Fade	_site/bl702/2022/02/24/pwm.html	/^<h2 id="step-1-led-fade">Step 1: Led Fade<\/h2>$/;"	i
 T	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/categories/index.html	/^    <\/h2>$/;"	i
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/index.html	/^    <\/h2>$/;"	i
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/update/2022/02/20/xt-zb1-bl702.html	/^<\/h1>$/;"	h
 Tasks	_posts/bl/2022-02-24-freeRTOS.md	/^## Tasks$/;"	s
-Tasks	_site/bl602/2022/02/24/freeRTOS.html	/^<h2 id="tasks">Tasks<\/h2>$/;"	i
+Tasks	_site/bl702/2022/02/24/freeRTOS.html	/^<h2 id="tasks">Tasks<\/h2>$/;"	i
 Te	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Thrower	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Thrower( ex ) {$/;"	f
 Tick Timing	_posts/bl/2022-02-23-timers.md	/^## Tick Timing$/;"	s
-Tick Timing	_site/bl602/2022/02/23/timers.html	/^        <h2 id="tick-timing">Tick Timing<\/h2>$/;"	i
-Timers	_site/bl602/2022/02/23/timers.html	/^<\/h1>$/;"	h
+Tick Timing	_site/bl702/2022/02/23/timers.html	/^        <h2 id="tick-timing">Tick Timing<\/h2>$/;"	i
+Timers	_site/bl702/2022/02/23/timers.html	/^<\/h1>$/;"	h
 Timers	_site/categories/index.html	/^    <\/h2>$/;"	i
 Timers	_site/index.html	/^    <\/h2>$/;"	i
 Token	_site/assets/js/lunr/lunr.js	/^lunr.Token = function (str, metadata) {$/;"	c	class:lunr
@@ -2197,7 +2198,7 @@ Tt	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 Tween	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Tween( elem, options, prop, end, easing ) {$/;"	f
 U	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Using GPIO	_posts/bl/2022-02-23-basic-gpio.md	/^## Using GPIO$/;"	s
-Using GPIO	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="using-gpio">Using GPIO<\/h2>$/;"	i
+Using GPIO	_site/bl702/2022/02/23/basic-gpio.html	/^<h2 id="using-gpio">Using GPIO<\/h2>$/;"	i
 Ut	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 V	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	v
 Ve	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -2242,14 +2243,14 @@ abbr[title] .no-reformat:after	_site/assets/css/main.css	/^  abbr[title].no-refo
 abbr[title] :after	_site/assets/css/main.css	/^  abbr[title]:after, acronym[title]:after { content: " (" attr(title) ")"; }$/;"	s
 abort	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:AnonymousFunction92cdadd817300.x
 abort	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				abort: function( statusText ) {$/;"	m	class:AnonymousFunctionf615336f17200.jqXHR
-ac-toc	_site/bl602/2022/02/22/basic-app-structure.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/bl602/2022/02/22/dev-env.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/bl602/2022/02/23/basic-gpio.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/bl602/2022/02/23/timers.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/bl602/2022/02/24/device-drivers-101.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/bl602/2022/02/24/freeRTOS.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/bl602/2022/02/24/pwm.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
-ac-toc	_site/bl602/2022/02/24/serial.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/22/basic-app-structure.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/22/dev-env.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/23/basic-gpio.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/23/timers.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/24/device-drivers-101.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/24/freeRTOS.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/24/pwm.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/bl702/2022/02/24/serial.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/misc/2022/02/27/analog-filters-primer.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
@@ -2292,7 +2293,7 @@ alize	_site/assets/js/lunr/lunr.js	/^      "alize" : "al",$/;"	p	class:lunr.stem
 alize	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.stemmer.t
 alli	_site/assets/js/lunr/lunr.js	/^      "alli" : "al",$/;"	p	class:lunr.stemmer.step2list
 alli	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.stemmer.e
-alt-function-mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="alt-function-mode">ALT Function Mode<\/h2>$/;"	I
+alt-function-mode	_site/bl702/2022/02/23/basic-gpio.html	/^<h2 id="alt-function-mode">ALT Function Mode<\/h2>$/;"	I
 always	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:AnonymousFunction92cdadd89e00.a
 always	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				always: function() {$/;"	m	class:AnonymousFunctionf615336f9f00.promise
 anci	_site/assets/js/lunr/lunr.js	/^      "anci" : "ance",$/;"	p	class:lunr.stemmer.step2list
@@ -2333,8 +2334,8 @@ biliti	_site/assets/js/lunr/lunr.js	/^      "biliti" : "ble",$/;"	p	class:lunr.s
 biliti	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.stemmer.e
 bindType	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	p	class:E.event.special
 bindType	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		bindType: fix,$/;"	p	class:jQuery.event.special
-bl602	_site/categories/index.html	/^        <h2 class="archive__subtitle">bl602<\/h2>$/;"	i
-bl602	_site/categories/index.html	/^      <section id="bl602" class="taxonomy__section">$/;"	I
+bl702	_site/categories/index.html	/^        <h2 class="archive__subtitle">bl702<\/h2>$/;"	i
+bl702	_site/categories/index.html	/^      <section id="bl702" class="taxonomy__section">$/;"	I
 bli	_site/assets/js/lunr/lunr.js	/^      "bli" : "ble",$/;"	p	class:lunr.stemmer.step2list
 bli	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.stemmer.e
 blockquote	_site/assets/css/main.css	/^  table, blockquote, pre, code, figure, li, hr, ul, ol, a, tr { page-break-inside: avoid; }$/;"	s
@@ -2579,14 +2580,14 @@ fnref:1	_site/about/index.html	/^<p>Before I ventured into the BL chips though, 
 footer	_site/404.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/about/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
-footer	_site/bl602/2022/02/22/basic-app-structure.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/bl602/2022/02/22/dev-env.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/bl602/2022/02/23/basic-gpio.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/bl602/2022/02/23/timers.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/bl602/2022/02/24/device-drivers-101.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/bl602/2022/02/24/freeRTOS.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/bl602/2022/02/24/pwm.html	/^    <div id="footer" class="page__footer">$/;"	I
-footer	_site/bl602/2022/02/24/serial.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/22/basic-app-structure.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/22/dev-env.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/23/basic-gpio.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/23/timers.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/24/device-drivers-101.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/24/freeRTOS.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/24/pwm.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/bl702/2022/02/24/serial.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/categories/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/contact/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/index.html	/^    <div id="footer" class="page__footer">$/;"	I
@@ -2607,7 +2608,7 @@ form fieldset	_site/assets/css/main.css	/^form fieldset { margin-bottom: 5px; pa
 form legend	_site/assets/css/main.css	/^form legend { display: block; width: 100%; margin-bottom: 10px; *margin-left: -7px; padding: 0; /;"	s
 form p	_site/assets/css/main.css	/^form p { margin-bottom: 2.5px; }$/;"	s
 form ul	_site/assets/css/main.css	/^form ul { list-style-type: none; margin: 0 0 5px 0; padding: 0; }$/;"	s
-freeRTOS Overview	_site/bl602/2022/02/24/freeRTOS.html	/^<\/h1>$/;"	h
+freeRTOS Overview	_site/bl702/2022/02/24/freeRTOS.html	/^<\/h1>$/;"	h
 freeRTOS Overview	_site/categories/index.html	/^    <\/h2>$/;"	i
 freeRTOS Overview	_site/index.html	/^    <\/h2>$/;"	i
 fromArray	_site/assets/js/lunr/lunr.js	/^lunr.TokenSet.fromArray = function (arr) {$/;"	f	function:lunr.TokenSet
@@ -2691,7 +2692,7 @@ h6	_site/assets/css/main.css	/^h6 { font-size: 1em; }$/;"	s
 handle	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:E.event.special
 handle	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		handle: function( event ) {$/;"	m	class:jQuery.event.special
 handler	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		var handler = function( event ) {$/;"	f	function:AnonymousFunctionf615336f16400
-hardware-timers-with-interrupts	_site/bl602/2022/02/23/timers.html	/^<h2 id="hardware-timers-with-interrupts">Hardware Timers with Interrupts<\/h2>$/;"	I
+hardware-timers-with-interrupts	_site/bl702/2022/02/23/timers.html	/^<h2 id="hardware-timers-with-interrupts">Hardware Timers with Interrupts<\/h2>$/;"	I
 has	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:AnonymousFunction92cdadd89a00.c
 he	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 header	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
@@ -2787,8 +2788,8 @@ insert	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=ne
 insert	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 inspect	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	function inspect( dataType ) {$/;"	f
 inspectPrefiltersOrTransports	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function inspectPrefiltersOrTransports( structure, options, originalOptions, jqXHR ) {$/;"	f
-interrupt-mode	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	I
-interrupt-mode	_site/bl602/2022/02/24/serial.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	I
+interrupt-mode	_site/bl702/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	I
+interrupt-mode	_site/bl702/2022/02/24/serial.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	I
 intersect	_site/assets/js/lunr/lunr.js	/^  intersect: function () {$/;"	m	class:lunr.Set.empty
 intersect	_site/assets/js/lunr/lunr.js	/^  intersect: function (other) {$/;"	m	class:lunr.Set.complete
 intersect	_site/assets/js/lunr/lunr.js	/^lunr.Set.prototype.intersect = function (other) {$/;"	m	class:lunr.Set
@@ -2835,7 +2836,7 @@ label small	_site/assets/css/main.css	/^label small { font-size: 0.75em; }$/;"	s
 label textarea	_site/assets/css/main.css	/^label input, label textarea, label select { display: block; }$/;"	s
 last_exec	_site/assets/js/plugins/jquery.ba-throttle-debounce.js	/^      last_exec = 0;$/;"	v
 le	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
-led-fade-with-dma--interrupts-idle-cpu	_site/bl602/2022/02/24/pwm.html	/^<h2 id="led-fade-with-dma--interrupts-idle-cpu">Led Fade with DMA &amp; Interrupts (Idle CPU)<\//;"	I
+led-fade-with-dma--interrupts-idle-cpu	_site/bl702/2022/02/24/pwm.html	/^<h2 id="led-fade-with-dma--interrupts-idle-cpu">Led Fade with DMA &amp; Interrupts (Idle CPU)<\//;"	I
 left	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	p	class:AnonymousFunction92cdadd81a000.o
 left	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	p	class:AnonymousFunction92cdadd81f400.r
 left	_site/assets/js/plugins/jquery.magnific-popup.js	/^                left: 0,$/;"	p	class:AnonymousFunctionca11c4df4000.cssObj
@@ -2875,14 +2876,14 @@ magnitude	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.magnitude = funct
 magnitude	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 main	_site/about/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
-main	_site/bl602/2022/02/22/basic-app-structure.html	/^<div id="main" role="main">$/;"	I
-main	_site/bl602/2022/02/22/dev-env.html	/^<div id="main" role="main">$/;"	I
-main	_site/bl602/2022/02/23/basic-gpio.html	/^<div id="main" role="main">$/;"	I
-main	_site/bl602/2022/02/23/timers.html	/^<div id="main" role="main">$/;"	I
-main	_site/bl602/2022/02/24/device-drivers-101.html	/^<div id="main" role="main">$/;"	I
-main	_site/bl602/2022/02/24/freeRTOS.html	/^<div id="main" role="main">$/;"	I
-main	_site/bl602/2022/02/24/pwm.html	/^<div id="main" role="main">$/;"	I
-main	_site/bl602/2022/02/24/serial.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/22/basic-app-structure.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/22/dev-env.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/23/basic-gpio.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/23/timers.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/24/device-drivers-101.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/24/freeRTOS.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/24/pwm.html	/^<div id="main" role="main">$/;"	I
+main	_site/bl702/2022/02/24/serial.html	/^<div id="main" role="main">$/;"	I
 main	_site/categories/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/contact/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/index.html	/^<div id="main" role="main">$/;"	I
@@ -2892,6 +2893,7 @@ main	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^<div id="main" role="m
 main	_site/update/2022/02/16/welcome.html	/^<div id="main" role="main">$/;"	I
 main	_site/update/2022/02/20/xt-zb1-bl702.html	/^<div id="main" role="main">$/;"	I
 main	_site/update/2022/02/27/octave-cli.html	/^<div id="main" role="main">$/;"	I
+main-pseudo-component-makefile	_site/bl702/2022/02/22/basic-app-structure.html	/^<h1 id="main-pseudo-component-makefile">“main” pseudo-component makefile.<\/h1>$/;"	I
 manipulationTarget	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function manipulationTarget( elem, content ) {$/;"	f
 marginRight	_site/assets/js/plugins/jquery.magnific-popup.js	/^        var windowStyles = {marginRight: ''};$/;"	p	class:AnonymousFunctionca11c4df1200.windowStyles
 markFunction	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function markFunction( fn ) {$/;"	f
@@ -2913,7 +2915,7 @@ more	_site/assets/js/lunr/lunr.js	/^lunr.QueryLexer.prototype.more = function ()
 more	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.QueryLexer
 mt	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 multipleContexts	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function multipleContexts( selector, contexts, results ) {$/;"	f
-mutex	_site/bl602/2022/02/24/freeRTOS.html	/^<h3 id="mutex">Mutex<\/h3>$/;"	I
+mutex	_site/bl702/2022/02/24/freeRTOS.html	/^<h3 id="mutex">Mutex<\/h3>$/;"	I
 n	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	c	class:AnonymousFunction92cdadd81e400.AnonymousFunction92cdadd81e500
 n	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd816700
 n	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd822800
@@ -2982,14 +2984,14 @@ p > code	_site/assets/css/main.css	/^p > code, a > code, li > code, figcaption >
 p > code:after	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
 p > code:before	_site/assets/css/main.css	/^p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:af/;"	s
 page-title	_site/about/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">About$/;"	I
-page-title	_site/bl602/2022/02/22/basic-app-structure.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Basic application structur/;"	I
-page-title	_site/bl602/2022/02/22/dev-env.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Setup a development enviro/;"	I
-page-title	_site/bl602/2022/02/23/basic-gpio.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Basic GPIO BL602$/;"	I
-page-title	_site/bl602/2022/02/23/timers.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Timers$/;"	I
-page-title	_site/bl602/2022/02/24/device-drivers-101.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Device Drivers 101$/;"	I
-page-title	_site/bl602/2022/02/24/freeRTOS.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">freeRTOS Overview$/;"	I
-page-title	_site/bl602/2022/02/24/pwm.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">PWM$/;"	I
-page-title	_site/bl602/2022/02/24/serial.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Serial UART$/;"	I
+page-title	_site/bl702/2022/02/22/basic-app-structure.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Basic application structur/;"	I
+page-title	_site/bl702/2022/02/22/dev-env.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Setup a development enviro/;"	I
+page-title	_site/bl702/2022/02/23/basic-gpio.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Basic GPIO BL602$/;"	I
+page-title	_site/bl702/2022/02/23/timers.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Timers$/;"	I
+page-title	_site/bl702/2022/02/24/device-drivers-101.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Device Drivers 101$/;"	I
+page-title	_site/bl702/2022/02/24/freeRTOS.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">freeRTOS Overview$/;"	I
+page-title	_site/bl702/2022/02/24/pwm.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">PWM$/;"	I
+page-title	_site/bl702/2022/02/24/serial.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Serial UART$/;"	I
 page-title	_site/categories/index.html	/^      <h1 id="page-title" class="page__title">Posts by Category<\/h1>$/;"	I
 page-title	_site/contact/index.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Contact$/;"	I
 page-title	_site/index.html	/^      <h1 id="page-title" class="page__title" itemprop="headline">$/;"	I
@@ -3035,7 +3037,7 @@ pre	_site/assets/css/main.css	/^tt, code, kbd, samp, pre { font-family: Monaco, 
 presence	_site/assets/js/lunr/lunr.js	/^lunr.Query.presence = {$/;"	c	class:lunr.Query
 presence	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e.Query
 preservedScriptAttributes	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	var preservedScriptAttributes = {$/;"	c	class:AnonymousFunctionf615336f0100
-priorities	_site/bl602/2022/02/24/freeRTOS.html	/^<h3 id="priorities">Priorities<\/h3>$/;"	I
+priorities	_site/bl702/2022/02/24/freeRTOS.html	/^<h3 id="priorities">Priorities<\/h3>$/;"	I
 promise	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^			promise = {$/;"	c	class:AnonymousFunctionf615336f9f00
 propFilter	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function propFilter( props, specialEasing ) {$/;"	f
 proxy	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	proxy = function() {$/;"	f	function:AnonymousFunctionf615336f1ae00
@@ -3044,7 +3046,7 @@ q	_site/assets/css/main.css	/^b, i, strong, em, blockquote, p, q, span, figure, 
 q	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 query	_site/assets/js/lunr/lunr.js	/^lunr.Index.prototype.query = function (fn) {$/;"	m	class:lunr.Index
 query	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Index
-queues	_site/bl602/2022/02/24/freeRTOS.html	/^<h2 id="queues">Queues<\/h2>$/;"	I
+queues	_site/bl702/2022/02/24/freeRTOS.html	/^<h2 id="queues">Queues<\/h2>$/;"	I
 r	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	c	class:AnonymousFunction92cdadd81f400
 r	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	c	class:AnonymousFunction92cdadd81ff00
 r	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd813300
@@ -3077,14 +3079,14 @@ restoreScript	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function restoreSc
 results	_site/404.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/about/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/assets/js/lunr/lunr.js	/^      results = [],$/;"	v
-results	_site/bl602/2022/02/22/basic-app-structure.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/bl602/2022/02/22/dev-env.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/bl602/2022/02/23/basic-gpio.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/bl602/2022/02/23/timers.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/bl602/2022/02/24/device-drivers-101.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/bl602/2022/02/24/freeRTOS.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/bl602/2022/02/24/pwm.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
-results	_site/bl602/2022/02/24/serial.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/22/basic-app-structure.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/22/dev-env.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/23/basic-gpio.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/23/timers.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/24/device-drivers-101.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/24/freeRTOS.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/24/pwm.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/bl702/2022/02/24/serial.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/categories/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/contact/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
@@ -3118,14 +3120,14 @@ search	_site/404.html	/^    <input type="search" id="search" class="search-input
 search	_site/about/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/assets/js/lunr/lunr.js	/^lunr.Index.prototype.search = function (queryString) {$/;"	m	class:lunr.Index
 search	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Index
-search	_site/bl602/2022/02/22/basic-app-structure.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/bl602/2022/02/22/dev-env.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/bl602/2022/02/23/basic-gpio.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/bl602/2022/02/23/timers.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/bl602/2022/02/24/device-drivers-101.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/bl602/2022/02/24/freeRTOS.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/bl602/2022/02/24/pwm.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
-search	_site/bl602/2022/02/24/serial.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/22/basic-app-structure.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/22/dev-env.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/23/basic-gpio.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/23/timers.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/24/device-drivers-101.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/24/freeRTOS.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/24/pwm.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/bl702/2022/02/24/serial.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/categories/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/contact/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/index.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
@@ -3148,7 +3150,7 @@ select[disabled]	_site/assets/css/main.css	/^input[disabled], select[disabled], 
 select[multiple]	_site/assets/css/main.css	/^select[multiple], select[size] { height: auto; }$/;"	s
 select[readonly]	_site/assets/css/main.css	/^input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textar/;"	s
 select[size]	_site/assets/css/main.css	/^select[multiple], select[size] { height: auto; }$/;"	s
-semaphores	_site/bl602/2022/02/24/freeRTOS.html	/^<h2 id="semaphores">Semaphores<\/h2>$/;"	I
+semaphores	_site/bl702/2022/02/24/freeRTOS.html	/^<h2 id="semaphores">Semaphores<\/h2>$/;"	I
 setFilters	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function setFilters() {}$/;"	f
 setGlobalEval	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function setGlobalEval( elems, refElements ) {$/;"	f
 setHistory	_site/assets/js/plugins/smooth-scroll.js	/^	var setHistory = function (options) {$/;"	f	function:AnonymousFunction3ab267480200
@@ -3169,14 +3171,14 @@ similarity	_site/assets/js/lunr/lunr.js	/^lunr.Vector.prototype.similarity = fun
 similarity	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Vector
 site-nav	_site/404.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/about/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/22/basic-app-structure.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/22/dev-env.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/23/basic-gpio.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/23/timers.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/24/device-drivers-101.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/24/freeRTOS.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/24/pwm.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
-site-nav	_site/bl602/2022/02/24/serial.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/22/basic-app-structure.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/22/dev-env.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/23/basic-gpio.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/23/timers.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/24/device-drivers-101.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/24/freeRTOS.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/24/pwm.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/bl702/2022/02/24/serial.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/categories/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/contact/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
@@ -3199,7 +3201,7 @@ special	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	jQuery.event.special[ t
 speed	_site/assets/js/plugins/smooth-scroll.js	/^		speed: 500,$/;"	p	class:AnonymousFunction3ab267480200.defaults
 speedAsDuration	_site/assets/js/plugins/smooth-scroll.js	/^		speedAsDuration: false,$/;"	p	class:AnonymousFunction3ab267480200.defaults
 src	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		src: true,$/;"	p	class:AnonymousFunctionf615336f0100.preservedScriptAttributes
-ssd1306-oled-display	_site/bl602/2022/02/24/device-drivers-101.html	/^<h2 id="ssd1306-oled-display">SSD1306 OLED Display<\/h2>$/;"	I
+ssd1306-oled-display	_site/bl702/2022/02/24/device-drivers-101.html	/^<h2 id="ssd1306-oled-display">SSD1306 OLED Display<\/h2>$/;"	I
 st	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 state	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	m	class:AnonymousFunction92cdadd89e00.a
 state	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				state: function() {$/;"	m	class:AnonymousFunctionf615336f9f00.promise
@@ -3209,7 +3211,7 @@ statusCode	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				statusCode: funct
 stemWord	_site/assets/js/lunr/lunr-gr.js	/^function stemWord(w) {$/;"	f
 stemmer	_site/assets/js/lunr/lunr.js	/^lunr.stemmer = (function(){$/;"	f	function:lunr
 stemmer	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e
-step-1-led-fade	_site/bl602/2022/02/24/pwm.html	/^<h2 id="step-1-led-fade">Step 1: Led Fade<\/h2>$/;"	I
+step-1-led-fade	_site/bl702/2022/02/24/pwm.html	/^<h2 id="step-1-led-fade">Step 1: Led Fade<\/h2>$/;"	I
 step1list	_site/assets/js/lunr/lunr-gr.js	/^step1list = new Array();$/;"	v
 step2list	_site/assets/js/lunr/lunr.js	/^  var step2list = {$/;"	c	class:lunr.stemmer
 step3list	_site/assets/js/lunr/lunr.js	/^    step3list = {$/;"	c	class:lunr.stemmer
@@ -3239,7 +3241,7 @@ table	_site/assets/css/main.css	/^  table, th, td { border-bottom: 1px solid #00
 table	_site/assets/css/main.css	/^p, pre, blockquote, ul, ol, dl, figure, table, fieldset { orphans: 3; widows: 3; }$/;"	s
 table	_site/assets/css/main.css	/^table { display: block; margin-bottom: 1em; width: 100%; font-family: -apple-system, BlinkMacSys/;"	s
 table + table	_site/assets/css/main.css	/^table + table { margin-top: 1em; }$/;"	s
-tasks	_site/bl602/2022/02/24/freeRTOS.html	/^<h2 id="tasks">Tasks<\/h2>$/;"	I
+tasks	_site/bl702/2022/02/24/freeRTOS.html	/^<h2 id="tasks">Tasks<\/h2>$/;"	I
 td	_site/assets/css/main.css	/^  table, th, td { border-bottom: 1px solid #000; }$/;"	s
 td	_site/assets/css/main.css	/^  td, th { padding: 8px 16px; }$/;"	s
 td	_site/assets/css/main.css	/^b, i, strong, em, blockquote, p, q, span, figure, img, h1, h2, header, input, a, tr, td, form bu/;"	s
@@ -3272,7 +3274,7 @@ thead	_site/assets/css/main.css	/^  thead { display: table-header-group; }$/;"	s
 thead	_site/assets/css/main.css	/^thead { background-color: #51555d; border-bottom: 2px solid #3d4046; }$/;"	s
 then	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				then: function( onFulfilled, onRejected, onProgress ) {$/;"	m	class:AnonymousFunctionf615336f9f00.promise
 tick	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		tick = function() {$/;"	f	function:Animation
-tick-timing	_site/bl602/2022/02/23/timers.html	/^        <h2 id="tick-timing">Tick Timing<\/h2>$/;"	I
+tick-timing	_site/bl702/2022/02/23/timers.html	/^        <h2 id="tick-timing">Tick Timing<\/h2>$/;"	I
 timeout_id	_site/assets/js/plugins/jquery.ba-throttle-debounce.js	/^    var timeout_id,$/;"	v
 tional	_site/assets/js/lunr/lunr.js	/^      "tional" : "tion",$/;"	p	class:lunr.stemmer.step2list
 tional	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.stemmer.e
@@ -3338,7 +3340,8 @@ upsert	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=ne
 use	_site/assets/js/lunr/lunr.js	/^lunr.Builder.prototype.use = function (fn) {$/;"	m	class:lunr.Builder
 use	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	m	class:e.Builder
 useLastItem	_site/assets/js/plugins/gumshoe.js	/^	var useLastItem = function (item, settings) {$/;"	f	function:AnonymousFunctioncfd5b82a0200
-using-gpio	_site/bl602/2022/02/23/basic-gpio.html	/^<h2 id="using-gpio">Using GPIO<\/h2>$/;"	I
+uses-default-behaviour-of-compiling-all-source-files-in-directory-adding-include-to-include-path	_site/bl702/2022/02/22/basic-app-structure.html	/^<h1 id="uses-default-behaviour-of-compiling-all-source-files-in-directory-adding-include-to-incl/;"	I
+using-gpio	_site/bl702/2022/02/23/basic-gpio.html	/^<h2 id="using-gpio">Using GPIO<\/h2>$/;"	I
 ut	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 valHooks	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		jQuery.valHooks[ this ].get = function( elem ) {$/;"	f	function:jQuery
 ve	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
@@ -3371,3 +3374,4 @@ ye	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof mo
 z	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c
 zIndex	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	p	class:AnonymousFunction92cdadd81f400.r
 zIndex	_site/assets/js/plugins/jquery.magnific-popup.js	/^                zIndex: 9999,$/;"	p	class:AnonymousFunctionca11c4df4000.cssObj
+“main” pseudo-component makefile.	_site/bl702/2022/02/22/basic-app-structure.html	/^<h1 id="main-pseudo-component-makefile">“main” pseudo-component makefile.<\/h1>$/;"	h

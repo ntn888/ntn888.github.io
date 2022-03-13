@@ -2,7 +2,7 @@
 layout: single
 title:  "Basic GPIO BL602"
 date:   2022-02-23 11:27:43 +1100
-categories: bl602
+categories: bl702
 
 ---
 

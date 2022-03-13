@@ -2,7 +2,7 @@
 layout: single
 title:  "Basic application structure"
 date:   2022-02-22 11:27:43 +1100
-categories: bl602
+categories: bl702
 
 ---
 
@@ -25,32 +25,31 @@ One file may already be familiar to you: ```compile_commands.json```. If not see
 
 
 ```main.c``` is the main application C file. It contains the ```main()``` function. In our blinky example:
-```
+{% highlight c linenos %}
 #include <stdio.h>
-#include <string.h>
+#include <hosal_gpio.h>
 #include <FreeRTOS.h>
 #include <task.h>
-#include <bl_gpio.h>
 
-#define GPIO_LED_PIN 5
+static hosal_gpio_dev_t gp1;
 
-void blink_test(void *param)
+void main (void)
 {
-    uint8_t value = 1;
-    while(1) {
-        bl_gpio_enable_output(GPIO_LED_PIN, 0, 0);
-        bl_gpio_output_set(GPIO_LED_PIN, value);
-        value = !value;
-        vTaskDelay(500);
-    }
-}
+   // setup
+   gp1.port = 0; // <== make sure led connected to pin D0!
+   gp1.config = OUTPUT_OPEN_DRAIN_NO_PULL;
+   hosal_gpio_init(&gp1);
+   hosal_gpio_output_set(&gp1, 1);
 
-void main(void)
-{
-    xTaskCreate(blink_test, "blink", 1024, NULL, 15, NULL);
-}
-  
-```
+   uint8_t value = 1;
+
+   while (1) {
+      hosal_gpio_output_set(&gp1, value );
+      value = !value;
+      vTaskDelay(500);
+   }
+}  
+{% endhighlight %} 
 The specifics of this file are not important to us right now. We will study the contents in the next post.
 
 The other three makefiles are simply copied over from the official blinky sample, and are required to successfully build the project.
@@ -62,11 +61,10 @@ The main makefile ```Makefile``` in the project root, is slightly modified:
 # project subdirectory.
 #
 
-# hardcode sdk_path, chip
-BL60X_SDK_PATH=~/bl_iot_sdk
-CONFIG_CHIP_NAME=BL602
-export BL60X_SDK_PATH CONFIG_CHIP_NAME
 PROJECT_NAME := main
+BL60X_SDK_PATH=~/bl_iot_sdk
+CONFIG_CHIP_NAME=BL702
+export BL60X_SDK_PATH CONFIG_CHIP_NAME
 PROJECT_PATH := $(abspath .)
 PROJECT_BOARD := evb
 export PROJECT_PATH PROJECT_BOARD
@@ -74,10 +72,24 @@ export PROJECT_PATH PROJECT_BOARD
 
 -include ./proj_config.mk
 
-COMPONENTS_BLSYS   := bltime blfdt blmtd bloop loopadc looprt loopset
+ifeq ($(origin BL60X_SDK_PATH), undefined)
+BL60X_SDK_PATH_GUESS ?= $(shell pwd)
+BL60X_SDK_PATH ?= $(BL60X_SDK_PATH_GUESS)/../../..
+$(info ****** Please SET BL60X_SDK_PATH ******)
+$(info ****** Trying SDK PATH [$(BL60X_SDK_PATH)])
+endif
+
+COMPONENTS_BLSYS   := bltime blfdt blmtd bloop loopset looprt
 COMPONENTS_VFS     := romfs
 
-INCLUDE_COMPONENTS += freertos_riscv_ram bl602 bl602_std newlibc hosal mbedtls_lts lwip vfs yloop utils cli blog blog_testc coredump
+SOC_DRV = $(shell echo $(CONFIG_CHIP_NAME) | tr A-Z a-z)
+
+
+INCLUDE_COMPONENTS += $(SOC_DRV)_rf
+INCLUDE_COMPONENTS += $(SOC_DRV)_freertos
+
+INCLUDE_COMPONENTS += $(SOC_DRV) $(SOC_DRV)_std
+INCLUDE_COMPONENTS += hosal mbedtls_lts lwip cli vfs yloop utils blog blog_testc newlibc
 INCLUDE_COMPONENTS += $(COMPONENTS_NETWORK)
 INCLUDE_COMPONENTS += $(COMPONENTS_BLSYS)
 INCLUDE_COMPONENTS += $(COMPONENTS_VFS)
@@ -91,8 +103,65 @@ A quick tutorial on Make is viewable [here](https://www.cs.colby.edu/maxwell/cou
 
 NOTE: The makefile variable ```BL60X_SDK_PATH``` assumes that you have cloned the sdk into your home directory. If not please modify this variable to reflect your chosen path.
 
+In ```proj_config.mk```:
+
+```
+
+####
+CONFIG_SYS_VFS_ENABLE:=1
+CONFIG_SYS_VFS_UART_ENABLE:=1
+CONFIG_SYS_AOS_CLI_ENABLE:=1
+CONFIG_SYS_AOS_LOOP_ENABLE:=1
+CONFIG_SYS_BLOG_ENABLE:=1
+CONFIG_SYS_DMA_ENABLE:=1
+CONFIG_SYS_USER_VFS_ROMFS_ENABLE:=0
+CONFIG_SYS_APP_TASK_STACK_SIZE:=4096
+CONFIG_SYS_APP_TASK_PRIORITY:=15
+
+
+CONFIG_SYS_COMMON_MAIN_ENABLE:=1
+CONFIG_BL702_USE_ROM_DRIVER:=1
+CONFIG_BUILD_ROM_CODE := 1
+CONFIG_USE_XTAL32K:=1
+
+
+LOG_ENABLED_COMPONENTS:= blog_testc hosal
+```
+
+In ```bouffalo.mk```:
+```
+#
+# "main" pseudo-component makefile.
+#
+# (Uses default behaviour of compiling all source files in directory, adding 'include' to include path.)
+
+include $(BL60X_SDK_PATH)/components/network/ble/ble_common.mk
+
+ifeq ($(CONFIG_ENABLE_PSM_RAM),1)
+CPPFLAGS += -DCONF_USER_ENABLE_PSRAM
+endif
+
+ifeq ($(CONFIG_ENABLE_CAMERA),1)
+CPPFLAGS += -DCONF_USER_ENABLE_CAMERA
+endif
+
+ifeq ($(CONFIG_ENABLE_BLSYNC),1)
+CPPFLAGS += -DCONF_USER_ENABLE_BLSYNC
+endif
+
+ifeq ($(CONFIG_ENABLE_VFS_SPI),1)
+CPPFLAGS += -DCONF_USER_ENABLE_VFS_SPI
+endif
+
+ifeq ($(CONFIG_ENABLE_VFS_ROMFS),1)
+CPPFLAGS += -DCONF_USER_ENABLE_VFS_ROMFS
+endif
+
+CPPFLAGS += -DCONF_USER_BL702
+```
+
 Once the above files are in place all you have to do is run:
 ```
-make CONFIG_LINK_ROM=1 -j
+make  -j
 ```
 If you ever run into problems run ```make clean``` as the first step.
