@@ -6,9 +6,24 @@ categories: bl702
 
 ---
 
+
+The ```bl_iot_sdk``` is the development toolkit provided for the development of applications for the BL70X and BL60X controllers. It is quite a pleasant environment built upon the following major components:
+
+- freeRTOS kernel
+- lwIP stack
+- 'HOSAL' API (based off AliOS-Things HAL)
+
+To acquire the SDK, use the following git command (preferably from the home folder):
+```
+git clone https://github.com/bouffalolab/bl_iot_sdk.git
+```
+
+
 > **ProTip**
 >
 > The sdk docs are available at [https://bouffalolab.github.io/bl_iot_sdk/index.html](https://bouffalolab.github.io/bl_iot_sdk/index.html). Use the firefox translate [plugin](https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/) to view it in English. I found that the chrome version is a bit finnicky...
+
+--------------------
 
 A basic bl-iot-sdk project structure is as follows:
 ```
@@ -21,7 +36,7 @@ A basic bl-iot-sdk project structure is as follows:
 └── proj_config.mk
 ```
 
-One file may already be familiar to you: ```compile_commands.json```. If not see [this post](https://simplycreate.online/bl602/2022/02/21/dev-env.html) on how to setup a dev environment.
+One file may already be familiar to you: ```compile_commands.json```. If not see [this post](https://simplycreate.online/bl702/2022/02/21/dev-env.html) on how to setup a dev environment.
 
 
 ```main.c``` is the main application C file. It contains the ```main()``` function. In our blinky example:

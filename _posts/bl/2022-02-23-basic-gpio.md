@@ -1,12 +1,12 @@
 ---
 layout: single
-title:  "Basic GPIO BL602"
+title:  "Basic GPIO BL702"
 date:   2022-02-23 11:27:43 +1100
 categories: bl702
 
 ---
 
-The BL602 chip has 22 GPIOs. Each pin can be selected as one of the following modes:
+The BL702 chip has 15 GPIOs. Each pin can be selected as one of the following modes:
 
 
 - ANALOG_MODE
@@ -48,6 +48,8 @@ The BL602 chip has 22 GPIOs. Each pin can be selected as one of the following mo
 
 ## Using GPIO
 
+![blinky](/assets/blinky_702.jpg)
+
 The relevant functions are defined in ```hosal_gpio.h```. Include this header before using any GPIO functions. An example application is as follows:
 
 {% highlight c linenos %}
@@ -61,7 +63,7 @@ static hosal_gpio_dev_t gp1;
 void main (void)
 {
    // setup
-   gp1.port = 5;
+   gp1.port = 0; // <== make sure led connected to pin D0!
    gp1.config = OUTPUT_OPEN_DRAIN_NO_PULL;
    hosal_gpio_init(&gp1);
    hosal_gpio_output_set(&gp1, 1);
