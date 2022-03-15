@@ -14,6 +14,8 @@ The board setup configuration is included in the path ```components/platform/soc
 
 The ```clock_config.h``` can be used as-is for our board XT-ZB1 without any changes.
 
+The complimentary online [GUI Tool](https://dev.bouffalolab.com/media/config/index.html) is handy for new users to intuitively generate these config files according to desired custom configurations.
+
 < TODO >
 
 *Find out:*
