@@ -175,7 +175,7 @@ endif
 CPPFLAGS += -DCONF_USER_BL702
 ```
 
-> As a convenience you may simply download the following [project skeleton](/assets/src.zip). Extract it to a 'workspace' directory of choice; then simply run:
+> As a convenience you may simply download the following [project skeleton](/assets/src.zip). Extract it to a 'workspace' directory of choice; then whenever you want to initiate a new project, simply run:
 > ```cp -a src/ my_proj/```
 
 Once the above files are in place all you have to do is run:
