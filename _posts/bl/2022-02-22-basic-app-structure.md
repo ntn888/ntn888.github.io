@@ -175,8 +175,13 @@ endif
 CPPFLAGS += -DCONF_USER_BL702
 ```
 
+> As a convenience you may simply download the following [project skeleton](/assets/src.zip). Extract it to a 'workspace' directory of choice; then simply run:
+> ```cp -a src/ my_proj/```
+
 Once the above files are in place all you have to do is run:
 ```
 make  -j
 ```
+Once your project compiles successfully; you may run ```make flash``` to burn the firmware (ensuring you have the chip in bootloader mode).
+
 If you ever run into problems run ```make clean``` as the first step.
