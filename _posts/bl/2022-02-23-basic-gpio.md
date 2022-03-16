@@ -143,4 +143,4 @@ Initialising the Interrupt requires a string of statements beginning on line 19.
 
 ## ALT Function Mode
 
-< TODO >
+This is the secondary mode of each GPIO PIN where we tie it to the required peripheral. We'll look at setting up the PINs for alternate function as we deal with the relevant peripheral.
