@@ -2098,6 +2098,7 @@ Hardware Timers with Interrupts	_posts/bl/2022-02-23-timers.md	/^## Hardware Tim
 Hardware Timers with Interrupts	_site/bl702/2022/02/23/timers.html	/^<h2 id="hardware-timers-with-interrupts">Hardware Timers with Interrupts<\/h2>$/;"	i
 He	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 I	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	f	function:e.stemmer
+I2C GPIO extender	_posts/bl/2022-02-24-device-drivers-101.md	/^## I2C GPIO extender$/;"	s
 Identity	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Identity( v ) {$/;"	f
 Ie	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Index	_site/assets/js/lunr/lunr.js	/^lunr.Index = function (attrs) {$/;"	c	class:lunr
@@ -2157,7 +2158,6 @@ REQUIRED	_site/assets/js/lunr/lunr.js	/^  REQUIRED: 2,$/;"	p	class:lunr.Query.pr
 REQUIRED	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	p	class:e.Query.presence
 Recent Posts	_site/index.html	/^<h3 class="archive__subtitle">Recent Posts<\/h3>$/;"	j
 S	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
-SSD1306 OLED Display	_posts/bl/2022-02-24-device-drivers-101.md	/^## SSD1306 OLED Display$/;"	s
 SSD1306 OLED Display	_site/bl702/2022/02/24/device-drivers-101.html	/^<h2 id="ssd1306-oled-display">SSD1306 OLED Display<\/h2>$/;"	i
 Se	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 Semaphores	_posts/bl/2022-02-24-freeRTOS.md	/^## Semaphores$/;"	s
