@@ -2193,6 +2193,12 @@ Sizzle	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Sizzle( selector
 SmoothScroll	_site/assets/js/plugins/smooth-scroll.js	/^	var SmoothScroll = function (selector, options) {$/;"	f	function:AnonymousFunction3ab267480200
 Step 1: Led Fade	_posts/bl/2022-02-24-pwm.md	/^## Step 1: Led Fade$/;"	s
 Step 1: Led Fade	_site/bl702/2022/02/24/pwm.html	/^<h2 id="step-1-led-fade">Step 1: Led Fade<\/h2>$/;"	i
+Switching to the ESP32-C3	_site/categories/index.html	/^    <\/h2>$/;"	i
+Switching to the ESP32-C3	_site/index.html	/^    <\/h2>$/;"	i
+Switching to the ESP32-C3	_site/misc/2022/03/18/esp32c3.html	/^<\/h1>$/;"	h
+Switching to the nRFMicro	_site/categories/index.html	/^    <\/h2>$/;"	i
+Switching to the nRFMicro	_site/index.html	/^    <\/h2>$/;"	i
+Switching to the nRFMicro	_site/misc/2022/03/20/nRFMicro.html	/^<\/h1>$/;"	h
 T	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/categories/index.html	/^    <\/h2>$/;"	i
 THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit features BL702 RISC-V module	_site/index.html	/^    <\/h2>$/;"	i
@@ -2200,6 +2206,9 @@ THE Dev board you’ve been waiting for: $1.8 XT-ZB1 Zigbee &amp; BLE devkit fea
 Tasks	_posts/bl/2022-02-24-freeRTOS.md	/^## Tasks$/;"	s
 Tasks	_site/bl702/2022/02/24/freeRTOS.html	/^<h2 id="tasks">Tasks<\/h2>$/;"	i
 Te	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
+Thoughts on the ESP-IDF SDK	_site/categories/index.html	/^    <\/h2>$/;"	i
+Thoughts on the ESP-IDF SDK	_site/index.html	/^    <\/h2>$/;"	i
+Thoughts on the ESP-IDF SDK	_site/misc/2022/03/19/thoughts-esp-idf.html	/^<\/h1>$/;"	h
 Thrower	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^function Thrower( ex ) {$/;"	f
 Tick Timing	_posts/bl/2022-02-23-timers.md	/^## Tick Timing$/;"	s
 Tick Timing	_site/bl702/2022/02/24/timers.html	/^        <h2 id="tick-timing">Tick Timing<\/h2>$/;"	i
@@ -2276,6 +2285,9 @@ ac-toc	_site/bl702/2022/03/17/ssd1306.html	/^  <input id="ac-toc" name="accordio
 ac-toc	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/misc/2022/02/27/analog-filters-primer.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/misc/2022/03/16/mcu-selection-guide.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/misc/2022/03/18/esp32c3.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/misc/2022/03/19/thoughts-esp-idf.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
+ac-toc	_site/misc/2022/03/20/nRFMicro.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/update/2022/02/16/welcome.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
 ac-toc	_site/update/2022/02/20/xt-zb1-bl702.html	/^  <input id="ac-toc" name="accordion-toc" type="checkbox" \/>$/;"	I
@@ -2622,6 +2634,9 @@ footer	_site/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/misc/2022/02/27/analog-filters-primer.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/misc/2022/03/16/mcu-selection-guide.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/misc/2022/03/18/esp32c3.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/misc/2022/03/19/thoughts-esp-idf.html	/^    <div id="footer" class="page__footer">$/;"	I
+footer	_site/misc/2022/03/20/nRFMicro.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/update/2022/02/16/welcome.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/update/2022/02/20/xt-zb1-bl702.html	/^    <div id="footer" class="page__footer">$/;"	I
@@ -2925,6 +2940,9 @@ main	_site/index.html	/^<div id="main" role="main">$/;"	I
 main	_site/misc/2022/02/16/diy-jtag-debugger.html	/^<div id="main" role="main">$/;"	I
 main	_site/misc/2022/02/27/analog-filters-primer.html	/^<div id="main" role="main">$/;"	I
 main	_site/misc/2022/03/16/mcu-selection-guide.html	/^<div id="main" role="main">$/;"	I
+main	_site/misc/2022/03/18/esp32c3.html	/^<div id="main" role="main">$/;"	I
+main	_site/misc/2022/03/19/thoughts-esp-idf.html	/^<div id="main" role="main">$/;"	I
+main	_site/misc/2022/03/20/nRFMicro.html	/^<div id="main" role="main">$/;"	I
 main	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^<div id="main" role="main">$/;"	I
 main	_site/update/2022/02/16/welcome.html	/^<div id="main" role="main">$/;"	I
 main	_site/update/2022/02/20/xt-zb1-bl702.html	/^<div id="main" role="main">$/;"	I
@@ -3038,6 +3056,9 @@ page-title	_site/index.html	/^      <h1 id="page-title" class="page__title" item
 page-title	_site/misc/2022/02/16/diy-jtag-debugger.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">A DIY jtag debugger$/;"	I
 page-title	_site/misc/2022/02/27/analog-filters-primer.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Analog Filters Primer$/;"	I
 page-title	_site/misc/2022/03/16/mcu-selection-guide.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">MCU Selection Guide$/;"	I
+page-title	_site/misc/2022/03/18/esp32c3.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Switching to the ESP32-C3$/;"	I
+page-title	_site/misc/2022/03/19/thoughts-esp-idf.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Thoughts on the ESP-IDF SD/;"	I
+page-title	_site/misc/2022/03/20/nRFMicro.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Switching to the nRFMicro$/;"	I
 page-title	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">NuttX Supported Boards$/;"	I
 page-title	_site/update/2022/02/16/welcome.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">Welcome$/;"	I
 page-title	_site/update/2022/02/20/xt-zb1-bl702.html	/^          <h1 id="page-title" class="page__title" itemprop="headline">THE Dev board you’ve bee/;"	I
@@ -3139,6 +3160,9 @@ results	_site/index.html	/^  <div id="results" class="results"><\/div><\/div>$/;
 results	_site/misc/2022/02/16/diy-jtag-debugger.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/misc/2022/02/27/analog-filters-primer.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/misc/2022/03/16/mcu-selection-guide.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/misc/2022/03/18/esp32c3.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/misc/2022/03/19/thoughts-esp-idf.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
+results	_site/misc/2022/03/20/nRFMicro.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/update/2022/02/16/welcome.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
 results	_site/update/2022/02/20/xt-zb1-bl702.html	/^  <div id="results" class="results"><\/div><\/div>$/;"	I
@@ -3186,6 +3210,9 @@ search	_site/index.html	/^    <input type="search" id="search" class="search-inp
 search	_site/misc/2022/02/16/diy-jtag-debugger.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/misc/2022/02/27/analog-filters-primer.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/misc/2022/03/16/mcu-selection-guide.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/misc/2022/03/18/esp32c3.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/misc/2022/03/19/thoughts-esp-idf.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
+search	_site/misc/2022/03/20/nRFMicro.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/update/2022/02/16/welcome.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
 search	_site/update/2022/02/20/xt-zb1-bl702.html	/^    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your /;"	I
@@ -3243,6 +3270,9 @@ site-nav	_site/index.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/misc/2022/02/16/diy-jtag-debugger.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/misc/2022/02/27/analog-filters-primer.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/misc/2022/03/16/mcu-selection-guide.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/misc/2022/03/18/esp32c3.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/misc/2022/03/19/thoughts-esp-idf.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
+site-nav	_site/misc/2022/03/20/nRFMicro.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/nuttx/2022/02/18/nuttx-supported-boards.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/update/2022/02/16/welcome.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
 site-nav	_site/update/2022/02/20/xt-zb1-bl702.html	/^      <nav id="site-nav" class="greedy-nav">$/;"	I
