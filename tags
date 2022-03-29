@@ -2097,7 +2097,6 @@ Device Drivers 101	_site/categories/index.html	/^    <\/h2>$/;"	i
 Device Drivers 101	_site/index.html	/^    <\/h2>$/;"	i
 E	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd817a00
 Ee	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
-Embedded Systems: A state of mind	_site/index.html	/^      <\/h1>$/;"	h
 Et	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 FieldRef	_site/assets/js/lunr/lunr.js	/^lunr.FieldRef = function (docRef, fieldName, stringValue) {$/;"	c	class:lunr
 FieldRef	_site/assets/js/lunr/lunr.min.js	/^!function(){var e=function(t){var r=new e.Builder;return r.pipeline.add(e.trimmer,e.stopWordFilt/;"	c	class:e
@@ -2117,6 +2116,7 @@ Interrupt Mode	_posts/bl/2022-02-23-basic-gpio.md	/^## Interrupt Mode$/;"	s
 Interrupt Mode	_posts/bl/2022-02-24-serial.md	/^## Interrupt Mode$/;"	s
 Interrupt Mode	_site/bl702/2022/02/23/basic-gpio.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
 Interrupt Mode	_site/bl702/2022/02/24/serial.html	/^<h2 id="interrupt-mode">Interrupt Mode<\/h2>$/;"	i
+Introducing BL702: All new 32bit RISC-V SOC	_site/index.html	/^      <\/h1>$/;"	h
 J	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
 L	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f	function:AnonymousFunction92cdadd81f00
 Le	_site/assets/js/main.min.js	/^!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.expo/;"	f
