@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "Embedded Systems: A state of mind"
+title: "Introducing BL702: All new 32bit RISC-V SOC"
 email: contact@simplycreate.online
 description: Interested in Everything Embedded
 logo: "/assets/logo.png"
