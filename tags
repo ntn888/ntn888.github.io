@@ -2611,7 +2611,10 @@ fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^				fn = function( elem, _key
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^		fn = function( event ) {$/;"	f	function:on
 fn	_site/assets/js/vendor/jquery/jquery-3.5.1.js	/^	jQuery.fn[ name ] = function( until, selector ) {$/;"	f	function:jQuery
 fn:1	_site/about/index.html	/^    <li id="fn:1" role="doc-endnote">$/;"	I
+fn:1	_site/bl702/2022/03/17/debug-bl702.html	/^    <li id="fn:1" role="doc-endnote">$/;"	I
 fnref:1	_site/about/index.html	/^<p>Before I ventured into the BL chips though, I picked up on the linux based RTOS - Zephyr<sup /;"	I
+fnref:1	_site/bl702/2022/03/17/debug-bl702.html	/^<p>More details can be found on the official pdf<sup id="fnref:1" role="doc-noteref"><a href="#f/;"	I
+fnref:1:1	_site/bl702/2022/03/17/debug-bl702.html	/^<p>See more commands in the official pdf<sup id="fnref:1:1" role="doc-noteref"><a href="#fn:1" c/;"	I
 footer	_site/404.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/about/index.html	/^    <div id="footer" class="page__footer">$/;"	I
 footer	_site/assets/css/main.css	/^article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section { displa/;"	s
