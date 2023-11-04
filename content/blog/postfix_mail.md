@@ -20,7 +20,7 @@ display_tags = true
 truncate_summary = false
 +++
 
-Note that it is assumed that a Gitlab docker instance is setup on a Debian 10/11 machine... This article follows the [post](https://simplycreate.online/update/2022/11/23/selfhosted-gitlab.html).
+Note that it is assumed that a Gitlab docker instance is setup on a Debian 10/11 machine... This article follows the [post](@/blog/selfhosted-gitlab.md).
 
 According to the docs, the official image of Gitlab doesn't include a Mail Transfer Agent (MTA) preinstalled. For our purposes this is the program that routes out the email from our system. So we'll install it on the host system and setup Gitlab to route mail to it.
 
