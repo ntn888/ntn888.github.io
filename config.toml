@@ -46,6 +46,7 @@ id = "ajit"                           # Your id / username / handle
 bio = "Interested in everything Embedded."                          # Your bio
 avatar = "img/avatar.jpg"            # Your avatar
 links = [                             # Your links
+    { name = "Donate", icon = "note", url = "https://www.buymeacoffee.com/ajitananth9" },
     { name = "GitHub", icon = "github", url = "https://github.com/ntn888" },
     { name = "Twitter", icon = "twitter", url = "https://twitter.com/ananthadevan" },
     { name = "Email", icon = "email", url = "mailto:ajit.ananthadevan@gmail.com" },
