@@ -30,7 +30,7 @@ DOOM Emacs is a batteries included edition of emacs. Together with which-key and
 
 The one thing it's lacking is a newbie friendly guide/intro to using it. In contrast to my opinion; the developers' hold that DOOM is for an experienced emacs user. I beg to differ as stated above.
 
-To help with this user onboarding issue, when I've tried to pick up usage, I've scoured the internet to put together a single sheet[^1] summarising all the essential commands. Accessible [here](/assets/doom-cmds.pdf).
+To help with this user onboarding issue, when I've tried to pick up usage, I've scoured the internet to put together a single sheet[^1] summarising all the essential commands. Accessible [here](/img/doom-cmds.pdf).
 
 Let me know down what's you favourite newbie friendly emacs edition is?
 
