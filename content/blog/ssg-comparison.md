@@ -1,6 +1,6 @@
 +++
 title = "Comparison of SSG frameworks"
-date = 2023-11-05
+date = 2023-11-05 15:27:00
 draft = false
 
 [taxonomies]
