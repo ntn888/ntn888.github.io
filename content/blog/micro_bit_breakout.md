@@ -30,7 +30,7 @@ Now there are two viable hobbiest boards for this MCU.
 - nRF52840 Dongle [Which uses a similar chip only difference being double RAM/ROM]
 - Micro:Bit v2
 
-![bbc micro:bit](/assets/micro_bit.jpg)
+![bbc micro:bit](/img/micro_bit.jpg)
 
 I choose the Micro:Bit. Here's why.
 
@@ -42,7 +42,7 @@ Although its initial concept was to aid in kids' programming education; it has f
 
 But there is one hurdle in using the Micro:Bit in breadboarding prototypes. There is a solution to this. Enter, the *T-type breakout board*.
 
-![breakout board pic](/assets/micro_bit_breakout.jpg)
+![breakout board pic](/img/micro_bit_breakout.jpg)
 
 It can be procured from Aliexpress [here](https://www.aliexpress.com/item/1005003217623333.html). Here's an excerpt of the board's device tree in Zephyr that conveniently shows the GPIO mapping of the nRF52833 to the marked pins in the breakout board.
 

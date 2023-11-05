@@ -5,7 +5,7 @@ draft = false
 
 [taxonomies]
 categories = ["misc"]
-tags = ["blog", "hosting", "self-reflection"]
+tags = ["blog", "hosting", "ssg frameworks"]
 
 [extra]
 lang = "en"
