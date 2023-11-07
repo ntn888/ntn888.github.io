@@ -20,7 +20,7 @@ display_tags = true
 truncate_summary = false
 +++
 
-These Chinese Nicenano V2 clone have started popping up on AliExpress. This is great news for us low-power-wireless nerds; As this widens our choice for ready made boards..
+These Chinese Nicenano V2 clones have started popping up on AliExpress. This is great news for us low-power-wireless nerds; As this widens our choice for ready made boards..
 
 >Nordic hasn't actually been welcoming towards hobbyists and this has resulted in scarcity of ready-made newbie friendly boards for prototyping (as opposed to esp32 or the ST's bluepill). Which has been a real game stopper for home IOT projects. We've discussed two possible boards in [this post](@/blog/micro_bit_breakout.md). Here is a new viable option.
 
