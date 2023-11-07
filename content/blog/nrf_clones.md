@@ -38,6 +38,8 @@ Features:
 
 - Supports charger boost jumper (100mA to 300mA) on the back side
 
+Unfortunately the SWD debug pins are not broken out as headers, but as pads underneath. We'd have to directly solder some wires onto this. I haven't checked them out personally, but they may be shipping with a bootloader for simply flashing purposes.
+
 There is a known issue with higher leak current than the original micro board. This one is reported to have a deep sleep current consumption of 700mA! ([reddit](https://redd.it/16q5b2c))
 
 For more details and the workaround of the issue please follow the link to [this site](https://github.com/joric/nrfmicro/wiki/Alternatives#supermini-nrf52840).
