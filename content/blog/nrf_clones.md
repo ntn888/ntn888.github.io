@@ -5,7 +5,7 @@ draft = false
 
 [taxonomies]
 categories = ["nrf"]
-tags = ["nRF52", "embedded hobbiest"]
+tags = ["nRF52", "embedded hobbyist"]
 
 [extra]
 lang = "en"
