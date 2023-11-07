@@ -20,7 +20,7 @@ display_tags = true
 truncate_summary = false
 +++
 
-There are a multitude of chip manufacturers, let alone individual chip modules. It can get overwhelming quickly for a newbie in the field of embedded or IOT systems, especially if all you want to do is tinker at a hobbiest level.
+There are a multitude of chip manufacturers, let alone individual chip modules. It can get overwhelming quickly for a newbie in the field of embedded or IOT systems, especially if all you want to do is tinker at a hobbyist level.
 
 I present to you a selection guide based on 3 modules to serve a wide range of applications. The rationale being, by having only a few select chips in your toolset you can put the effort to master your chips and get into the nitty gritty. This leads to less frustration when developing and also by working on the native toolsets for the chip in hand, you're confident in producing the most efficient code.
 
