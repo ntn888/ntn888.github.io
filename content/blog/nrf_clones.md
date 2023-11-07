@@ -22,7 +22,7 @@ truncate_summary = false
 
 These Chinese Nicenano V2 clone have started popping up on AliExpress. This is great news for us low-power-wireless nerds; As this widens our choice for ready made boards..
 
->Nordic hasn't actually been welcoming towards hobbyists and this has resulted in scarcity of ready-made newbie friendly boards for prototyping (as opposed to esp32 or the ST's bluepill). Which has been a real game stopper for home IOT projects. We've discussed two possible boards in [this post](@/blog/mcu-selection-guide.md). Here is a new viable option.
+>Nordic hasn't actually been welcoming towards hobbyists and this has resulted in scarcity of ready-made newbie friendly boards for prototyping (as opposed to esp32 or the ST's bluepill). Which has been a real game stopper for home IOT projects. We've discussed two possible boards in [this post](@/blog/micro_bit_breakout.md). Here is a new viable option.
 
 [NRF52840 Development Board Supermini Compatible With Nice!Nano V2.0](https://aliexpress.com/item/1005006035267231.html)
 
