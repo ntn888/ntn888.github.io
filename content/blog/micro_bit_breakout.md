@@ -26,7 +26,7 @@ Providing a whole portfolio of low-power wireless microcontrollers, we are spoil
 
 In a wide range of Nordic chips our go-to is the nRF52833 controller. I find it has the right balance of cost vs performance. Detailed info of this chip [here](https://www.nordicsemi.com/products/nrf52833).
 
-Now there are two viable hobbiest boards for this MCU.
+Now there are two viable hobbiest boards for this MCU[^1].
 - nRF52840 Dongle [Which uses a similar chip only difference being double RAM/ROM]
 - Micro:Bit v2
 
@@ -73,3 +73,5 @@ edge_connector: connector {
 			   <20 0 &gpio1 0 0>;	/* P20 */
 };
 ```
+
+[^1]: For an updated post of a newly available alternative see [this post](@/blog/nrf_clones.md).
