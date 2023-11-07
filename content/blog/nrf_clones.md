@@ -45,3 +45,5 @@ There is a known issue with higher leak current than the original micro board. T
 For more details and the workaround of the issue please follow the link to [this site](https://github.com/joric/nrfmicro/wiki/Alternatives#supermini-nrf52840).
 
 
+As the maker and IoT communities continue to grow, it's exciting to see how this clone will contribute to the world of embedded systems and innovation. Whether you're a seasoned developer or just starting your journey, the Nicenano V2 clone is worth exploring for your next project.
+
