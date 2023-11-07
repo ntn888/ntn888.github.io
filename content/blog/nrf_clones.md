@@ -26,9 +26,9 @@ These Chinese Nicenano V2 clone have started popping up on AliExpress. This is g
 
 [NRF52840 Development Board Supermini Compatible With Nice!Nano V2.0](https://aliexpress.com/item/1005006035267231.html)
 
-![Main board pics](nrf_clone_pic.resized.png)
+![Main board pics](/img/nrf_clone_pic.resized.png)
 
-![Board pinouts](nrf_clone_pinout.resized.png)
+![Board pinouts](/img/nrf_clone_pinout.resized.png)
 
 Features:
 
