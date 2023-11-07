@@ -21,6 +21,8 @@ The BL702 is a new offering from the chip design company Bouffalo Lab, that is e
 
 The development environments we will tackle are based on open source project components integrated into the respective IDE by the vendor: such as FreeRTOS and lwIP.
 
+Even though this is a hobbyist blog, this one is a little different. We would not be using Arduino. Instead we would be using the above frameworks. This might be a controvesial choice, but I feel that closer-to-metal frameworks are more exciting.. This blog is an aide to move out from Arduino to more resource friendly frameworks such as FreeRTOS or RIOT-OS.
+
 FreeRTOS is a real-time kernel that enables multitasking; makes the life of a firmware dev easier. Good resources about RTOS theory include:
 
 - Digi-key [Youtube series](https://www.youtube.com/watch?v=F321087yYy4)
