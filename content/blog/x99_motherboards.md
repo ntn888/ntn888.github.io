@@ -32,7 +32,7 @@ When I purchased, I personally went for the QIYIDA AliExpress seller (the produc
 
 I also noticed that the motherboard doesn't support *Suspend* functionality. In the **AHCI** options in BIOS, *Suspend* value is permanently set to *Disabled*.
 
-The one [I purchased](https://vi.aliexpress.com/item/1005004519470412) came with the following combo:
+The one [I purchased](https://www.aliexpress.com/item/1005004519470412.html) came with the following combo:
 
 - x99h v1.41 board (QIYIDA)
 - Intel Xeon E5 2670v3 processor (used)
