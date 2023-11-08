@@ -42,5 +42,7 @@ Pairing it up with this book: [Beginning STM32](https://www.amazon.com/BEGINNING
 
 ![Begining STM32 cover](/img/begin_stm32.jpg)
 
-To complement your microcontroller board and to do projects, you will need a set of commonly used electronic components. Fortunately one may find many *electronic starter-kits* on AliExpress that will suffice for a beginner hobbyiest.
+To complement your microcontroller board and to do projects, you will need a set of commonly used electronic components. Fortunately one may find many *electronic starter-kits* on AliExpress that will suffice for a beginner hobbyist.
+
+Finally you need a multimeter. Again Ali has you covered here. Note that the accuracy of the multimeter is denoted in *counts*. 4000 counts would probably be about right for hobbyist use; but the more the better.. See [here](https://instrumentationtools.com/multimeter-digits-counts/) for an explanation.
 
