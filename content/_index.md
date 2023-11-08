@@ -17,7 +17,7 @@ The primary boards/chips in our attention is the
 - Pi PICO (Cheap all rounder)
 - BL702 (wireless; abandoned for the nRF)
 
-The BL702 is a new offering from the chip design company Bouffalo Lab, that is extremely cheap, performant RISC-V chip. With all the bells & whistles of IoT, it’s got BLE, 802.15.4, and Zigbee. See [this](https://ntn888.github.io/update/2022/02/19/xt-zb1-bl702.html) post for further info.
+The BL702 is a new offering from the chip design company Bouffalo Lab, that is extremely cheap, performant RISC-V chip. With all the bells & whistles of IoT, it’s got BLE, 802.15.4, and Zigbee. See [this](@/blog/xt-zb1-bl702.md) post for further info.
 
 The development environments we will tackle are based on open source project components integrated into the respective IDE by the vendor: such as FreeRTOS and lwIP.
 
