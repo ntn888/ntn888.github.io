@@ -5,7 +5,7 @@ draft = false
 
 [taxonomies]
 categories = ["misc"]
-tags = ["stm32", "blue-pill", "embedded hobbiest", "microcontrollers"]
+tags = ["stm32", "blue-pill", "embedded hobbyist", "microcontrollers"]
 
 [extra]
 lang = "en"
