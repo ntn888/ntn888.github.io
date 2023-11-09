@@ -7,49 +7,15 @@ lang = 'en'
 
 **Unleashing Potential: Your Next-Level Embedded Electronics Consulting**
 
-Hey there, fellow electronics aficionados! Are you ready to turbocharge your neat projects and bring your innovative ideas to life? Our specialized consulting services are here to supercharge your commercial ventures with the expertise and precision they deserve.
+Hey there, fellow electronics aficionados! Are you ready to turbocharge your neat projects and bring your innovative ideas to life? I specialise in consulting services that are here to supercharge your commercial ventures with the expertise and precision they deserve.
 
 **Why Consult?**
 
 In the vast ocean of embedded electronics, it’s easy to feel like you're navigating uncharted waters. That’s where we step in. Our consulting services provide strategic guidance to ensure your products not only meet the market demand but set new benchmarks for innovation and efficiency.
 
-**Tailored Guidance**
+Our embedded electronics consulting is your ticket to not just building but innovating. It's about making smarter choices, learning endlessly, and connecting deeply with the pulse of technology.
 
-Imagine having a personal guru who not only gets your vision but also speaks the language of capacitors, breadboards, and binary. That's what you get with our consulting services. We offer personalized advice tailored to your specific needs, whether it’s selecting the perfect sensor for your home automation system or optimizing power consumption for your latest wearable.
-
-**Cost-Effective Solutions**
-
-We're all about maximizing impact while keeping your wallet happy. Our mantra? Brilliant doesn’t have to mean broke. We’ll help you navigate the world of affordable components and share secrets on where to snag the best deals, ensuring your project stays economically savvy.
-
-**Innovative Problem Solving**
-
-Stuck in a rut with a pesky problem you just can't crack? Our consulting services are like a trusty digital multimeter, ready to troubleshoot and debug. We delve into the mechanics of your project, breaking down complex challenges into manageable bites until "Eureka!" - we find the solution.
-
-**Latest Tech Insights**
-
-Stay ahead of the curve with insights into the latest trends and technologies. We're not just about theory; we get our hands dirty with the latest IoT gadgets, from Nordic nRFs to Raspberry Pis, ensuring you're leveraging cutting-edge tech that’ll make your project stand out.
-
-**Networking Opportunities**
-
-Consulting isn't just about the nitty-gritty of electronics; it's about connections. We plug you into a network of like-minded innovators, component suppliers, and tech enthusiasts. It's a community that shares, collaborates, and supports each other.
-
-**Educational Empowerment**
-
-Our consultancy goes beyond advice; we aim to empower your team with knowledge. Understanding the 'why' behind each decision ensures your team is equipped to maintain and develop your embedded systems independently, enhancing your in-house capabilities.
-
-**Custom Project Development**
-
-Got a unique project idea? We're all ears and soldering irons! Our custom project development services help transform your wildest concepts into tangible, blinking, and buzzing realities. From initial sketches to the final product, we're with you every step of the circuit.
-
-**Continuous Support**
-
-Our relationship doesn't end with project completion. We offer continuous support to ensure your project thrives and evolves. Whether it's a firmware update or a new feature addition, we're here to keep your project on the cutting edge.
-
-**Join the Revolution**
-
-So, are you ready to join the revolution of turning dreams into reality? Our embedded electronics consulting is your ticket to not just building but innovating. It's about making smarter choices, learning endlessly, and connecting deeply with the pulse of technology.
-
-Partner with us for consulting services that promise not just to build but to innovate and lead. Together, we can craft the next generation of embedded systems that drive your business forward.
+Partner with us for services that promise not just to build but to innovate and lead. Together, we can craft the next generation of embedded systems that drive your business forward.
 
 Shoot us a mail!
 
