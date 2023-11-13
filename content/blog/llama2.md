@@ -26,7 +26,7 @@ Zephry-7b-Beta is a groundbreaking large language model that has been capturing 
 
 It gives out an impressive interactive experience. And I found that it resembled GPT4 more than the Llama 2 model.
 
-I first sought to install it locally as this is reported to run comfortably on 8G GPUs. So I downloaded the prerequisite library ROCm (for driving the AMD GPU), and then installed [`Text generation web UI`](https://github.com/oobabooga/text-generation-webui). Downloaded the LLM model from [HuggingFace site](https://huggingface.co/TheBloke/zephyr-7B-beta-GGUF). Some of the troubleshooting steps I took can be seen in this [thread](https://github.com/oobabooga/text-generation-webui/issues/4558). But again it was too slow to be usable.. Maybe I'm doing something wrong.
+I first sought to install it locally as this is reported to run comfortably on 8G GPUs. So I downloaded the prerequisite library ROCm (for driving the AMD GPU), and then installed [`Text generation web UI`](https://github.com/oobabooga/text-generation-webui). Downloaded the LLM model from [HuggingFace site](https://huggingface.co/TheBloke/zephyr-7B-beta-GGUF). Some of the troubleshooting steps I took can be seen in this [thread](https://github.com/oobabooga/text-generation-webui/issues/4558). But again it was too slow to be usable.. Maybe I'm doing something wrong[^1].
 
 Then I resorted to hosting on a cloud GPU provider. I made an account at [vast.ai](https://vast.ai/) (these folks being the cheapest). I made an RTX A6000 (48GB VRAM) instance with 8G disk space. Downloaded the same model image (the Q5_K_M variant). Then I made parameter choices in `Text generation web UI` (not necessarily optimum, but sure something to play around with and test):
 
@@ -55,3 +55,6 @@ I have to say.. The results were snappy. And like I said earlier the responses w
 Although I have been using the Default/Notebook input method of the `Text generation web UI`, I'm looking to study the chat prompt. And see if it gives a more fluid interactive experience.
 
 This has been my log of trying out a free new ChatGPT alternative. Although I didn't know why it didn't run well on my local system since this is most suited for this task. Let me know what your goto model is these days!
+
+[^1]: I've finally managed to run it. See [this post](@/blog/llama-howto.md) for updated info.
+
