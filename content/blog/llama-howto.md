@@ -62,6 +62,8 @@ Once it's downloaded push the reload button next to the model name `blank` on th
 n-gpu-layers: anything above 35
 n_ctx: 8000
 ```
+The `n-gpu-layers` is a parameter you get when loading the GGUF models; which can scale between the GPU and CPU as you see fit! So using this parameter you can select, for example, 32 out of the 35 (the max for our `zephyr-7b-beta` model) to be offloaded to the GPU by selecting 32 here.
+
 
 Finally press load. This will take some time. Then goto `Parameters` tab. Under `Generation`:
 
@@ -91,4 +93,4 @@ Substitue it with your prompt and have fun!
 Zephyr-7b brings the excitement of a capable model into the hands of affordable 8Gig GPU cards. Very quickly you'll be amazed at the results, although there is some telling difference from the present benchmark - GPT-4!
 
 
-But admittedly it a fast moving target. There's new strides being made *every single day*. And many claim it wouldn't be the distant future that a 7b model easily outperfoms the current performance of GPT-4! And I can't wait for that day to self-host it on my humble 8Gig card.
+But admittedly it is a fast moving landscape. There's new strides being made *every single day*. And many claim it wouldn't be the distant future that a 7b model easily outperfoms the current performance of GPT-4! And I can't wait for that day to self-host it on my humble 8Gig card.
