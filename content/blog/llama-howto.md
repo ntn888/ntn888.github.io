@@ -24,7 +24,32 @@ Recently we have seen the rise of the small LLMs. As discussed in [this article]
 
 We will use the 'Text generation web UI' [https://github.com/oobabooga/text-generation-webui](https://github.com/oobabooga/text-generation-webui) as our client. This is the software that helps us to host and use the LLM model.
 
-First we need to install what is called ROCm. This is a library that works on top of the AMD GPU driver. The following steps assume you're running POP-OS 22.04. You can follow this [guide](https://github.com/danrauch/HOWTO-PopOS-AMD-HIP-with-Blender). We need to install version 5.6 (as of Nov 2023). The requirement is dictated by 'Text generation web UI', so see its documentation for the exact version you need in future.
+First we need to install what is called ROCm. This is a library that works on top of the AMD GPU driver. The following steps assume you're running POP-OS 22.04. We need to install version 5.6 (as of Nov 2023). The requirement is dictated by 'Text generation web UI', so see its documentation for the exact version you need in future. The following has been exctracted from [here](https://are-we-gfx1100-yet.github.io/post/a1111-webui/#prerequisites).
+
+```
+# install the amdgpu driver with rocm support
+curl -O https://repo.radeon.com/amdgpu-install/5.6/ubuntu/jammy/amdgpu-install_5.6.50600-1_all.deb
+sudo dpkg -i amdgpu-install_5.6.50600-1_all.deb
+```
+
+Now edit the install script at `/usr/bin/amdgpu-install` via a text editor and add `|pop` next to `ubuntu` like so:
+```
+case "$ID" in
+ubuntu|linuxmint|debian|pop)
+    ...
+```
+
+```
+# opencl might cause issues later, so skip it unless you need it
+sudo amdgpu-install --usecase=graphics,rocm --no-dkms
+
+# grant current user the access to gpu devices
+sudo usermod -aG video $USER
+sudo usermod -aG render $USER
+
+# reboot is needed to make both driver and user group take effect
+sudo reboot
+```
 
 > You may wish to install `radeontop`, an app that'll give various deets of the running status of the GPU. And run it alongside in another terminal while you prompt away.
 
