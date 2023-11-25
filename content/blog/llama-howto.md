@@ -119,3 +119,5 @@ Zephyr-7b brings the excitement of a capable model into the hands of affordable 
 
 
 But admittedly it is a fast moving landscape. There's new strides being made *every single day*. And many claim it wouldn't be the distant future that a 7b model easily outperfoms the current performance of GPT-4! And I can't wait for that day to self-host it on my humble 8Gig card.
+
+>UPDATE: I installed Ubuntu Server 22.04 on the PC and converted it into a server (and access textgen web ui remotely). Ubuntu being fully supported by AMD; you can omit the `--no-dkms` flag above to install the kernel modules. With this I've seen a significant improvement in responsiveness. It starts spitting out the text almost instantly (similar to my experiences with vast.ai instances) and get a consistently higher tokens/s. Therefore I do not recommend a POP! OS system.
