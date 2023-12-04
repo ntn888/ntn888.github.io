@@ -1,6 +1,6 @@
 +++
 title = "DOOM Emacs intro"
-date = 2022-11-16
+date = 2022-11-16 00:27:00
 draft = false
 
 [taxonomies]

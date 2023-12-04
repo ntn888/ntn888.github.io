@@ -1,6 +1,6 @@
 +++
 title = "My experience with Debian Testing"
-date = 2023-05-11
+date = 2023-05-11 00:27:00
 draft = false
 
 [taxonomies]

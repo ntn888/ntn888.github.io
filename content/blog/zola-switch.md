@@ -1,6 +1,6 @@
 +++
 title = "Switched site to Zola SSG"
-date = 2023-11-03
+date = 2023-11-03 00:27:00
 draft = false
 
 [taxonomies]

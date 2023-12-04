@@ -1,6 +1,6 @@
 +++
 title = "Self hosted Mastodon Instance"
-date = 2022-11-13
+date = 2022-11-13 00:27:00
 draft = false
 
 [taxonomies]

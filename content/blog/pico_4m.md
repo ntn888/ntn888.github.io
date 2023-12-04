@@ -1,11 +1,11 @@
 +++
 title = "Review: PI Pico 4MB version"
-date = 2022-11-04
+date = 2022-11-04 00:27:00
 draft = false
 
 [taxonomies]
 categories = ["update"]
-tags = ["PI pico", "embedded hobbiest", "microcontrollers"]
+tags = ["PI pico", "embedded hobbyist", "microcontrollers"]
 
 [extra]
 lang = "en"

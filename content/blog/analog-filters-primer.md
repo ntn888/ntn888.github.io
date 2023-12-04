@@ -1,6 +1,6 @@
 +++
 title = "Analog Filters Primer"
-date = 2022-02-27
+date = 2022-02-27 00:27:00
 draft = false
 
 [taxonomies]

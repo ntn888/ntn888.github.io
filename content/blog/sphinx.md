@@ -1,6 +1,6 @@
 +++
 title = "Sphinx Documentation Generator"
-date = 2022-12-07
+date = 2022-12-07 00:27:00
 draft = false
 
 [taxonomies]

@@ -1,6 +1,6 @@
 +++
 title = "Micro:Bit IO breakout board"
-date = 2023-05-05
+date = 2023-05-05 00:27:00
 draft = false
 
 [taxonomies]

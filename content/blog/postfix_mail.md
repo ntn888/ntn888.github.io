@@ -1,6 +1,6 @@
 +++
 title = "Selfhosted email delivery with postfix"
-date = 2022-12-27
+date = 2022-12-27 00:27:00
 draft = false
 
 [taxonomies]

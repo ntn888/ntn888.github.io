@@ -1,6 +1,6 @@
 +++
 title = "A DIY jtag debugger"
-date = 2022-02-16
+date = 2022-02-16 00:26:00
 draft = false
 
 [taxonomies]

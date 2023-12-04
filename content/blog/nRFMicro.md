@@ -1,11 +1,11 @@
 +++
 title = "Switching to the nRFMicro"
-date = 2022-03-20
+date = 2022-03-20 00:27:00
 draft = false
 
 [taxonomies]
 categories = ["misc"]
-tags = ["nRF52", "embedded hobbiest", "microcontrollers"]
+tags = ["nRF52", "embedded hobbyist", "microcontrollers"]
 
 [extra]
 lang = "en"

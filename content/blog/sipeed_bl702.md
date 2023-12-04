@@ -1,6 +1,6 @@
 +++
 title = "Sipeed BL702 board"
-date = 2022-12-01
+date = 2022-12-01 00:27:00
 draft = false
 
 [taxonomies]

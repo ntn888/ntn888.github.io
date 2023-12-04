@@ -1,6 +1,6 @@
 +++
 title = "THE Dev board you've been waiting for: $1.8 XT-ZB1 Zigbee & BLE devkit features BL702 RISC-V module"
-date = 2022-02-20
+date = 2022-02-20 00:27:00
 draft = false
 
 [taxonomies]

@@ -1,6 +1,6 @@
 +++
 title = "Setup a development environment"
-date = 2022-02-22
+date = 2022-02-22 00:27:00
 draft = false
 
 [taxonomies]

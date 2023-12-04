@@ -1,6 +1,6 @@
 +++
 title = "Go nuclear!"
-date = 2023-05-21
+date = 2023-05-21 00:27:00
 draft = false
 
 [taxonomies]

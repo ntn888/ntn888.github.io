@@ -1,6 +1,6 @@
 +++
 title = "Basic GPIO BL702"
-date = 2022-02-23
+date = 2022-02-23 00:27:00
 draft = false
 
 [taxonomies]

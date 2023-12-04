@@ -1,6 +1,6 @@
 +++
 title = "Deploying an IPv6 based seedbox"
-date = 2023-09-16
+date = 2023-09-16 00:27:00
 draft = false
 
 [taxonomies]

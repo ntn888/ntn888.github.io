@@ -1,6 +1,6 @@
 +++
 title = "Basic commands for Network Troubleshooting"
-date = 2023-05-16
+date = 2023-05-16 00:27:00
 draft = false
 
 [taxonomies]

@@ -1,6 +1,6 @@
 +++
 title = "DIY NAS"
-date = 2023-05-10
+date = 2023-05-10 00:27:00
 draft = false
 
 [taxonomies]

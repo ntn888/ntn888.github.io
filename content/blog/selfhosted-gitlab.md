@@ -1,6 +1,6 @@
 +++
 title = "Gitlab Selfhohsted!"
-date = 2022-11-23
+date = 2022-11-23 00:27:00
 draft = false
 
 [taxonomies]

@@ -1,6 +1,6 @@
 +++
 title = "Basic application structure"
-date = 2022-02-22
+date = 2022-02-22 00:28:00
 draft = false
 
 [taxonomies]
