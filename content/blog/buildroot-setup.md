@@ -117,6 +117,15 @@ Noting to adjust the `KDIR` according to where you have buildroot. Assuming Home
 
 Now run `make`. You'll get a bunch of files as result. We are interested in `hello.ko` file.
 
+
+## Serial console setup
+
+The board has 3 pins at the top exposing the serial UART. This will act as the serial console to interact with it over the terminal. The following image from the OrangePI website indicates these pins (TX/RX).
+
+![OPI Zero3 Pinouts](/img/opi-zero3.png)
+
+You may link this to a PC using a ftdi chip (available extensively on AliExpress), or like what I do use a Pico-probe which is equipped with a serial-to-usb port! On the host you can use Screen or Minicom to connect.
+
 ### Transfer the compiled module
 
 We need to transfer this file to our board. We'll use the tftp service we setup earlier.
