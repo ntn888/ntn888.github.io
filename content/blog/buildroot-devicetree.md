@@ -57,11 +57,25 @@ This will (in our case) only compile the dtb file and re-install some modules. T
 make
 ```
 
->There is one caveat I noticed with build root. You now need to set `CONFIG_DEFAULT_FDT_FILE` in uboot menuconfig to use this custom dtb. But unfortunately buildroot does not honour this setting (atleast for our board) and in boot time, uboot proceeds to fetch the default dtb! The work-around is to manually set the boot arguments at boot time in the uboot prompt.
+>There is a caveat I noticed with uboot. You now need to set `CONFIG_DEFAULT_FDT_FILE` in uboot menuconfig to use this custom dtb. But unfortunately our board include files do not honour this setting, and in boot time, uboot proceeds to fetch the default dtb! The work-around is to set the right dtb file on uboot prompt explained below.
 
 Flash the sdcard and boot.
 
 At uboot prompt provide these commands to boot Linux using our custom dtb.
+
+```
+setenv fdtfile sun50i-h616-orangepi-zero3-custom.dtb
+boot
+```
+
+This is the workaround that worked for me and in the boot log you can see the custom model that we set: `OrangePi Zero3-custom`. You may also cat the following file:
+
+```
+cat /sys/firmware/devicetree/base/model
+```
+
+
+If you get any further issues you can also try to manually boot as follows:
 
 ```
 setenv bootargs "root=/dev/mmcblk1p1 rootfstype=ext4"
@@ -69,11 +83,5 @@ setenv bootargs "root=/dev/mmcblk1p1 rootfstype=ext4"
 ext4load mmc 0:1 ${kernel_addr_r} boot/Image
 ext4load mmc 0:1 ${fdt_addr_r} boot/sun50i-h616-orangepi-zero3-custom.dtb
 booti ${kernel_addr_r} - ${fdt_addr_r}
-```
-
-This is the workaround that worked for me and in the boot log you can see the custom model that we set: `OrangePi Zero3-custom`. You may also cat the following file:
-
-```
-cat /sys/firmware/devicetree/base/model
 ```
 
