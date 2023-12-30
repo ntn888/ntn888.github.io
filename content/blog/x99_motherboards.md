@@ -42,11 +42,21 @@ It was priced at $110 on Jan 2023.
 
 From my personal experience, I'd advice to do thorough checks (using the sources provided above) and not just rely on AliExpress rankings/ratings. I regret my purchase as I cannot put my PC to sleep (a functionality I heavily rely on).
 
-The whole ecosystem is possible because of the enormous market of the used Xeon chips. The 2670v3 sells on Ali for a grand total of $7! But I recommend buying as a combo for a piece of mind due to any compatiblity issues.
+The whole ecosystem is possible because of the enormous market of the used Xeon chips. The 2670v3 sells on Ali for a grand total of $7! ~~But I recommend buying as a combo for a piece of mind due to any compatiblity issues.~~ See UPDATE below.
 
 Last comes our most important component: A Graphics card. Ali has us covered in this regard as well! For around $80 you can get a Radeon RX580 8G! Unbeatable! I believe you can go with the AliExpress reviews on this one.
 
 On the bright side though (going with the Xeon 2670v3 processor, which has 12 cores 24 threads), it's refreshing to see the *System Monitor* report the 24 threads available on the system!
 
 ![System Monitor screenshot](/img/xeon-monitor-24-threads.png)
+
+---
+
+UPDATE (31/12/23): On second thought, actually getting the parts separately instead of the MB/CPU/RAM Combo is a better idea. Thanks to the information available on [https://xeon-e5450.ru/](https://xeon-e5450.ru/).
+
+First search Ali for `x99` and pick for a good (popular) motherboard. Then head to xeon-e5450.ru and see for compatible RAM. They provide links for matching RAM. If available, going with server RAM is safer and cheaper! And finally check for compatible CPU. I believe the 2011-3 chip Xeon E5 2670v3 is always matched.
+
+Using the above information I have since upgraded my RAM to 32GB ECC Server version and now use the machine as a Linux kernel compilation cruncher! It compliles the full kernel for an embedded system typically under 10mins.
+
+Highly Recommended!
 
