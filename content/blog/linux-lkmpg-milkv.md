@@ -44,6 +44,15 @@ clean:
 
 Be sure to adapt the `KDIR` path to suite your system's location. Also make note to change `hello.o` to whatever you named your C source file.
 
+Remember to execute the following environment variables before running make:
+
+```
+export PATH="$PATH:/home/ajit/work/ldd/milkv/milkv-duo-buildroot/output/host/bin"
+
+export ARCH=riscv
+export CROSS_COMPILE=riscv64-linux-
+```
+
 ## Changing the GPIO directives
 
 In the chapter [#detecting-button-presses](https://sysprog21.github.io/lkmpg/#detecting-button-presses), they use the Raspberry PI which is based on Cortex-A architecture. Our RISC-V board uses different GPIO naming scheme, and we need to adapt accordingly...
