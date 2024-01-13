@@ -11,7 +11,7 @@ lang = 'en'
 
 Our goal is to be an indispensable asset that streamlines your embedded electronics development process.🚀 Let's create remarkable innovations together!👩‍💻📲 Drop us a line now and watch your project soar high like an eagle in the tech skies! 🚀 ✨
 
-Shoot us a mail!
+Shoot us a mail! Or connect to me on [Fiverr](https://www.fiverr.com/ajitananthadeva).
 
 ---
 
