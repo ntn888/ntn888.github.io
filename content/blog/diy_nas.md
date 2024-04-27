@@ -27,7 +27,9 @@ I think running a DIY NAS is a great hobby. This is an excellent exercise in sel
 # Considerations for our setup
 
 ### Arm SBC vs x86 powered machine
-This is the primary decision in our DIY NAS build. While SBC's are more power efficient, the high capable processors are expensive which is a requirement for direct media streaming using `plex`/`emby`. The x86 alternative is a cheaper route... Especially if you go with a second hand ex-lease SFF(small form-factor) machine. Which is what I did. These come in a great discounts on ebay seasonally (as low as $50), get one with 8G of memory and atleast a core-i5 processor. As compared to an SBC unit, these alredy come in a sturdy case to safely house your HDDs. (They can take a max of 2 storage HDDs).
+This is the primary decision in our DIY NAS build. While SBC's are more power efficient and compact, I prefer go with a second hand ex-lease SFF(small form-factor) machine. While this is usually cheaper; you also get a sturdy casing to house your hard drives. They can take a max of 2 storage HDDs. If you want to hold more you can explore other options such as tower PCs. Take a look at [NAS Killer builds](https://forums.serverbuilds.net/t/guide-nas-killer-6-0-ddr4-is-finally-cheap/13956) over at serverbuilds.net.
+
+The used SFF machines come in great discounts on ebay seasonally (as low as $50), get one with 8G of memory and atleast a 4th-gen core-i5 processor. You wouldn't need a powerful machine for you NAS. But if you're streaming your media outside of your local network, plex/emby will have to do transcoding which will take up CPU resource.
 
 You have lots of choices here too... Dell Optiplex 3020 to HP Elitedesk G1/G2 and so on.
 
