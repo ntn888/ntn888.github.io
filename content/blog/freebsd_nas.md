@@ -143,6 +143,8 @@ sudo bastille template homerJail bastillebsd-templates/homer
 
 If everything goes to plan, you should have an accessible *ARR suite running, with the correct permisions.
 
+TODO: Implement the equivalent of *Watchtowerr* application that auto updates the container packages on a periodic basis (ie weekly). To achieve this I could incorporate the cron and some shell scripting (but my scripting skills are not upto scratch). A rudimentary approach is outlined in this [forum post](https://forums.FreeBSD.org/threads/is-it-possible-to-pkg-update-upgrade-all-jails-in-one-go.39446/post-219246). Unfortunately it restarts the containers regardless if there was an update, which I think is wasteful.
+
 
 # Templates dump
 
