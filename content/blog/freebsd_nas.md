@@ -28,8 +28,8 @@ ZFS. raidz2 recommended but we will use raidz1 in our experiment! [Link](https:/
 
 Here are the main parts for the build:
 
-[N5105 Motherboard](https://www.aliexpress.com/item/1005006221619148.html) (CPU attached)
-[Innovision 4bay NAS case](https://www.aliexpress.com/item/1005001370106988.html) comes with individual HDD bay LEDs! Spectacle when they spin up!
+- [N5105 Motherboard](https://www.aliexpress.com/item/1005006221619148.html) (CPU attached)
+- [Innovision 4bay NAS case](https://www.aliexpress.com/item/1005001370106988.html) comes with individual HDD bay LEDs! Spectacle when they spin up!
 
 The N5105 is an Intel Celeron chip with a TDP of just 10W (in the RPI range..). It also has the QuickSync feature for hardware assisted Plex transcoding. :)
 
@@ -51,7 +51,9 @@ We'll use no hostname resolution. Instead we'll refer each app using it's jail's
         
 ## Pre-requisites
 
-We add our user to sudo. In this article I'll be reffering to user `ajit` as the main user.
+We add our user to sudo. In this article I'll be referring to user `ajit` as the main user. The username doesn't matter, what's important is the `uid`. I've set this to `1001` to be consistent with the default first user created in freeBSD host. See the templates below for clarity.
+
+Remember to add this user to group `wheel` when you install the host system or afterwards. Then:
 
 ```
 su -
