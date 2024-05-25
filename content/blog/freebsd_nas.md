@@ -108,6 +108,12 @@ Run this to automatically setup bastille. It'll also setup PF with rule for ssh.
 sudo bastille setup
 ```
 
+If you have external ZFS mounts on your system but want bastille to use the UFS filesystem (used by root):
+
+```
+sudo bastille setup ufs
+```
+
 We also need to allow mDNS (hostname resolution). To do this add the following to the `/etc/pf.conf`:
 
 ```
@@ -143,6 +149,8 @@ sudo bastille template homerJail bastillebsd-templates/homer
 
 If everything goes to plan, you should have an accessible *ARR suite running, with the correct permisions.
 
+Additional NOTE: Set the media files to be globally readable. This is so that we can run `jellyfin` as any user. Goto Radarr Settings -> Media Management (Show Advanced) -> Permissions -> Set Permissions (checked) -> chmod Folder [755].
+
 TODO: Implement the equivalent of *Watchtowerr* application that auto updates the container packages on a periodic basis (ie weekly). To achieve this I could incorporate the cron and some shell scripting (but my scripting skills are not upto scratch). A rudimentary approach is outlined in this [forum post](https://forums.FreeBSD.org/threads/is-it-possible-to-pkg-update-upgrade-all-jails-in-one-go.39446/post-219246). Unfortunately it restarts the containers regardless if there was an update, which I think is wasteful.
 
 
@@ -159,8 +167,8 @@ RDR tcp 7878 7878
 RESTART
 
 PKG radarr
-MOUNT /home/ajit/config/radarr /usr/local/radarr nullfs rw 0 0
-MOUNT /home/ajit/media /mnt/media nullfs rw 0 0
+MOUNT /storage/appdata/radarr /usr/local/radarr nullfs rw 0 0
+MOUNT /storage/media /mnt/media nullfs rw 0 0
 RESTART
 
 SYSRC radarr_enable="YES"
@@ -183,8 +191,8 @@ RDR tcp 8989 8989
 RESTART
 
 PKG sonarr
-MOUNT /home/ajit/config/sonarr /usr/local/sonarr nullfs rw 0 0
-MOUNT /home/ajit/media /mnt/media nullfs rw 0 0
+MOUNT /storage/appdata/sonarr /usr/local/sonarr nullfs rw 0 0
+MOUNT /storage/media /mnt/media nullfs rw 0 0
 RESTART
 
 SYSRC sonarr_enable="YES"
@@ -206,15 +214,15 @@ RDR tcp 8080 8080
 RESTART
 
 PKG sabnzbd
-MOUNT /home/ajit/config/sabnzbd /usr/local/sabnzbd nullfs rw 0 0
-MOUNT /home/ajit/media/torrents /mnt/media/torrents nullfs rw 0 0
+MOUNT /storage/appdata/sabnzbd /usr/local/sabnzbd nullfs rw 0 0
+MOUNT /storage/media/torrents /mnt/media/torrents nullfs rw 0 0
 RESTART
 
 SYSRC sabnzbd_enable="YES"
 SERVICE sabnzbd start
 CMD chown -R ajit:ajit /var/run/sabnzbd
-CMD sed -i -r s'/sabnzbd_user:="sabnzbd"/sabnzbd_user:="ajit"/' /usr/local/etc/rc.d/radarr
-CMD sed -i -r s'/sabnzbd_group:="sabnzbd"/sabnzbd_group:="ajit"/' /usr/local/etc/rc.d/radarr
+CMD sed -i -r s'/sabnzbd_user:=_sabnzbd/sabnzbd_user:="ajit"/' /usr/local/etc/rc.d/sabnzbd
+CMD sed -i -r s'/sabnzbd_group:=_sabnzbd/sabnzbd_group:="ajit"/' /usr/local/etc/rc.d/sabnzbd
 SERVICE sabnzbd restart
 
 ```
@@ -224,14 +232,16 @@ jellyfin:
 CMD mkdir -p /mnt/data/movies
 CMD mkdir -p /mnt/data/tv
 
+CMD mkdir -p /usr/local/etc/pkg/repos
+CMD echo 'FreeBSD: { url: "pkg+http://pkg.FreeBSD.org/${ABI}/latest" }' > /usr/local/etc/pkg/repos/FreeBSD.conf
 CONFIG set allow.mlock=1;
 CONFIG set ip6=inherit;
 RDR tcp 8096 8096
 RESTART
 
 PKG jellyfin
-MOUNT /home/ajit/media/medialibrary/movies /mnt/data/movies nullfs rw 0 0
-MOUNT /home/ajit/media/medialibrary/tv /mnt/data/tv nullfs rw 0 0
+MOUNT /storage/media/medialibrary/movies /mnt/data/movies nullfs rw 0 0
+MOUNT /storage/media/medialibrary/tv /mnt/data/tv nullfs rw 0 0
 RESTART
 
 SYSRC jellyfin_enable="YES"
