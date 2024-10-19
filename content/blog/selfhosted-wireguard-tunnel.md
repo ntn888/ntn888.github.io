@@ -41,7 +41,7 @@ Here's a visual view of what we'll be setting up:
 
 ## The server
 
-In our case we'll be running the wireguard server via docker as well. This may take up extra resources than running in bare metal, but I'm used to docker so much.
+In our case we'll be running the wireguard server via docker as well. This may take up extra resources than running in bare metal, but I'm used to docker so much. In the example we will be forwarding port `5000`.
 
 Here's the docker-compose.yml file:
 
@@ -116,7 +116,7 @@ Once that is added, bring up the service one more time. Now run `docker compose 
 
 ## Client
 
-Much of the client side config is based off of the above referenced blog post. But in my experience it needed additional IPTable route lines I will show below.
+Much of the client side config is based off of the above referenced blog post. But in my experience it needed additional IPTables route lines I will show below.
 
 Here's the docker compose:
 
