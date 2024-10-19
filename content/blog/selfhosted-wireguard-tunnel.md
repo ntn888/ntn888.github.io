@@ -141,7 +141,7 @@ services:
       - PGID=1000
       - TZ=Australia/Sydney
     volumes:
-      - /mnt/main/config/wg:/config
+      - /mnt/main/config/wg:/config      #<--- path for your config
       - /lib/modules:/lib/modules
     networks:
       default:
@@ -167,7 +167,7 @@ services:
       - WEBUI_PORT=8080
       - TORRENTING_PORT=5000
     volumes:
-      - /mnt/main/config/qbtorrent:/config      #<--- path for your config
+      - /mnt/main/config/qbtorrent:/config
       - /mnt/main/media/torrents:/data/torrents:rw
     ports:
       - 8080:8080
