@@ -62,6 +62,7 @@ gecko-sdk
      └── blinky
           ├── Makefile
           ├── main.mk
+          ├── emlib.mk
           ├── compile_commands.json
           ├── linker_script
           │     └── efr32mg21.ld
@@ -150,6 +151,54 @@ TARGET := main.elf
 size: $(TARGET_DIR)/main.elf
 	$(SIZE) $(TARGET_DIR)/main.elf
 
+```
+
+`emlib.mk`
+
+```
+SOURCES := ../../platform/emlib/src/em_cmu_fpga.c \
+../../platform/emlib/src/em_dma.c \
+../../platform/emlib/src/em_csen.c \
+../../platform/emlib/src/em_msc.c \
+../../platform/emlib/src/em_lcd.c \
+../../platform/emlib/src/em_rtcc.c \
+../../platform/emlib/src/em_can.c \
+../../platform/emlib/src/em_wdog.c \
+../../platform/emlib/src/em_system.c \
+../../platform/emlib/src/em_prs.c \
+../../platform/emlib/src/em_se.c \
+../../platform/emlib/src/em_eusart.c \
+../../platform/emlib/src/em_dbg.c \
+../../platform/emlib/src/em_cmu.c \
+../../platform/emlib/src/em_rmu.c \
+../../platform/emlib/src/em_vcmp.c \
+../../platform/emlib/src/em_gpio.c \
+../../platform/emlib/src/em_aes.c \
+../../platform/emlib/src/em_burtc.c \
+../../platform/emlib/src/em_usart.c \
+../../platform/emlib/src/em_qspi.c \
+../../platform/emlib/src/em_lesense.c \
+../../platform/emlib/src/em_adc.c \
+../../platform/emlib/src/em_core.c \
+../../platform/emlib/src/em_letimer.c \
+../../platform/emlib/src/em_idac.c \
+../../platform/emlib/src/em_ldma.c \
+../../platform/emlib/src/em_vdac.c \
+../../platform/emlib/src/em_rtc.c \
+../../platform/emlib/src/em_dac.c \
+../../platform/emlib/src/em_pcnt.c \
+../../platform/emlib/src/em_pdm.c \
+../../platform/emlib/src/em_cryotimer.c \
+../../platform/emlib/src/em_iadc.c \
+../../platform/emlib/src/em_acmp.c \
+../../platform/emlib/src/em_opamp.c \
+../../platform/emlib/src/em_timer.c \
+../../platform/emlib/src/em_i2c.c \
+../../platform/emlib/src/em_gpcrc.c \
+../../platform/emlib/src/em_crypto.c \
+../../platform/emlib/src/em_emu.c \
+../../platform/emlib/src/em_ebi.c \
+../../platform/emlib/src/em_leuart.c
 ```
 
 `main.c`:
