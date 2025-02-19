@@ -1,7 +1,7 @@
 +++
 title = "Piracy on a Budget"
 date = 2022-11-24 00:27:00
-draft = false
+draft = true
 
 [taxonomies]
 categories = ["update"]
