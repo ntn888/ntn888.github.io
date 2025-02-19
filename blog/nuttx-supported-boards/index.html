@@ -1,0 +1,342 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta content="width=device-width,initial-scale=1.0" name=viewport><meta content="light dark" name=color-scheme><title>NuttX Supported Boards</title><link href=/img/favicon-32x32.png rel=icon sizes=32x32 type=image/png><link href=/img/favicon-16x16.png rel=icon sizes=16x16 type=image/png><link href=/img/apple-touch-icon.png rel=apple-touch-icon sizes=180x180><link href=https://fonts.googleapis.com rel=preconnect><link crossorigin href=https://fonts.gstatic.com rel=preconnect><link href="https://fonts.googleapis.com/css2?family=Signika&display=swap" rel=stylesheet><style>body{--primary-color:#698bcf;--primary-pale-color:#698bcf1c;--text-color:#3c4043;--text-pale-color:#9aa2b9;--bg-color:#fff;--highlight-mark-color:#5f75b045;--callout-note-color:#698bcf;--callout-important-color:#9971d9;--callout-warning-color:#c99054;--callout-alert-color:#d35757;--callout-question-color:#4985a2;--callout-tip-color:#3ea06f;--main-font:'Signika',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--code-font:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--homepage-max-width:750px;--main-max-width:750px;--avatar-size:70px;--paragraph-font-size:18px;--paragraph-line-height:1.75;--aside-font-size:16px;--img-border-radius:0;--inline-code-border-radius:2px}body.dark{--primary-color:#698bcf;--primary-pale-color:#698bcf1c;--text-color:#9197a5;--text-pale-color:#5d6470;--bg-color:#202124;--highlight-mark-color:#5f75b045;--callout-note-color:#698bcf;--callout-important-color:#9971d9;--callout-warning-color:#c99054;--callout-alert-color:#d35757;--callout-question-color:#4985a2;--callout-tip-color:#3ea06f}</style><link href=/main.css rel=stylesheet><link href=/hl-light.css id=hl rel=stylesheet><script data-domain=ntn888.github.io defer src=https://mypa.simplycreate.xyz/js/script.js></script><body class=post><script>if(localStorage.getItem('theme')=='dark'){document.body.classList.add('dark');const a=document.querySelector('link#hl');if(a)a.href='/hl-dark.css'}</script><header class=blur><div id=header-wrapper><nav><a href=/>ajit</a><span class=separator>::</span><a href=/blog>blog</a></nav><div id=btns><a aria-label="rss feed" href=/feed.xml><svg viewbox="0 0 24 24" height=24 width=24 xmlns=http://www.w3.org/2000/svg><path d="M3 17C5.20914 17 7 18.7909 7 21H3V17ZM3 10C9.07513 10 14 14.9249 14 21H12C12 16.0294 7.97056 12 3 12V10ZM3 3C12.9411 3 21 11.0589 21 21H19C19 12.1634 11.8366 5 3 5V3Z" fill=currentColor></path></svg></a><button aria-label="theme switch" data-moon-icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" fill="currentColor"></path></svg>' data-sun-icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" fill="currentColor"></path></svg>' id=theme-toggle><svg viewbox="0 0 24 24" height=24 width=24 xmlns=http://www.w3.org/2000/svg><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" fill=currentColor></path></svg></button><button aria-label="table of content" id=toc-toggle><svg viewbox="0 0 24 24" height=24 width=24 xmlns=http://www.w3.org/2000/svg><path d="M3 4H21V6H3V4ZM3 11H15V13H3V11ZM3 18H21V20H3V18Z" fill=currentColor></path></svg></button></div></div></header><div id=wrapper><div id=blank></div><aside class=blur><button aria-label="back to top" id=back-to-top><svg viewbox="0 0 24 24" height=24 width=24 xmlns=http://www.w3.org/2000/svg><path d="M11.9997 10.8284L7.04996 15.7782L5.63574 14.364L11.9997 8L18.3637 14.364L16.9495 15.7782L11.9997 10.8284Z" fill=currentColor></path></svg></button></aside><main><div><div data-check-icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z" fill="currentColor"></path></svg>' data-copy-icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z" fill="currentColor"></path></svg>' id=copy-cfg style=display:none></div><article data-backlink-icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M9.41421 8L18.0208 16.6066L16.6066 18.0208L8 9.41421V17H6V6H17V8H9.41421Z" fill="currentColor"></path></svg>' class=prose><h1>NuttX Supported Boards</h1><div id=post-info><div id=date><span id=publish>2022-02-18</span></div><div id=tags><a href=https://ntn888.github.io//tags/nuttx><span>#</span>nuttx</a><a href=https://ntn888.github.io//tags/rtos><span>#</span>rtos</a></div></div><p>NuttX supports a variety of boards. One of the reasons I've settled on Nuttx is it's front row support for cheap chinese boards. Namely the bluepill, esp32 and our favourite the RISC-V DT-BL10 from Doiting.<p>The official site page for <a rel="nofollow noreferrer" href=https://nuttx.apache.org/docs/latest/platforms/index.html>supported boards</a> is a stub. It infact fooled me at first...<p>You can simply traverse the <code>boards</code> folder to get an uptodate view of the supported boards. For completeness sake I'll list here the list of supported boards at the time of writing:<pre class=z-code><code><span class="z-text z-plain">$ tree boards -dL 3
+boards
+├── arm
+│   ├── a1x
+│   │   └── pcduino-a10
+│   ├── am335x
+│   │   └── beaglebone-black
+│   ├── c5471
+│   │   └── c5471evm
+│   ├── cxd56xx
+│   │   ├── common
+│   │   ├── drivers
+│   │   └── spresense
+│   ├── dm320
+│   │   └── ntosd-dm320
+│   ├── efm32
+│   │   ├── efm32-g8xx-stk
+│   │   ├── efm32gg-stk3700
+│   │   └── olimex-efm32g880f128-stk
+│   ├── eoss3
+│   │   └── quickfeather
+│   ├── imx6
+│   │   └── sabre-6quad
+│   ├── imxrt
+│   │   ├── imxrt1020-evk
+│   │   ├── imxrt1050-evk
+│   │   ├── imxrt1060-evk
+│   │   ├── imxrt1064-evk
+│   │   └── teensy-4.x
+│   ├── kinetis
+│   │   ├── freedom-k28f
+│   │   ├── freedom-k64f
+│   │   ├── freedom-k66f
+│   │   ├── kwikstik-k40
+│   │   ├── teensy-3.x
+│   │   ├── twr-k60n512
+│   │   └── twr-k64f120m
+│   ├── kl
+│   │   ├── freedom-kl25z
+│   │   ├── freedom-kl26z
+│   │   └── teensy-lc
+│   ├── lc823450
+│   │   └── lc823450-xgevk
+│   ├── lpc17xx_40xx
+│   │   ├── lincoln60
+│   │   ├── lpc4088-devkit
+│   │   ├── lpc4088-quickstart
+│   │   ├── lpcxpresso-lpc1768
+│   │   ├── lx_cpu
+│   │   ├── mbed
+│   │   ├── mcb1700
+│   │   ├── olimex-lpc1766stk
+│   │   ├── open1788
+│   │   ├── pnev5180b
+│   │   ├── u-blox-c027
+│   │   └── zkit-arm-1769
+│   ├── lpc214x
+│   │   ├── mcu123-lpc214x
+│   │   └── zp214xpa
+│   ├── lpc2378
+│   │   └── olimex-lpc2378
+│   ├── lpc31xx
+│   │   ├── ea3131
+│   │   ├── ea3152
+│   │   └── olimex-lpc-h3131
+│   ├── lpc43xx
+│   │   ├── bambino-200e
+│   │   ├── lpc4330-xplorer
+│   │   ├── lpc4337-ws
+│   │   ├── lpc4357-evb
+│   │   └── lpc4370-link2
+│   ├── lpc54xx
+│   │   └── lpcxpresso-lpc54628
+│   ├── max326xx
+│   │   └── max32660-evsys
+│   ├── moxart
+│   │   └── moxa
+│   ├── nrf52
+│   │   ├── nrf52832-dk
+│   │   ├── nrf52832-mdk
+│   │   ├── nrf52832-sparkfun
+│   │   ├── nrf52840-dk
+│   │   ├── nrf52840-dongle
+│   │   └── nrf52-feather
+│   ├── nuc1xx
+│   │   └── nutiny-nuc120
+│   ├── phy62xx
+│   │   └── phy6222
+│   ├── rp2040
+│   │   ├── common
+│   │   ├── pimoroni-tiny2040
+│   │   └── raspberrypi-pico
+│   ├── s32k1xx
+│   │   ├── s32k118evb
+│   │   ├── s32k144evb
+│   │   ├── s32k146evb
+│   │   ├── s32k148evb
+│   │   └── ucans32k146
+│   ├── sam34
+│   │   ├── arduino-due
+│   │   ├── flipnclick-sam3x
+│   │   ├── sam3u-ek
+│   │   ├── sam4cmp-db
+│   │   ├── sam4e-ek
+│   │   ├── sam4l-xplained
+│   │   ├── sam4s-xplained
+│   │   └── sam4s-xplained-pro
+│   ├── sama5
+│   │   ├── giant-board
+│   │   ├── sama5d2-xult
+│   │   ├── sama5d3x-ek
+│   │   ├── sama5d3-xplained
+│   │   └── sama5d4-ek
+│   ├── samd2l2
+│   │   ├── arduino-m0
+│   │   ├── circuit-express
+│   │   ├── samd20-xplained
+│   │   ├── samd21-xplained
+│   │   └── saml21-xplained
+│   ├── samd5e5
+│   │   ├── metro-m4
+│   │   └── same54-xplained-pro
+│   ├── samv7
+│   │   ├── common
+│   │   ├── same70-qmtech
+│   │   ├── same70-xplained
+│   │   └── samv71-xult
+│   ├── stm32
+│   │   ├── axoloti
+│   │   ├── b-g431b-esc1
+│   │   ├── b-g474e-dpow1
+│   │   ├── clicker2-stm32
+│   │   ├── cloudctrl
+│   │   ├── common
+│   │   ├── emw3162
+│   │   ├── et-stm32-stamp
+│   │   ├── fire-stm32v2
+│   │   ├── hymini-stm32v
+│   │   ├── maple
+│   │   ├── mikroe-stm32f4
+│   │   ├── nucleo-f103rb
+│   │   ├── nucleo-f207zg
+│   │   ├── nucleo-f302r8
+│   │   ├── nucleo-f303re
+│   │   ├── nucleo-f303ze
+│   │   ├── nucleo-f334r8
+│   │   ├── nucleo-f410rb
+│   │   ├── nucleo-f412zg
+│   │   ├── nucleo-f429zi
+│   │   ├── nucleo-f446re
+│   │   ├── nucleo-f4x1re
+│   │   ├── nucleo-g431kb
+│   │   ├── nucleo-g431rb
+│   │   ├── nucleo-l152re
+│   │   ├── olimexino-stm32
+│   │   ├── olimex-stm32-e407
+│   │   ├── olimex-stm32-h405
+│   │   ├── olimex-stm32-h407
+│   │   ├── olimex-stm32-p107
+│   │   ├── olimex-stm32-p207
+│   │   ├── olimex-stm32-p407
+│   │   ├── omnibusf4
+│   │   ├── photon
+│   │   ├── shenzhou
+│   │   ├── stm3210e-eval
+│   │   ├── stm3220g-eval
+│   │   ├── stm3240g-eval
+│   │   ├── stm32butterfly2
+│   │   ├── stm32f103-minimum
+│   │   ├── stm32f334-disco
+│   │   ├── stm32f3discovery
+│   │   ├── stm32f411e-disco
+│   │   ├── stm32f411-minimum
+│   │   ├── stm32f429i-disco
+│   │   ├── stm32f4discovery
+│   │   ├── stm32ldiscovery
+│   │   ├── stm32_tiny
+│   │   ├── stm32vldiscovery
+│   │   └── viewtool-stm32f107
+│   ├── stm32f0l0g0
+│   │   ├── b-l072z-lrwan1
+│   │   ├── nucleo-f072rb
+│   │   ├── nucleo-f091rc
+│   │   ├── nucleo-g070rb
+│   │   ├── nucleo-g071rb
+│   │   ├── nucleo-l073rz
+│   │   ├── stm32f051-discovery
+│   │   └── stm32f072-discovery
+│   ├── stm32f7
+│   │   ├── nucleo-144
+│   │   ├── stm32f746g-disco
+│   │   ├── stm32f746-ws
+│   │   └── stm32f769i-disco
+│   ├── stm32h7
+│   │   ├── nucleo-h743zi
+│   │   ├── nucleo-h743zi2
+│   │   └── stm32h747i-disco
+│   ├── stm32l4
+│   │   ├── b-l475e-iot01a
+│   │   ├── nucleo-l432kc
+│   │   ├── nucleo-l452re
+│   │   ├── nucleo-l476rg
+│   │   ├── nucleo-l496zg
+│   │   ├── stm32l476-mdk
+│   │   ├── stm32l476vg-disco
+│   │   └── stm32l4r9ai-disco
+│   ├── stm32l5
+│   │   ├── drivers
+│   │   ├── nucleo-l552ze
+│   │   └── stm32l562e-dk
+│   ├── stm32u5
+│   │   ├── b-u585i-iot02a
+│   │   └── drivers
+│   ├── str71x
+│   │   └── olimex-strp711
+│   ├── tiva
+│   │   ├── dk-tm4c129x
+│   │   ├── eagle100
+│   │   ├── ekk-lm3s9b96
+│   │   ├── launchxl-cc1310
+│   │   ├── launchxl-cc1312r1
+│   │   ├── lm3s6432-s2e
+│   │   ├── lm3s6965-ek
+│   │   ├── lm3s8962-ek
+│   │   ├── lm4f120-launchpad
+│   │   ├── tm4c123g-launchpad
+│   │   └── tm4c1294-launchpad
+│   ├── tms570
+│   │   ├── launchxl-tms57004
+│   │   └── tms570ls31x-usb-kit
+│   └── xmc4
+│       ├── xmc4500-relax
+│       └── xmc4700-relax
+├── avr
+│   ├── at32uc3
+│   │   └── avr32dev1
+│   ├── at90usb
+│   │   ├── micropendous3
+│   │   └── teensy-2.0
+│   └── atmega
+│       ├── amber
+│       ├── arduino-mega2560
+│       └── moteino-mega
+├── dummy
+├── hc
+│   └── m9s12
+│       ├── demo9s12ne64
+│       └── ne64badge
+├── mips
+│   ├── pic32mx
+│   │   ├── mirtoo
+│   │   ├── pic32mx7mmb
+│   │   ├── pic32mx-starterkit
+│   │   ├── sure-pic32mx
+│   │   └── ubw32
+│   └── pic32mz
+│       ├── chipkit-wifire
+│       ├── flipnclick-pic32mz
+│       └── pic32mz-starterkit
+├── misoc
+│   └── lm32
+│       └── misoc
+├── or1k
+│   └── mor1kx
+│       └── or1k
+├── renesas
+│   ├── m16c
+│   │   └── skp16c26
+│   ├── rx65n
+│   │   ├── rx65n
+│   │   ├── rx65n-grrose
+│   │   ├── rx65n-rsk1mb
+│   │   └── rx65n-rsk2mb
+│   └── sh1
+│       └── us7032evb1
+├── risc-v
+│   ├── bl602
+│   │   └── bl602evb
+│   ├── c906
+│   │   └── smartl-c906
+│   ├── esp32c3
+│   │   └── esp32c3-devkit
+│   ├── fe310
+│   │   └── hifive1-revb
+│   ├── k210
+│   │   └── maix-bit
+│   ├── litex
+│   │   └── arty_a7
+│   ├── mpfs
+│   │   ├── common
+│   │   ├── icicle
+│   │   └── m100pfsevp
+│   ├── qemu-rv
+│   │   └── rv-virt
+│   └── rv32m1
+│       └── rv32m1-vega
+├── sim
+│   └── sim
+│       └── sim
+├── sparc
+│   ├── bm3803
+│   │   └── xx3803
+│   └── bm3823
+│       └── xx3823
+├── x86
+│   └── qemu
+│       └── qemu-i486
+├── x86_64
+│   └── intel64
+│       └── qemu-intel64
+├── xtensa
+│   ├── esp32
+│   │   ├── common
+│   │   ├── esp32-devkitc
+│   │   ├── esp32-ethernet-kit
+│   │   ├── esp32-wrover-kit
+│   │   └── ttgo_lora_esp32
+│   ├── esp32s2
+│   │   ├── common
+│   │   └── esp32s2-saola-1
+│   └── esp32s3
+│       ├── common
+│       └── esp32s3-devkit
+├── z16
+│   └── z16f
+│       └── z16f2800100zcog
+└── z80
+    ├── ez80
+    │   ├── ez80f910200kitg
+    │   ├── ez80f910200zco
+    │   ├── makerlisp
+    │   └── z20x
+    ├── z180
+    │   └── p112
+    ├── z8
+    │   ├── z8encore000zco
+    │   └── z8f64200100kit
+    └── z80
+        └── z80sim
+
+337 directories
+</span></code></pre></article></div><footer><div class=copyright><p>© 2023 Ajit</div><div class=credits>powered by <a rel="noreferrer noopener" href=https://www.getzola.org target=_blank>zola</a> and <a rel="noreferrer noopener" href=https://github.com/isunjn/serene target=_blank>serene</a></div></footer></main></div><script src=/js/lightense.min.js></script><script src=/js/main.js></script>
