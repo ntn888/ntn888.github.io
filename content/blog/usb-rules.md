@@ -46,7 +46,7 @@ First you want to get your programmer's usb device attributes. After plugging it
 In my case I'm using a Pico Probe (which programs all ARM Cortex-M devices). And it indicates **idVendor=2e8a, idProduct=000c**.
 
 
-Now create the following files. Making note to replace <username>.
+Now create the following files. Making note to replace *username*.
 
 `/etc/udev/rules.d/50-cmsis-dap.rules`:
 ```
