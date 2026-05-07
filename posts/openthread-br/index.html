@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running the OpenThread Border Router on OrangePI Zero3 — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Running the OpenThread Border Router on OrangePI Zero3</h1>
+                <time datetime="2025-03-05">Mar 05, 2025</time>
+                <span class="post-category">nrf</span>
+                <div class="post-tags">
+                    <a href="/tags/nRF52/" class="tag-link">nRF52</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                    <a href="/tags/OpenThread/" class="tag-link">OpenThread</a>
+                </div>
+            </header>
+<p>Open thread already has <a
+href="https://openthread.io/guides/border-router/docker">excellent
+guides</a> on running the Border Router software on a Raspberry PI with
+the Nordic nRF52840 dongle as the radio co-processor.</p>
+<blockquote>
+<p>Since the SBCs lack a Thread radio, we make use of a Thread capable
+MCU board as this <a
+href="https://openthread.io/platforms/co-processor">radio
+co-processor</a>, flashed with a specific firmware
+<code>ot-rcp.bin</code> (available on the <a
+href="https://github.com/openthread">OpenThread Github</a> for various
+boards) that communicate with the host application via the
+<code>Spinel</code> protocol.</p>
+</blockquote>
+<p>I took a slightly cost effective approach with the Orange PI Zero3
+and EasyIot ZB-GW04 (EFR32MG21) based <a
+href="https://www.aliexpress.com/item/1005005271016330.html">dongle</a>.
+Here are my notes and workarounds in this approach to achieve a working
+solution.</p>
+<blockquote>
+<p>As of this writing the Armbian and DietPI builds have a bug in
+detecting memory on the Zero3. My 1GB RAM board is <em>sometimes</em>
+detected as having 2GB wrongly (causing random crashes). We’ll need to
+reboot until it is correctly detected, check by running
+<code>free -h</code>. More info <a
+href="https://dietpi.com/forum/t/orange-pi-zero3-ram-intermittently-detected-incorrectly/22973">here</a>.</p>
+</blockquote>
+<p>I installed the DietPI port for this board onto an SD card and
+booted. Now to run the OpenThread Border Router host software I used
+Podman instead of Docker:</p>
+<pre><code>sudo apt install podman vim</code></pre>
+<p>We install vim as there are no editors installed by default. We need
+to modify the <code>/etc/containers/registries.conf</code> file to
+include:</p>
+<pre><code>unqualified-search-registries = [&quot;docker.io&quot;]</code></pre>
+<p>This way we get a docker like default repo resolution. Next run:</p>
+<pre><code>sudo podman pull openthread/otbr:latest</code></pre>
+<p>Plug in your dongle and check which device is associated (via
+<code>dmesg</code>). In our case it should be <code>dev/ttyUSB0</code>.
+Make sure it is re-flashed as per the preparation section below! Finally
+run (making sure to replace the <strong>left</strong>
+<code>ttyUSB0</code> with your instance):</p>
+<pre><code>sudo podman run --sysctl net.ipv6.conf.all.disable_ipv6=0 --sysctl net.ipv4.conf.all.forwarding=1 --sysctl net.ipv6.conf.all.forwarding=1 -p 8080:80 --dns=127.0.0.1 -it --volume /dev/ttyUSB0:/dev/ttyUSB0 --privileged openthread/otbr</code></pre>
+<p>Now the web interface is available on <code>dietpi:8080</code>.</p>
+<p>You can also follow along with the <a
+href="https://openthread.io/guides/border-router/docker/run#simulated_rcp">Simulated
+RCP</a>. Note that the building step takes ages on the PI Zero3!</p>
+<h2 id="prepare-the-easyiot-zb-gw04-dongle">Prepare the EasyIot ZB-GW04
+dongle</h2>
+<p>This <a
+href="https://github.com/darkxst/silabs-firmware-builder">repo</a> has
+all you need to reflash the dongle to a ot-rcp. In essence I had to run
+(make sure you match the firmware version to the indication on the
+PCB!):</p>
+<pre><code>universal-silabs-flasher --device /dev/ttyUSB0 flash --firmware ot-rcp-v2.4.5.0-zb-gw04-1v2-230400.gbl --allow-cross-flashing</code></pre>
+<p>Verify with:</p>
+<pre><code>universal-silabs-flasher --device /dev/ttyUSB0 --probe-method spinel --spinel-baudrate 230400 probe</code></pre>
+<h1 id="sniffing-packets">Sniffing Packets</h1>
+<p>&lt;TODO&gt;</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

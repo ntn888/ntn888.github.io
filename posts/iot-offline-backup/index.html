@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline backup strategies for connected datalogger nodes — Ajit Ananthadevan</title>
+    <meta name="description" content="Your IoT system is perfect, but what happens when the internet drops? Here is how we solve that on the device">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Offline backup strategies for connected datalogger nodes</h1>
+                <time datetime="2026-03-28">Mar 28, 2026</time>
+                <span class="post-category">misc</span>
+                <div class="post-tags">
+                    <a href="/tags/offline/" class="tag-link">offline</a>
+                    <a href="/tags/logger/" class="tag-link">logger</a>
+                    <a href="/tags/iot/" class="tag-link">iot</a>
+                </div>
+            </header>
+<p>In this blog we’re obsessed about IoT! In that spirit, I bring you
+strategies on mitigating connectivity issues on your device.</p>
+<p>Connected data logger nodes are the backbone of modern IoT and
+industrial monitoring systems. They continuously collect sensor data,
+transmit it to cloud services, and often operate in environments where
+connectivity is unreliable. In such scenarios, <em>offline backup</em>
+becomes critical to ensure <em>data integrity</em>, <em>system
+reliability</em>, and <em>operational continuity</em>.</p>
+<p>Coming from an RFID asset tracking background, I’ve implemented many
+a datalogger. These connected nodes were linked to the central server
+via Wifi and some by Ethernet.</p>
+<p>When working with IPv4 etc, we could use TCP layer (instead of UDP)
+to help guarantee packet delivery, as the internetwork is definitely
+prone to collisions. But as much precautions and testing has been done,
+the connection (perhaps the physical link) is bound to fault in the
+field.</p>
+<p>Intermittent connectivity, power outages, or security breaches can
+interrupt data transmission. Without an offline backup strategy, data
+loss becomes inevitable. And contingency measures are necessary.</p>
+<h2 id="local-non-volatile-storage">Local Non-Volatile Storage</h2>
+<p>The simplest and most reliable approach is to store sensor readings
+in persistent local memory (e.g., Flash, EEPROM, or external SD cards)
+before transmission.</p>
+<p>If the device detects that the link has been down beyond a certain
+threshold period, we revert as a standalone storage based datalogger!
+Until the link has been restored. When we could then transmit the
+acquired data in a first-in-first-out basis.</p>
+<p>Recalling that these are real-time systems, a filesystem wouldn’t be
+appropriate here. Rather we need to save data in raw register bits!</p>
+<h2 id="checksum-based-integrity-verification">Checksum-Based Integrity
+Verification</h2>
+<p>Every backup unit should include a checksum (e.g., CRC32, SHA-256) to
+ensure data integrity during retrieval.</p>
+<p>Usage:</p>
+<ul>
+<li>Validate backup file integrity after power cycle</li>
+<li>Prevent silent data corruption in storage devices</li>
+</ul>
+<h2 id="circular-buffer-with-rotation">Circular Buffer with
+Rotation</h2>
+<p>Use a ring buffer that overwrites the oldest data when full,
+prioritising the most recent records. Optionally encrypt data at storage
+to prevent physical access exploitation.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

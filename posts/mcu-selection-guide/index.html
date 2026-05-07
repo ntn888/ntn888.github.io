@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low-cost microcontrollers for hobbyists — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Low-cost microcontrollers for hobbyists</h1>
+                <time datetime="2022-03-16">Mar 16, 2022</time>
+                <span class="post-category">misc</span>
+                <div class="post-tags">
+                    <a href="/tags/fimware-develompent/" class="tag-link">fimware develompent</a>
+                    <a href="/tags/embedded-hobbyist/" class="tag-link">embedded hobbyist</a>
+                    <a href="/tags/microcontrollers/" class="tag-link">microcontrollers</a>
+                </div>
+            </header>
+<p>There are a multitude of chip manufacturers, let alone individual
+chip modules. It can get overwhelming quickly for a newbie in the field
+of embedded or IOT systems, especially if all you want to do is tinker
+at a hobbyist level.</p>
+<p>I present to you a selection guide based on 3 modules to serve a wide
+range of applications. The rationale being, by having only a few select
+chips in your toolset you can put the effort to master your chips and
+get into the nitty gritty. This leads to less frustration when
+developing and also by working on the native toolsets for the chip in
+hand, you’re confident in producing the most efficient code.</p>
+<p>With this in mind I present to you the following list<a href="#fn1"
+class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>:</p>
+<ul>
+<li><p><del>Bluepill (stm32f103c8)</del><a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:
+sub-dollar chip that’s simple and very compact formfactor. Deploy it for
+the simplest of applications. You can still run freeRTOS! And even drive
+an OLED display! An excellent intro using free licence tools are covered
+in the book: <a
+href="https://link.springer.com/book/10.1007/978-1-4842-3624-6">Beginning
+STM32</a> by Warren Gay.</p></li>
+<li><p>Micro:Bit (nRF52833): low power wireless! When it comes to low
+power wireless, Nordic is the undisputed king. RF is in their name and
+they have gained good popularity in the industry over the past years.
+See <a href="/posts/micro-bit-breakout">this post</a> for viable
+hobbyist boards.</p></li>
+<li><p>XT-ZB1 (bl702): the king of versatility! Although intended for
+IOT applications, the $2 price tag opens the possibilities to deploy
+into anything! A RISC-V clocked at 144 MHz including FPU. That’s decent
+enough for most of demanding applications. Note that the fact the SDK is
+still in developement (after 2 years of release!) and that it’s
+unsupported by any IOT RTOS frameworks (RT-Thread for example) makes is
+a questionable choice right now and we go with the above chip for
+wireless.</p></li>
+</ul>
+<p>Between the Bluepill and the nRF52, I believe you have the world of
+embedded at your hands!</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>If you’re interested in beginner boards or controller
+see <a href="/posts/begin-embedded">this post</a>.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Edit: See <a href="/posts/pico-4m">this post</a> about
+the PI Pico variant. This would be an excellent replacement for the
+bluepill. With 4M flash and 130MHz M0+ processor it is a no brainer for
+new projects!!<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

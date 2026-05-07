@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venturing into freeBSD: Homeserver attempt 2 — Ajit Ananthadevan</title>
+    <meta name="description" content="Trying out freeBSD as a homeserver">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Venturing into freeBSD: Homeserver attempt 2</h1>
+                <time datetime="2024-05-19">May 19, 2024</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/NAS/" class="tag-link">NAS</a>
+                    <a href="/tags/self-host/" class="tag-link">self-host</a>
+                    <a href="/tags/seedbox/" class="tag-link">seedbox</a>
+                </div>
+            </header>
+<h1 id="why-freebsd">Why freeBSD?</h1>
+<p>ZFS. raidz2 recommended but we will use raidz1 in our experiment! <a
+href="https://arstechnica.com/information-technology/2020/05/zfs-101-understanding-zfs-storage-and-performance/">Link</a>
+for more info.</p>
+<h1 id="hw-setup">HW setup</h1>
+<p>Here are the main parts for the build:</p>
+<ul>
+<li><a
+href="https://www.aliexpress.com/item/1005006221619148.html">N5105
+Motherboard</a> (CPU attached)</li>
+<li><a
+href="https://www.aliexpress.com/item/1005001370106988.html">Innovision
+4bay NAS case</a> comes with individual HDD bay LEDs! Spectacle when
+they spin up!</li>
+</ul>
+<p>The N5105 is an Intel Celeron chip with a TDP of just 10W (in the RPI
+range..). It also has the QuickSync feature for hardware assisted Plex
+transcoding. :)</p>
+<p>I got an 8GB RAM. The board accepts DDR4 Laptop SO-DIMM sticks. And
+also got a 120GB NVME SSD for the boot drive.</p>
+<p>The case comes with the PSU included. SAS HDDs are cheaper, but I
+wasn’t sure if the case support them. So went for 4x SATA 4TB ones.</p>
+<h1 id="sw-setup">SW setup</h1>
+<p>As mentioned we’ll be using freeBSD. This OS does not support docker.
+But has the concept of <em>Jails</em>. It is the same principle
+(container isolation) but predates docker.</p>
+<p>Using a <em>jail manager</em> provides a simpler interface to
+managing jails. We’ll use the <em>bastille</em> jail manager. For the
+following features:</p>
+<ul>
+<li>auto NAT! (using PF; whole new rabbithole; we’ll learn just enough
+to get by..)</li>
+<li>easy and intuitive recipes/templates to automate spinning up jails
+(very useful in our complex case!)</li>
+</ul>
+<p>We’ll use no hostname resolution. Instead we’ll refer each app using
+it’s jail’s hardcoded IPs (that’s internally NAT’d)</p>
+<h2 id="pre-requisites">Pre-requisites</h2>
+<p>We add our user to sudo. In this article I’ll be referring to user
+<code>ajit</code> as the main user. The username doesn’t matter, what’s
+important is the <code>uid</code>. I’ve set this to <code>1001</code> to
+be consistent with the default first user created in freeBSD host. See
+the templates below for clarity.</p>
+<p>Remember to add this user to group <code>wheel</code> when you
+install the host system or afterwards. Then:</p>
+<pre><code>su -
+install pkg sudo
+visudo</code></pre>
+<p>Uncomment the %wheel so it looks like this :</p>
+<pre><code>## Allows people in group wheel to run all commands
+%wheel    ALL=(ALL)   ALL</code></pre>
+<p>We have to enable mDNS so that our server can be reachable using it’s
+hostname (eg freesrv.local):</p>
+<pre><code>sudo pkg install openmdns
+
+sudo sysrc mdnsd_enable=yes
+sudo sysrc mdnsd_flags=igc0 #indicate eth interface
+sudo service mdnsd start
+</code></pre>
+<p>In the flag above replace <code>igc0</code> with your ethernet
+interface.</p>
+<p>Enable <code>powerd</code> to make the system run more power
+efficient. See <a
+href="https://bastian.rieck.me/blog/2013/freebsd_nas_part_ii/">here</a>.</p>
+<h2 id="zfs-setup">ZFS setup</h2>
+<p>We begin by setting up our ZFS storage. Refer the <a
+href="https://docs.freebsd.org/en/books/handbook/zfs/">handbook</a> and
+create <code>media</code> and <code>appdata</code> datasets. Now create
+the following directory structure:</p>
+<pre><code>cd &lt;..&gt;/media
+mkdir medialibrary
+mkdir medialibrary/movies
+mkdir medialibrary/tv
+mkdir torrents
+
+cd &lt;..&gt;/appdata
+mkdir radarr sonarr sabnzbd
+</code></pre>
+<p>After initialised, I was left with 10TB usable storage!</p>
+<h2 id="bastille-jails-setup">Bastille jails setup</h2>
+<p>Run this to automatically setup bastille. It’ll also setup PF with
+rule for ssh.</p>
+<pre><code>sudo bastille setup</code></pre>
+<p>If you have external ZFS mounts on your system but want bastille to
+use the UFS filesystem (used by root):</p>
+<pre><code>sudo bastille setup ufs</code></pre>
+<p>We also need to allow mDNS (hostname resolution). To do this add the
+following to the <code>/etc/pf.conf</code>:</p>
+<pre><code>pass in inet proto udp from any to any port = 5353 keep state</code></pre>
+<p>Now:</p>
+<pre><code>sudo service pf start</code></pre>
+<p>You will need to re-initiate the ssh connection.</p>
+<p>Finally to setup the jails issue the following commands (templates at
+the end of this article):</p>
+<pre><code>sudo bastille create radarrJail 14.0-RELEASE 10.17.89.50
+sudo bastille template radarrJail bastillebsd-templates/radarr
+
+sudo bastille create sonarrJail 14.0-RELEASE 10.17.89.51
+sudo bastille template radarrJail bastillebsd-templates/sonarr
+
+sudo bastille create sabnzbdJail 14.0-RELEASE 10.17.89.52
+sudo bastille template radarrJail bastillebsd-templates/sabnzbd
+
+sudo bastille create jellyfinJail 14.0-RELEASE 10.17.89.53
+sudo bastille template radarrJail bastillebsd-templates/jellyfin
+
+sudo bastille create homerJail 14.0-RELEASE 10.17.89.54
+sudo bastille template homerJail bastillebsd-templates/homer</code></pre>
+<p>If everything goes to plan, you should have an accessible *ARR suite
+running, with the correct permisions.</p>
+<p>Additional NOTE: Set the media files to be globally readable. This is
+so that we can run <code>jellyfin</code> as any user. Goto Radarr
+Settings -&gt; Media Management (Show Advanced) -&gt; Permissions -&gt;
+Set Permissions (checked) -&gt; chmod Folder [755].</p>
+<p>TODO: Implement the equivalent of <em>Watchtowerr</em> application
+that auto updates the container packages on a periodic basis (ie
+weekly). To achieve this I could incorporate the cron and some shell
+scripting (but my scripting skills are not upto scratch). A rudimentary
+approach is outlined in this <a
+href="https://forums.FreeBSD.org/threads/is-it-possible-to-pkg-update-upgrade-all-jails-in-one-go.39446/post-219246">forum
+post</a>. Unfortunately it restarts the containers regardless if there
+was an update, which I think is wasteful.</p>
+<h1 id="templates-dump">Templates dump</h1>
+<p>radarr:</p>
+<pre><code>CMD pw useradd -u 1001 -n ajit -c &quot;Ajit&quot; -s csh -m -w random
+CMD mkdir /mnt/media
+
+CONFIG set allow.mlock=1;
+CONFIG set ip6=inherit;
+RDR tcp 7878 7878
+RESTART
+
+PKG radarr
+MOUNT /storage/appdata/radarr /usr/local/radarr nullfs rw 0 0
+MOUNT /storage/media /mnt/media nullfs rw 0 0
+RESTART
+
+SYSRC radarr_enable=&quot;YES&quot;
+SERVICE radarr start
+CMD chown -R ajit:ajit /var/run/radarr
+CMD sed -i -r s&#39;/radarr_user:=&quot;radarr&quot;/radarr_user:=&quot;ajit&quot;/&#39; /usr/local/etc/rc.d/radarr
+CMD sed -i -r s&#39;/radarr_group:=&quot;radarr&quot;/radarr_group:=&quot;ajit&quot;/&#39; /usr/local/etc/rc.d/radarr
+SERVICE radarr restart
+</code></pre>
+<p>sonarr:</p>
+<pre><code>CMD pw useradd -u 1001 -n ajit -c &quot;Ajit&quot; -s csh -m -w random
+CMD mkdir /mnt/media
+
+CONFIG set allow.mlock=1;
+CONFIG set ip6=inherit;
+RDR tcp 8989 8989
+RESTART
+
+PKG sonarr
+MOUNT /storage/appdata/sonarr /usr/local/sonarr nullfs rw 0 0
+MOUNT /storage/media /mnt/media nullfs rw 0 0
+RESTART
+
+SYSRC sonarr_enable=&quot;YES&quot;
+SERVICE sonarr start
+CMD chown -R ajit:ajit /var/run/sonarr
+CMD sed -i -r s&#39;/sonarr_user:=&quot;sonarr&quot;/sonarr_user:=&quot;ajit&quot;/&#39; /usr/local/etc/rc.d/sonarr
+CMD sed -i -r s&#39;/sonarr_group:=&quot;sonarr&quot;/sonarr_group:=&quot;ajit&quot;/&#39; /usr/local/etc/rc.d/sonarr
+SERVICE sonarr restart
+</code></pre>
+<p>sabnzbd:</p>
+<pre><code>CMD pw useradd -u 1001 -n ajit -c &quot;Ajit&quot; -s csh -m -w random
+CMD mkdir -p /mnt/media/torrents
+
+CONFIG set ip6=inherit;
+RDR tcp 8080 8080
+RESTART
+
+PKG sabnzbd
+MOUNT /storage/appdata/sabnzbd /usr/local/sabnzbd nullfs rw 0 0
+MOUNT /storage/media/torrents /mnt/media/torrents nullfs rw 0 0
+RESTART
+
+SYSRC sabnzbd_enable=&quot;YES&quot;
+SERVICE sabnzbd start
+CMD chown -R ajit:ajit /var/run/sabnzbd
+CMD sed -i -r s&#39;/sabnzbd_user:=_sabnzbd/sabnzbd_user:=&quot;ajit&quot;/&#39; /usr/local/etc/rc.d/sabnzbd
+CMD sed -i -r s&#39;/sabnzbd_group:=_sabnzbd/sabnzbd_group:=&quot;ajit&quot;/&#39; /usr/local/etc/rc.d/sabnzbd
+SERVICE sabnzbd restart
+</code></pre>
+<p>jellyfin:</p>
+<pre><code>CMD mkdir -p /mnt/data/movies
+CMD mkdir -p /mnt/data/tv
+
+CMD mkdir -p /usr/local/etc/pkg/repos
+CMD echo &#39;FreeBSD: { url: &quot;pkg+http://pkg.FreeBSD.org/${ABI}/latest&quot; }&#39; &gt; /usr/local/etc/pkg/repos/FreeBSD.conf
+CONFIG set allow.mlock=1;
+CONFIG set ip6=inherit;
+RDR tcp 8096 8096
+RESTART
+
+PKG jellyfin
+MOUNT /storage/media/medialibrary/movies /mnt/data/movies nullfs rw 0 0
+MOUNT /storage/media/medialibrary/tv /mnt/data/tv nullfs rw 0 0
+RESTART
+
+SYSRC jellyfin_enable=&quot;YES&quot;
+SERVICE jellyfin start
+</code></pre>
+<p>homer:</p>
+<pre><code>CONFIG set ip6=inherit;
+RDR tcp 80 80
+RESTART
+
+PKG apache24
+
+CMD curl -LO https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip
+CMD unzip -o homer.zip -d /usr/local/www/apache24/data
+CMD cp /usr/local/www/apache24/data/assets/config.yml.dist /usr/local/www/apache24/data/assets/config.yml
+CP config.yml /usr/local/www/apache24/data/assets/
+
+SYSRC apache24_enable=&quot;YES&quot;
+SYSRC apache24_flags=&quot;&quot;
+CMD httpd -t
+SERVICE apache24 start
+</code></pre>
+<p>homer <code>config.yml</code>. Place this file beside the homer
+template.</p>
+<pre><code>---
+# Homepage configuration
+# See https://fontawesome.com/v5/search for icons options
+
+title: &quot;FreeSRV dashboard&quot;
+subtitle: &quot;Homer&quot;
+logo: &quot;logo.png&quot;
+# icon: &quot;fas fa-skull-crossbones&quot; # Optional icon
+
+header: true
+footer: &#39;&lt;p&gt;Created with &lt;span class=&quot;has-text-danger&quot;&gt;❤️&lt;/span&gt; with &lt;a href=&quot;https://bulma.io/&quot;&gt;bulma&lt;/a&gt;, &lt;a href=&quot;https://vuejs.org/&quot;&gt;vuejs&lt;/a&gt; &amp; &lt;a href=&quot;https://fontawesome.com/&quot;&gt;font awesome&lt;/a&gt; // Fork me on &lt;a href=&quot;https://github.com/bastienwirtz/homer&quot;&gt;&lt;i class=&quot;fab fa-github-alt&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;&#39; # set false if you want to hide it.
+
+# Optional theme customization
+theme: default
+colors:
+  light:
+    highlight-primary: &quot;#3367d6&quot;
+    highlight-secondary: &quot;#4285f4&quot;
+    highlight-hover: &quot;#5a95f5&quot;
+    background: &quot;#f5f5f5&quot;
+    card-background: &quot;#ffffff&quot;
+    text: &quot;#363636&quot;
+    text-header: &quot;#ffffff&quot;
+    text-title: &quot;#303030&quot;
+    text-subtitle: &quot;#424242&quot;
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link: &quot;#3273dc&quot;
+    link-hover: &quot;#363636&quot;
+  dark:
+    highlight-primary: &quot;#3367d6&quot;
+    highlight-secondary: &quot;#4285f4&quot;
+    highlight-hover: &quot;#5a95f5&quot;
+    background: &quot;#131313&quot;
+    card-background: &quot;#2b2b2b&quot;
+    text: &quot;#eaeaea&quot;
+    text-header: &quot;#ffffff&quot;
+    text-title: &quot;#fafafa&quot;
+    text-subtitle: &quot;#f5f5f5&quot;
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link: &quot;#3273dc&quot;
+    link-hover: &quot;#ffdd57&quot;
+
+# Optional navbar
+# links: [] # Allows for navbar (dark mode, layout, and search) without any links
+links:
+  - name: &quot;Contribute&quot;
+    icon: &quot;fab fa-github&quot;
+    url: &quot;https://github.com/bastienwirtz/homer&quot;
+    target: &quot;_blank&quot; # optional html a tag target attribute
+  - name: &quot;Wiki&quot;
+    icon: &quot;fas fa-book&quot;
+    url: &quot;https://www.wikipedia.org/&quot;
+  # this will link to a second homer page that will load config from additional-page.yml and keep default config values as in config.yml file
+  # see url field and assets/additional-page.yml.dist used in this example:
+  #- name: &quot;another page!&quot;
+  #  icon: &quot;fas fa-file-alt&quot;
+  #  url: &quot;#additional-page&quot; 
+
+# Services
+# First level array represent a group.
+# Leave only a &quot;items&quot; key if not using group (group name, icon &amp; tagstyle are optional, section separation will not be displayed).
+services:
+  - name: &quot;Applications&quot;
+    icon: &quot;fas fa-cloud&quot;
+    items:
+      - name: &quot;Jellyfin&quot;
+        logo: &quot;assets/tools/sample2.png&quot;
+        subtitle: &quot;Media Player&quot;
+        tag: &quot;app&quot;
+        url: &quot;http://freesrv.local:8096/&quot;
+        target: &quot;_blank&quot; # optional html a tag target attribute
+      - name: &quot;Radarr&quot;
+        logo: &quot;assets/tools/sample.png&quot;
+        subtitle: &quot;Movies&quot;
+        tag: &quot;app&quot;
+        url: &quot;http://freesrv.local:7878/&quot;
+        target: &quot;_blank&quot; # optional html a tag target attribute
+      - name: &quot;Sonarr&quot;
+        logo: &quot;assets/tools/sample.png&quot;
+        subtitle: &quot;TV&quot;
+        tag: &quot;app&quot;
+        url: &quot;http://freesrv.local:8989/&quot;
+        target: &quot;_blank&quot; # optional html a tag target attribute
+      - name: &quot;Sabnzbd&quot;
+        logo: &quot;assets/tools/sample.png&quot;
+        subtitle: &quot;Usenet&quot;
+        tag: &quot;app&quot;
+        url: &quot;http://freesrv.local:8080/&quot;
+        target: &quot;_blank&quot; # optional html a tag target attribute
+      </code></pre>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

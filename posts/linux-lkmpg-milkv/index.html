@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Following the Linux Kernel Module Programming Guide with RISC-V Milkv Duo embedded board — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Following the Linux Kernel Module Programming Guide with RISC-V Milkv Duo embedded board</h1>
+                <time datetime="2024-01-06">Jan 06, 2024</time>
+                <span class="post-category">embedded-linux</span>
+                <div class="post-tags">
+                    <a href="/tags/embedded-linux/" class="tag-link">embedded-linux</a>
+                    <a href="/tags/linux/" class="tag-link">linux</a>
+                    <a href="/tags/linux-drivers/" class="tag-link">linux drivers</a>
+                    <a href="/tags/milkv-duo/" class="tag-link">milkv-duo</a>
+                </div>
+            </header>
+<p>We saw in <a href="/posts/linux-embedded-howto">this post</a> that <a
+href="https://sysprog21.github.io/lkmpg/">The Linux Kernel Module
+Programming Guide</a> is a great resource when learning Linux Device
+Drivers. It however takes a self-compiled route with the modules
+developed and run directly on the host system. For GPIO examples the
+Raspberry PI is used.</p>
+<p>In this article we shall see how to adopt the guide to learn with the
+<a href="https://milkv.io/duo">Milk-V Duo</a> board. Here we assume you
+use the vanilla Buildroot <a
+href="https://github.com/milkv-duo/milkv-duo-buildroot">repo</a> for
+building the system image.</p>
+<h2 id="adapting-the-makefile">Adapting the Makefile</h2>
+<p>As mentioned above, the modules are selfcompiled to run locally on
+the host system. To make them run on our dev board we need to modify the
+Makefile. The C source file is left untouched.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">CC</span> <span class="ch">=</span><span class="st"> </span><span class="ch">$(</span><span class="dt">CROSS_COMPILE</span><span class="ch">)</span><span class="st">gcc</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">obj-m</span> <span class="ch">:=</span><span class="st"> hello.o</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">KDIR</span> <span class="ch">:=</span><span class="st"> /home/&lt;user&gt;/milkv/milkv-duo-buildroot/output/build/linux-duo-linux-5.10.4</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dv">all:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="er">    </span><span class="ch">$(</span><span class="dt">MAKE</span><span class="ch">)</span> -C <span class="ch">$(</span><span class="dt">KDIR</span><span class="ch">)</span> M=<span class="ch">$(</span><span class="dt">PWD</span><span class="ch">)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="dv">clean:</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="er">    </span><span class="ch">$(</span><span class="dt">MAKE</span><span class="ch">)</span> -C <span class="ch">$(</span><span class="dt">KDIR</span><span class="ch">)</span> M=<span class="ch">$$</span>PWD clean</span></code></pre></div>
+<p>Be sure to adapt the <code>KDIR</code> path to suite your system’s
+location. Also make note to change <code>hello.o</code> to whatever you
+named your C source file.</p>
+<p>Remember to execute the following environment variables before
+running make:</p>
+<pre><code>export PATH=&quot;$PATH:/home/ajit/work/ldd/milkv/milkv-duo-buildroot/output/host/bin&quot;
+
+export ARCH=riscv
+export CROSS_COMPILE=riscv64-linux-</code></pre>
+<h2 id="changing-the-gpio-directives">Changing the GPIO directives</h2>
+<p>In the chapter <a
+href="https://sysprog21.github.io/lkmpg/#detecting-button-presses">#detecting-button-presses</a>,
+they use the Raspberry PI which is based on Cortex-A architecture. Our
+RISC-V board uses different GPIO naming scheme, and we need to adapt
+accordingly…</p>
+<p>TODO</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

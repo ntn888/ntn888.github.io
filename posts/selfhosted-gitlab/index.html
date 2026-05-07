@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gitlab Selfhohsted! — Ajit Ananthadevan</title>
+    <meta name="description" content="Selfhosting your own Gitlab instance on a VPS">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Gitlab Selfhohsted!</h1>
+                <time datetime="2022-11-23">Nov 23, 2022</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/selfhosted/" class="tag-link">selfhosted</a>
+                    <a href="/tags/servers/" class="tag-link">servers</a>
+                    <a href="/tags/open-source/" class="tag-link">open-source</a>
+                </div>
+            </header>
+<p>Carrying on my spree of selfhosted software, I moved to hosting my on
+instance of the free and opensource ==Gitlab==. I think this will be the
+most rewarding selfhosted project given it’s useful nature.</p>
+<p>To peek on my installed instance goto <a
+href="https://gitlab.myjabber.site/ajit">http://gitlab.myjabber.site/</a>.</p>
+<p>The good news is that it only requires a cheap less powerful
+instance. On the flip side we need 2 of those! A dedicated one is
+recommended for the CI/CD runner application, for acceptable
+performance. Or it may hurt the responsiveness.</p>
+<p>And it was a convenient time to hustle a deal on VPS with black
+friday on! As being cost conscious as ever; I headed to <a
+href="https://lowendbox.com/">Lowendbox</a> to snap a deal. At the time
+I checked <em>Racknerd</em> had a 2.5G deal for 23.50usd yearly. And
+then for the Gitlab Runner instance, I opted for the CloudServer’s 1G
+for 10usd/yearly. It takes a lot of time to compile the pipiline on some
+projects but it’d fine for my usecase…</p>
+<p>I initially rushed in for a native binary install on the Debian 11
+machine I setup. Then I reset the VM and went for the docker based
+setup, which is just straightforward. Once this is done, you have to
+download the binary for the runner onto the secondary VM and set it up
+to attach to the main instance. You will find instructions to do this on
+the gitlab’s documention website.</p>
+<p>For those interested here’s a copy of my docker-compose.yml.</p>
+<pre><code>version: &#39;3.6&#39;
+services:
+  web:
+    image: &#39;gitlab/gitlab-ee:latest&#39;
+    restart: always
+    hostname: &#39;gitlab&#39;
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url &#39;https://gitlab.myjabber.site&#39;
+        gitlab_rails[&#39;gitlab_shell_ssh_port&#39;] = 2289
+        # Add any other gitlab.rb configuration here, each on its own line
+        pages_external_url &quot;http://pages.myjabber.site&quot; # not a subdomain of external_url
+        #pages_nginx[&#39;redirect_http_to_https&#39;] = true
+        gitlab_rails[&#39;smtp_enable&#39;] = true
+        gitlab_rails[&#39;smtp_address&#39;] = &quot;smtp.mailgun.org&quot;
+        gitlab_rails[&#39;smtp_port&#39;] = 587
+        gitlab_rails[&#39;smtp_authentication&#39;] = &quot;plain&quot;
+        gitlab_rails[&#39;smtp_enable_starttls_auto&#39;] = true
+        gitlab_rails[&#39;smtp_user_name&#39;] = &quot;&lt;from address&gt;&quot;
+        gitlab_rails[&#39;smtp_password&#39;] = &quot;&lt;password_here&gt;&quot;
+        gitlab_rails[&#39;smtp_domain&#39;] = &quot;&lt;mailgun domain&gt;&quot;
+    ports:
+      - &#39;80:80&#39;
+      - &#39;443:443&#39;
+      - &#39;2289:22&#39;
+    volumes:
+      - &#39;$GITLAB_HOME/config:/etc/gitlab&#39;
+      - &#39;$GITLAB_HOME/logs:/var/log/gitlab&#39;
+      - &#39;$GITLAB_HOME/data:/var/opt/gitlab&#39;
+    shm_size: &#39;256m&#39;</code></pre>
+<p>and the .env file in the same folder:</p>
+<pre><code>GITLAB_HOME=/srv/gitlab</code></pre>
+<p><del>You may have noticed the use of smtp settings. This is used to
+mail the users with notifications. I’ve used Mailgun as my email
+forwarder; which I think is the goto these days. You can send 2000 mails
+in the free tier.</del> The free tier has been stopped! Check <a
+href="https://simplycreate.online/update/2022/12/26/postfix_mail.html">this</a>
+for local email forwarder.</p>
+<p>Note: I had trouble setting up Gitlab Pages to work on my instance,
+this may have been because of SSL certificates improperly installed. But
+I gave-up on this issue and commented out the lines above relating to
+Pages. I suppose it’s not that important on a self hosted instance!?</p>
+<p>Finally don’t forget to setup the firewall!!</p>
+<ul>
+<li>A note on backup: Given the sensitive nature of one’s own code
+repository it is a no brainer to setup backups. You could use the
+Oracle’s free tier compute VPS for this purpose. We will spinup the AMD
+[] instead of the ARM Ampere since we dont need resources for this
+purpose.</li>
+</ul>
+<p>Proceed to install rsync on both machines and follow with the script
+provided <a
+href="https://blog.ssdnodes.com/blog/vps-backups-simple-overthinking/">here</a>.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

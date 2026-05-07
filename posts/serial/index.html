@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial UART — Ajit Ananthadevan</title>
+    <meta name="description" content="Guide on using serial UART of the bl702 MCU SDK">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Serial UART</h1>
+                <time datetime="2022-02-24">Feb 24, 2022</time>
+                <span class="post-category">bl702</span>
+                <div class="post-tags">
+                    <a href="/tags/bl702/" class="tag-link">bl702</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/UART/" class="tag-link">UART</a>
+                </div>
+            </header>
+<p>We will study the UART peripheral here. First the basic polling
+mode.</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;hosal_uart.h&gt;
+#include &lt;FreeRTOS.h&gt;
+#include &lt;task.h&gt;
+
+//hosal_uart_dev_t uart_dev;
+
+HOSAL_UART_DEV_DECL(uart_dev, 0, 16, 7, 2000000);
+
+void main (void)
+{
+   char data[] = &quot;test
+&quot;;
+
+   // uart setup (for info)
+   hosal_uart_init(&amp;uart_dev);
+
+   while (1) {
+      hosal_uart_send(&amp;uart_dev, data, sizeof(data));
+      vTaskDelay(500);
+   }
+}</code></pre>
+<p>We begin by including the relevant header <code>hosal_uart.h</code>.
+The initialisation is done in 2 parts. In line 8, we use the macro to
+configure the settings as desired, including which uart peripheral we
+select in the second argument, here we select the uart0. Next we simply
+call in line 16.</p>
+<h2 id="interrupt-mode">Interrupt Mode</h2>
+<p>&lt; todo &gt;</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

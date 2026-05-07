@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk-V Duo: $5 Embedded Linux board — Ajit Ananthadevan</title>
+    <meta name="description" content="Learning Embedded Linux with the Milk-V Duo board">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Milk-V Duo: $5 Embedded Linux board</h1>
+                <time datetime="2023-12-27">Dec 27, 2023</time>
+                <span class="post-category">embedded-linux</span>
+                <div class="post-tags">
+                    <a href="/tags/embedded-linux/" class="tag-link">embedded-linux</a>
+                    <a href="/tags/linux/" class="tag-link">linux</a>
+                    <a href="/tags/buildroot/" class="tag-link">buildroot</a>
+                </div>
+            </header>
+<p>In my journey of learning Linux Device Drivers, I have since migrated
+to a new target. I’ve switched to the <a
+href="https://milkv.io/duo">Milk-V Duo</a> board. I find that this board
+has a bigger ‘embedded’ focused community than the OrangePI Zero3. The
+<a href="https://community.milkv.io/">forums</a> are fairly active and
+people occasionally showcase their driver development projects; which I
+think are a great learning resource too!</p>
+<p>Additionally the board is far cheaper, costing just 5usd, and is
+breadboard friendly.</p>
+<hr />
+<p>One caveat with buildroot (we need to use a custom <a
+href="https://github.com/milkv-duo/milkv-duo-buildroot">repository</a>)
+and this board is that the device tree dtb is adopted by the kernel from
+the uboot sources! ie. There is no separate dts file in the kernel
+sources. So you must edit the file
+<code>milkv-duo-buildroot/output/build/uboot-v2021.10_64mb/arch/riscv/dts/cv1800b_milkv_duo_sd.dts</code>
+(after an initial build) then run <code>make uboot-rebuild</code> and
+<code>make</code> to include custom device tree modifications. Don’t
+forget to keep a backup of this file somewhere outside buildroot
+directory as you will lose this file upon <code>make clean</code>.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

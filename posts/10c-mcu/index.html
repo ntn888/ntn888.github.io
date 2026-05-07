@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ten Cent Microcontroller Space — Ajit Ananthadevan</title>
+    <meta name="description" content="Roundup of really cheap MCUs">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>The Ten Cent Microcontroller Space</h1>
+                <time datetime="2025-02-07">Feb 07, 2025</time>
+                <span class="post-category">misc</span>
+                <div class="post-tags">
+                    <a href="/tags/low-cost/" class="tag-link">low cost</a>
+                    <a href="/tags/embedded-hobbyist/" class="tag-link">embedded hobbyist</a>
+                    <a href="/tags/microcontrollers/" class="tag-link">microcontrollers</a>
+                </div>
+            </header>
+<p>Here are the contenders as of this writing. - WCH ch32v003 - Puya
+py32f002 - stm32g030 - TI mspm0c1104</p>
+<p>Although, ST’s chip is slightly more costly at 70c. The Puya chip is
+the cheapest at 12c while the WCH one sells for around 20c. These were
+the prices off LCSC supplier.</p>
+<p>There are cheap dev boards for both the ST and WCH chips at
+AliExpress for 5usd for a batch of 5!</p>
+<figure>
+<img src="/img/weact-st.png" alt="st dev board" />
+<figcaption aria-hidden="true">st dev board</figcaption>
+</figure>
+<figure>
+<img src="/img/weact-wch.png" alt="wch dev board" />
+<figcaption aria-hidden="true">wch dev board</figcaption>
+</figure>
+<p>It’s general wisdom that ST’s parts are far more energy efficient (if
+you’re into battery / harvested power projects). While the Puya part
+claims just a quater of it in it’s datasheet on low power mode
+comparison; I doubt it’ll hold true in practice.</p>
+<p>Ofcourse ST has the head up on the dev environment experience.. given
+it’s maturity. So the real comparison is between the other two. I found
+that Puya’s ecosystem (and the English manuals) was far ahead of WCH.
+This was surprising to me given how much more popular other chip is.</p>
+<p>So given the edge in price and the developer experience, I sought to
+try out the Puya SDK. That’s when I found out that there is a major bug
+in its parts that the reset vector map has to be located in the RAM. No
+wonder the RAM usage was high (as much as 40%!). Which is
+self-defeating..</p>
+<p>Finally I resorted to the ST chip. Yeah, it’s relatively more
+expensive but I emphasise the user experience. Since I’m not that well
+versed in the register level programming (been spoilt with HAL usage) it
+will suit me to move quicker and learn fast.</p>
+<p>I think low level (without HALs) programming suits these constrained
+chips more.</p>
+<p>Notable mention is the TI’s MSPM0C1104 coming in at around 20c is
+renowned as the world’s smallest microcontroller.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

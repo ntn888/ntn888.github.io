@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCH CH592 Begin — Ajit Ananthadevan</title>
+    <meta name="description" content="Overview of the WCH CH592 chip tutorial series">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>WCH CH592 Begin</h1>
+                <time datetime="2025-07-30">Jul 30, 2025</time>
+                <span class="post-category">ch592</span>
+                <div class="post-tags">
+                    <a href="/tags/ch592/" class="tag-link">ch592</a>
+                    <a href="/tags/ble/" class="tag-link">ble</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                </div>
+            </header>
+<p>In this series of articles we’ll see the various aspects of
+programming the WCH CH592 mcu, including its HAL. I think it’s got great
+balance of feature-to-cost, and equipped with ble5.4 radio, is excellent
+for IoT projects! At the time of this writing it can be had for under
+50c at bulk.</p>
+<p>Add to this WCH provides as part of the SDK, a lightwight custom
+networking stack on top of the 2.4GHz RF, which can be used in place of
+ble, if preferred. We’ll take a look at it later.</p>
+<p>I find the SDK relatively straightforward and a streamlined
+experience. It is well documented and in places where it’s commented in
+Chinese, I just use the translator plugin in my web browser when needed
+(see following article on a script to batch translate the source files
+locally). The SDK is provided in <a
+href="https://github.com/openwch/ch592">Github</a>. Look for the folder
+named <code>EVT</code>. The datasheet is included.</p>
+<p>One minor annoyance with this chip series is the use of a custom
+scheduler RTOS (called TMOS) used with the RF stack. And it’s
+recommended by the vendor to use this and not freeRTOS when enabling RF
+in your project. Fortunately an English translated document is available
+for this scheduler. You can of-course use freeRTOS when not utilising
+RF, which is also provided in the SDK.</p>
+<h2 id="studying-the-sdk">Studying the SDK</h2>
+<p>The technical reference manual (TRM) document is grouped into the
+chip’s datasheet and not provided separately like for the WCH CH32
+series. I approached learning the SDK/HAL by going through the overview
+of the relevant chapter that I’m interested in and subsequently browsing
+through the peripheral’s header file and matching <code>.c</code> file
+(if provided) in the <code>EVT/EXAM/SRC/</code> directory. It does
+involve a bit of guesswork going through the available functions and
+seeing if they match up with the requirements of the peripheral’s
+documentation in the datasheet.</p>
+<p>For peripherals that are not discussed in this blog, use this
+strategy. At any rate, study the first 6 chapters (excluding ch.3
+Interrupts). Allowing you to understand the general concepts of the
+chip:</p>
+<ul>
+<li>Pinout</li>
+<li>System and memory layout</li>
+<li>System Control and Power states</li>
+<li>System clock</li>
+</ul>
+<p>Also look at the section <code>7.3.1 Alternate Functions</code>
+containing table suggestions for GPIO configurations when used for
+peripheral modules. Followed by a handy table of Alternate Function
+remapping indicating the Default and Remapped pins. Remapping is covered
+in future article.</p>
+<p>The SDK project files are setup to use with a custom IDE, Mournriver
+Studio. We’ll of-course use plain Makefiles in our study. Given the
+simple structure of the SDK, it’s easy to adopt. <a
+href="https://code.simplycreate.online/ajit/ch592-projects">My
+repo</a>.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

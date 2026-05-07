@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup a development environment — Ajit Ananthadevan</title>
+    <meta name="description" content="Guide to setup dev environment for bl702 MCU development">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Setup a development environment</h1>
+                <time datetime="2022-02-22">Feb 22, 2022</time>
+                <span class="post-category">bl702</span>
+                <div class="post-tags">
+                    <a href="/tags/bl702/" class="tag-link">bl702</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/environment/" class="tag-link">environment</a>
+                </div>
+            </header>
+<p>In this guide we will be setting a development environment for the
+bl602 development. Neovim is used here but you may choose to your
+liking. The important requirement is to setup code completion in your
+editor that’ll give ide like features. I find that this is actually
+useful in the initial phases to aid learning the new framework.</p>
+<p>To do this, we are going to setup lsp on neovim. Lsp is native to
+neovim and only requires some config settings! But you dont have to do
+this yourself, there’s a <a
+href="https://github.com/nvim-lua/kickstart.nvim">github repository</a>
+with preset config file you can just copy. It also helps to configure
+sane defaults to other settings.</p>
+<p>First install neovim. Then you need a language server, kickstarter
+uses clangd. Install this via your package manager. In ubuntu:</p>
+<pre><code>sudo apt install clangd</code></pre>
+<p>Finally copy the kickstarter config. That’s it for installation. You
+may scout around kickstarter to personalise your neovim setup
+further.</p>
+<p>You also need to install a small app called bear. Then in your
+project directory run:</p>
+<pre><code>make clean
+bear -- make</code></pre>
+<p>This spits out a file called <code>compile_commands.json</code> in
+your project root. Now you will have super ide like features in Neovim
+that make programming much more pleasurable!</p>
+<blockquote>
+<p>clangd would throw out an error:
+<code>unknown argument: '-fstrict-volatile-bitfields'</code>; to avoid
+this you can do so by instructing clangd to remove that flag from the
+compile command. To do this create a file
+<code>~/.config/clangd/config.yaml</code> with the following
+contents:</p>
+<pre><code>CompileFlags:
+ Remove: [-fstrict-volatile-bitfields]</code></pre>
+</blockquote>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

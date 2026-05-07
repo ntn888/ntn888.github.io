@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH592 GPIO — Ajit Ananthadevan</title>
+    <meta name="description" content="WCH CH592 chip GPIO tutorial">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>CH592 GPIO</h1>
+                <time datetime="2025-07-31">Jul 31, 2025</time>
+                <span class="post-category">ch592</span>
+                <div class="post-tags">
+                    <a href="/tags/ch592/" class="tag-link">ch592</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                </div>
+            </header>
+<p>We have seen the blinky project previously. In this note we will
+study the <code>main.c</code> and HAL functions of the SDK pertinent to
+GPIO module.</p>
+<p>Here’s the blinky <code>main.c</code> again:</p>
+<pre><code>
+#include &quot;CH59x_common.h&quot;
+
+void board_led_init(void)
+{
+    GPIOA_SetBits(GPIO_Pin_8);
+    GPIOA_ModeCfg(GPIO_Pin_8, GPIO_ModeOut_PP_5mA);
+}
+
+void board_led_toggle(void)
+{
+    GPIOA_InverseBits(GPIO_Pin_8);
+}
+
+void board_led_set(uint8_t set)
+{
+    if (set)
+        GPIOA_ResetBits(GPIO_Pin_8);
+    else
+        GPIOA_SetBits(GPIO_Pin_8);
+}
+
+int main()
+{
+    uint8_t s;
+    SetSysClock(CLK_SOURCE_PLL_60MHz);
+
+    board_led_init();
+
+    while(1)
+    {
+      mDelaymS(100);
+      board_led_toggle(); 
+      mDelaymS(100);
+    }
+}
+</code></pre>
+<h2 id="clock-setup">Clock setup</h2>
+<p>Note that these chips use only a fixed external crystal of 32MHz for
+operation!</p>
+<p>The HAL files are located in <code>vendor/StdPeriphDriver</code>.
+Headers are in the <code>inc</code> subdirectory.</p>
+<p>As you can see the clock is set for 60MHz operation. In the
+<code>CH59x_common.h</code> file it is defined:</p>
+<pre><code>#ifndef  FREQ_SYS
+#define  FREQ_SYS       60000000
+#endif</code></pre>
+<p>So if we are going to configure other than 60Mhz system clock, we
+need to specifiy in <code>main.c</code> before including
+<code>CH59x_common.h</code>:</p>
+<pre><code>#define  FREQ_SYS       80000000    // 80MHz
+#include &quot;CH59x_common.h&quot;</code></pre>
+<p>We will use the default 60Mhz, so we wont explicitly define in our
+file.</p>
+<p>We then need to configure the clock in the main function:</p>
+<pre><code>SetSysClock(CLK_SOURCE_PLL_60MHz);</code></pre>
+<h2 id="delays">Delays</h2>
+<p>We can use the delay function also defined in
+<code>CH59x_sys.h</code>, for micro and milli seconds respectively.</p>
+<pre><code>void mDelayuS(uint16_t t);
+void mDelaymS(uint16_t t);</code></pre>
+<h2 id="gpio">GPIO</h2>
+<p>The ch592F chip has 20 GPIOs:</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Pins</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10* PA</td>
+<td>4,5,8-11,12-15</td>
+</tr>
+<tr>
+<td>10* PB</td>
+<td>4,7,10-15,22,23</td>
+</tr>
+</tbody>
+</table>
+<h3 id="note-on-alternate-functions">Note on Alternate Functions</h3>
+<p>To use the pins as I/O for respective peripherals, the Alternate
+Functions system is used. After reset, all I/O are GPIO by default.</p>
+<p>To set the relevant pin as I/O for required peripheral module, set
+the pin mode as shown in <code>section 7.3.1</code> in the datasheet.
+This table shows the suggested mode required for the module. To see the
+designated pin for each module, see table <code>7-7</code>. When the
+module (peripheral) is configured, it will automatically enable the
+Alternate Function on the attached pin.</p>
+<p>Each module also has a secondary pin designated, known as Remap,
+which is also shown in the table. To activate the remap use the function
+as defined in the gpio header,</p>
+<pre><code>void GPIOPinRemap(FunctionalState s, uint16_t perph);</code></pre>
+<h3 id="mode-config">Mode Config</h3>
+<p>See the gpio header for various gpio configuration and setting the
+output..</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

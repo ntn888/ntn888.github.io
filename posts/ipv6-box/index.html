@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploying an IPv6 based seedbox — Ajit Ananthadevan</title>
+    <meta name="description" content="IPv6 based seedbox experiment">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Deploying an IPv6 based seedbox</h1>
+                <time datetime="2023-09-16">Sep 16, 2023</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/VPS/" class="tag-link">VPS</a>
+                    <a href="/tags/IPv6/" class="tag-link">IPv6</a>
+                    <a href="/tags/server/" class="tag-link">server</a>
+                </div>
+            </header>
+<p>With VPS that run purely IPv6 stack being cheaper (for example <a
+href="https://my.hostbrr.com/order/main/index/storage">HostBRR
+offerings</a>); I’m doing a write-up on how to setup a seedbox running
+IPv6.</p>
+<blockquote>
+<p>Please keep in mind, you need to have IPv6 connectivity on your home
+computer/internet to access your services on the VPS. To check if you do
+head over to <a href="https://ip6.biz/">https://ip6.biz/</a>.</p>
+</blockquote>
+<p>Install docker and docker compose on your machine first. Once this is
+done we can then setup our services.</p>
+<p>Due to some of the docker image registry sources operating in ipv4
+environment, they will be unreachable from our ip6 only box! We have to
+manually provision a method to make the interconnection work. This is
+only temporary though, only till we pull our images. After that we will
+revert to ip6 only operation.</p>
+<h2 id="change-nameservers">Change Nameservers</h2>
+<p>To achieve this translation, we will need to adjust our nameservers
+as follows (courtesy <a
+href="https://nat64.net/">https://nat64.net/</a>).</p>
+<pre><code>nameserver 2a01:4f9:c010:3f02::1
+nameserver 2a00:1098:2c::1
+nameserver 2a00:1098:2b::1</code></pre>
+<p>Although this is not as straight forward as it seems. The file
+<code>/etc/resolv.conf</code> cannot be edited by hand as it will be
+update to any network changes. Attempting to use the package
+<code>resolvconf</code> deemed fruitless for me. So I resorted to the
+<em>trick</em> method of editing this file:</p>
+<pre><code>sudo apt install e2fsprogs -y # install needed package
+cd ~
+cp /etc/resolv.conf . # Make a backup of the original file
+sudo rm -f /etc/resolv.conf
+sudo vim /etc/resolv.conf # insert the above file contents as nameservers
+sudo chattr +i /etc/resolv.conf
+sudo systemctl restart networking</code></pre>
+<p>Now setup your services as needed. Docker can access and pull from
+any generic registries.</p>
+<p>Once the docker pulls are done:</p>
+<pre><code>sudo chattr -i /etc/resolv.conf
+sudo cp ~/resolv.conf /etc/resolv.conf
+sudo systemctl restart networking</code></pre>
+<p>Now our box is back to IPv6 only state.</p>
+<blockquote>
+<p>One downside with this system is that you can’t implement auto update
+of docker images using watchtower. Since once again some of the docker
+registeries are inaccessible.</p>
+</blockquote>
+<h2 id="enable-ipv6-in-docker">Enable IPv6 in Docker</h2>
+<p>One last concern is that you need to enable IPv6 networking in docker
+so that the containers can reach the outside world. This is explained in
+<a href="https://docs.docker.com/config/daemon/ipv6/">Enable IPv6
+support</a>. Basically you have to edit the file
+<code>/etc/docker/daemon.json</code>.</p>
+<p>Once that’s done you need to create a new IPv6 network and use that
+with your containers. Here’s a sample compose file to run the
+qBittorrent image:</p>
+<pre><code>version: &quot;3&quot;
+services:
+  qbittorrent:
+    image: ghcr.io/hotio/qbittorrent
+    container_name: qbittorrent
+    networks:
+      - ip6net      # &lt;---- add the container to the network
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+    volumes:
+      - /home/ajit/.config/appdata/qbtorrent:/config
+      - /home/ajit/downloads:/downloads
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+
+networks:
+  ip6net:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:0DB8::/112
+</code></pre>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

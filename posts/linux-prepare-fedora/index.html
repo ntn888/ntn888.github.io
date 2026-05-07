@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepare Fedora Linux for Buildroot compilation — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Prepare Fedora Linux for Buildroot compilation</h1>
+                <time datetime="2024-01-10">Jan 10, 2024</time>
+                <span class="post-category">embedded-linux</span>
+                <div class="post-tags">
+                    <a href="/tags/embedded-linux/" class="tag-link">embedded-linux</a>
+                    <a href="/tags/linux/" class="tag-link">linux</a>
+                    <a href="/tags/buildroot/" class="tag-link">buildroot</a>
+                    <a href="/tags/milkv-duo/" class="tag-link">milkv-duo</a>
+                </div>
+            </header>
+<p>Here’s a quick note on how to prepare Fedora for compiling Buildroot.
+The following worked for me for compiling a system for the <a
+href="/posts/linux-milkv-duo">Milk-V Duo</a>.</p>
+<p>First install Fedora’s equivalent of <code>build-essential</code> and
+ncurses (for menuconfig).</p>
+<pre><code>sudo dnf group install &quot;C Development Tools and Libraries&quot; &quot;Development Tools&quot;
+
+sudo dnf install ncurses-devel</code></pre>
+<p>If when running <code>make</code> compilation results in missing Perl
+modules, install them via:</p>
+<pre><code>sudo dnf install &#39;perl(My::Module)&#39;</code></pre>
+<p>Fortunately these missing Perl modules error appear at the very
+beginning of the compilation and causes the least hassle!</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

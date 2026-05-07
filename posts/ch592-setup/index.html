@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH592 Setup — Ajit Ananthadevan</title>
+    <meta name="description" content="WCH CH592 chip tutorial series development environment setup">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>CH592 Setup</h1>
+                <time datetime="2025-07-30">Jul 30, 2025</time>
+                <span class="post-category">ch592</span>
+                <div class="post-tags">
+                    <a href="/tags/ch592/" class="tag-link">ch592</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                </div>
+            </header>
+<h2 id="hardware-setup">Hardware Setup</h2>
+<p>We’ll use the WeActStudio CH592F board. To flash the chip, use
+WCH-LinkE debugger probe, available on Aliexpress. Note that you need
+the <strong>E</strong> variant, for our purpose the old ch549 based one
+is inadequate. Or you could do away with a probe altogether and use icsp
+method, as the chip comes with a USB bootloader. See <a
+href="https://github.com/ch32-rs/wchisp">wchisp</a>.</p>
+<h3 id="fix-permissions">Fix permissions</h3>
+<p>On Linux, to access the debugger without sudo access you need the
+following files.</p>
+<p><code>/etc/udev/rules.d/50-wchlink.rules</code>:</p>
+<pre><code># 1a86:8010 WCH Link
+SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;1a86&quot;, ATTR{idProduct}==&quot;8010&quot;, OWNER=&quot;username&quot;</code></pre>
+<p><code>/etc/udev/rules.d/50-usb-serial.rules</code>:</p>
+<pre><code>SUBSYSTEM==&quot;tty&quot;, SUBSYSTEMS==&quot;usb&quot;, OWNER=&quot;username&quot;</code></pre>
+<p>Note to replace <code>username</code>. You may have to use relevant
+<code>idVendor</code> and <code>idProduct</code> if you’re using a
+different hardware version. Run <code>dmesg</code> to find out.</p>
+<h3 id="attach-the-probe">Attach the probe</h3>
+<p>You need four wires to hook the mcu to the probe.</p>
+<p>TCK - PB15</p>
+<p>TIO - PB14</p>
+<p>And 3V3, GND, power lines.</p>
+<figure>
+<img src="/img/ch582-wchlink1.jpg" alt="debugger-attached" />
+<figcaption aria-hidden="true">debugger-attached</figcaption>
+</figure>
+<blockquote>
+<p>Before using a probe, the icsp must be enabled on the target chip! As
+the factory setting is to disable by default.</p>
+<p>To enable debug use <a
+href="https://github.com/ch32-rs/wchisp">wchisp</a>. Connect the board
+direct via USB and <code>wchisp config reset</code>.</p>
+</blockquote>
+<p>Use <a href="https://github.com/ch32-rs/wlink">wlink</a> to program.
+Run <code>wlink status</code> and it should detect the chip.</p>
+<h2 id="install-the-toolchain">Install the toolchain</h2>
+<p>Download <a href="https://mounriver.com/download">MRS Toolchain</a>.
+Then extract it. You can do this by (current version <code>V210</code>
+as of this writing, otherwise change it):</p>
+<pre><code># cd to downloaded directory
+mkdir -p $HOME/.local/opt
+tar xvf MRS_Toolchain_Linux_x64_V210.tar.xz -C $HOME/.local/opt</code></pre>
+<p>Next, add these programs to your <code>$PATH</code>. For
+<code>bash</code> users, this can typically be accomplished by:</p>
+<pre><code>echo &#39;export PATH=&quot;$HOME/.local/opt/RISC-V Embedded GCC12/bin/:$HOME/.local/opt/OpenOCD/OpenOCD/bin/:$PATH&quot;&#39; &gt;&gt; $HOME/.bashrc</code></pre>
+<p>The following Makefiles assume you have this installed.</p>
+<p>Also make sure you have <code>make</code> and <code>git</code>
+installed on your system.</p>
+<h2 id="setting-up-our-makefile-sdk">Setting up our Makefile SDK</h2>
+<p>The SDK is provided in <a
+href="https://github.com/openwch/ch592">Github</a>. The vendor’s library
+is located in <code>EVT/EXAM/SRC/</code> directory. Create a workspace
+directory for our projects and put the contents into a dir named
+<code>vendor</code>. The workspace directory should look like this.</p>
+<pre><code>.
+├── myapps
+│   └── blinky
+│       ├── Makefile
+│       └── src
+│           └── main.c
+└── vendor
+    ├── Ld
+    │   └── Link.ld
+    ├── RVMSIS
+    │   ├── core_riscv.c
+    │   └── core_riscv.h
+    ├── Startup
+    │   └── startup_CH592.S
+    └── StdPeriphDriver
+        ├── CH59x_adc.c
+        ├── CH59x_clk.c
+        ├── CH59x_flash.c
+        ├── CH59x_gpio.c
+        ├── CH59x_i2c.c
+        ├── CH59x_lcd.c
+        ├── CH59x_pwm.c
+        ├── CH59x_pwr.c
+        ├── CH59x_spi0.c
+        ├── CH59x_sys.c
+        ├── CH59x_timer0.c
+        ├── CH59x_timer1.c
+        ├── CH59x_timer2.c
+        ├── CH59x_timer3.c
+        ├── CH59x_uart0.c
+        ├── CH59x_uart1.c
+        ├── CH59x_uart2.c
+        ├── CH59x_uart3.c
+        ├── CH59x_usbdev.c
+        ├── CH59x_usbhostBase.c
+        ├── CH59x_usbhostClass.c
+        ├── inc
+        │   ├── CH592SFR.h
+        │   ├── CH59x_adc.h
+        │   ├── CH59x_clk.h
+        │   ├── CH59x_common.h
+        │   ├── CH59x_flash.h
+        │   ├── CH59x_gpio.h
+        │   ├── CH59x_i2c.h
+        │   ├── CH59x_lcd.h
+        │   ├── CH59x_pwm.h
+        │   ├── CH59x_pwr.h
+        │   ├── CH59x_spi.h
+        │   ├── CH59x_sys.h
+        │   ├── CH59x_timer.h
+        │   ├── CH59x_uart.h
+        │   ├── CH59x_usbdev.h
+        │   ├── CH59x_usbhost.h
+        │   └── ISP592.h
+        └── libISP592.a
+</code></pre>
+<blockquote>
+<p>As you may have noticed, most files in the vendor library come with
+Chinese comments! I generated a python script available <a
+href="https://code.simplycreate.online/ajit/ch592-projects/src/branch/main/translate-comments.py">here</a>
+that recursively converts source file comments to English. After copying
+the script to the workspace directory run it with
+<code>python3 ./translate-comments.py ./vendor</code>. Note you would
+need to install the <code>deep-translator</code> python module via
+pypi.</p>
+</blockquote>
+<p>The contents of the <code>Makefile</code> and <code>main.c</code> are
+as follows. (We’ll study them in the following article)</p>
+<p><code>main.c</code>:</p>
+<pre><code>
+#include &quot;CH59x_common.h&quot;
+
+void board_led_init(void)
+{
+    GPIOA_SetBits(GPIO_Pin_8);
+    GPIOA_ModeCfg(GPIO_Pin_8, GPIO_ModeOut_PP_5mA);
+}
+
+void board_led_toggle(void)
+{
+    GPIOA_InverseBits(GPIO_Pin_8);
+}
+
+void board_led_set(uint8_t set)
+{
+    if (set)
+        GPIOA_ResetBits(GPIO_Pin_8);
+    else
+        GPIOA_SetBits(GPIO_Pin_8);
+}
+
+int main()
+{
+    uint8_t s;
+    SetSysClock(CLK_SOURCE_PLL_60MHz);
+
+    board_led_init();
+
+    while(1)
+    {
+      mDelaymS(100);
+      board_led_toggle(); 
+      mDelaymS(100);
+    }
+}
+</code></pre>
+<p><code>Makefile</code>:</p>
+<pre><code>######################################
+# target
+######################################
+TARGET = ch592_blinky
+# ../../
+
+
+######################################
+# building variables
+######################################
+# debug build?
+DEBUG = 1
+# optimization for size
+OPT = -Os
+
+
+#######################################
+# paths
+#######################################
+# Build path
+BUILD_DIR = build
+
+######################################
+# source
+######################################
+# C sources
+C_SOURCES = \
+src/main.c \
+../../vendor/StdPeriphDriver/CH59x_clk.c \
+../../vendor/StdPeriphDriver/CH59x_gpio.c \
+../../vendor/StdPeriphDriver/CH59x_pwr.c \
+../../vendor/StdPeriphDriver/CH59x_sys.c \
+../../vendor/RVMSIS/core_riscv.c \
+
+
+# ASM sources
+ASM_SOURCES =  \
+../../vendor/Startup/startup_CH592.S
+
+#######################################
+# binaries
+#######################################
+#PREFIX = riscv-none-elf-
+#PREFIX = riscv64-elf-
+#debian
+#PREFIX = riscv64-unknown-elf-
+PREFIX = riscv-wch-elf-
+
+CC = $(PREFIX)gcc
+AS = $(PREFIX)gcc -x assembler-with-cpp
+CP = $(PREFIX)objcopy
+SZ = $(PREFIX)size
+
+HEX = $(CP) -O ihex
+BIN = $(CP) -O binary -S
+
+#######################################
+# CFLAGS
+#######################################
+# cpu
+CPU = -march=rv32imac_zicsr -mabi=ilp32 -msmall-data-limit=8 
+
+# For gcc version less than v12
+# CPU = -march=rv32imac -mabi=ilp32 -msmall-data-limit=8
+
+# fpu
+FPU = 
+
+# float-abi
+FLOAT-ABI =
+
+# mcu
+MCU = $(CPU) $(FPU) $(FLOAT-ABI)
+
+# AS includes
+AS_INCLUDES = 
+
+# C includes
+C_INCLUDES =  \
+-I../../vendor/StdPeriphDriver/inc \
+-I../../vendor/RVMSIS \
+-I../../vendor/Core \
+-Isrc/include
+
+# compile gcc flags
+ASFLAGS = $(MCU) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+
+CFLAGS = $(MCU) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+
+ifeq ($(DEBUG), 1)
+CFLAGS += -g -gdwarf-2
+endif
+
+
+# Generate dependency information
+CFLAGS += -MMD -MP -MF&quot;$(@:%.o=%.d)&quot;
+
+
+#######################################
+# LDFLAGS
+#######################################
+# link script
+LDSCRIPT = ../../vendor/Ld/Link.ld 
+
+# libraries
+LIBS = -lc -lm -lnosys ../../vendor/StdPeriphDriver/libISP592.a
+LIBDIR = 
+LDFLAGS = $(MCU) -mno-save-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized -T $(LDSCRIPT) -nostartfiles -Xlinker --gc-sections -Wl,-Map=$(BUILD_DIR)/$(TARGET).map --specs=nano.specs $(LIBS)
+
+# default action: build all
+all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+
+
+#######################################
+# build the application
+#######################################
+# list of objects
+OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+vpath %.c $(sort $(dir $(C_SOURCES)))
+
+# list of ASM program objects
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.S=.o)))
+vpath %.S $(sort $(dir $(ASM_SOURCES)))
+
+$(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
+    $(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(&lt;:.c=.lst)) $&lt; -o $@
+
+$(BUILD_DIR)/%.o: %.S Makefile | $(BUILD_DIR)
+    $(AS) -c $(CFLAGS) $&lt; -o $@
+#$(LUAOBJECTS) $(OBJECTS)
+$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
+    $(CC) $(OBJECTS) $(LDFLAGS) -o $@
+    $(SZ) $@
+
+$(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+    $(HEX) $&lt; $@
+    
+$(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+    $(BIN) $&lt; $@    
+    
+$(BUILD_DIR):
+    mkdir $@        
+
+#######################################
+# Program
+#######################################
+
+isp: $(BUILD_DIR)/$(TARGET).bin
+    wchisp flash $(BUILD_DIR)/$(TARGET).bin
+
+flash: $(BUILD_DIR)/$(TARGET).bin
+    wlink flash $(BUILD_DIR)/$(TARGET).bin
+
+#######################################
+# clean up
+#######################################
+clean:
+    -rm -fR $(BUILD_DIR)
+  
+#######################################
+# dependencies
+#######################################
+-include $(wildcard $(BUILD_DIR)/*.d)
+
+# *** EOF ***</code></pre>
+<h2 id="building-our-first-example">Building our first example</h2>
+<p>The example project we created is a blinky example. Run
+<code>make</code> to build. Assuming you have the toolchain correctly
+installed it should succeed. Now run</p>
+<pre><code>wlink flash build/ch592_blinky.bin</code></pre>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

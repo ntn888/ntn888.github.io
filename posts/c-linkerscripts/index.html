@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C linker scripts howto — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>C linker scripts howto</h1>
+                <time datetime="2022-11-16">Nov 16, 2022</time>
+                <span class="post-category">asm</span>
+                <div class="post-tags">
+                    <a href="/tags/assembly/" class="tag-link">assembly</a>
+                    <a href="/tags/risc-v/" class="tag-link">risc-v</a>
+                </div>
+            </header>
+<p>In this article series we will look at dealing and understanding
+linker script writing. Targetting the RISC-V RV32 core. We begin with
+looking at programming assembly, as this will help understand the
+innards of the microcontroller.</p>
+<!-- more -->
+<p>The RISC-V chip was intended and intentionally designed as a
+heuristic use case, coming in from academic origins has now found
+popularity among the commercial setting. As such it is ideal
+microcontroller for tackling to understand the assembly environment, and
+given it’s rising populatity among the other giants in the field
+especially ARM cortex; has practical value.</p>
+<p>You may ofcourse run a simulation by installing the toolchain and
+qemu along with gdb; which then enables the ability to run in step and
+inspect the memory state. However for a total beginner an all inclusive
+ready-built package is more useful. <a
+href="https://github.com/mortbopet/Ripes">Ripes</a> is such a package.
+It comes as an appimage so just download and execute from the terminal
+to fire it up!</p>
+<p>One major advantage of Ripes is that it contains simulation of
+external peripherals such as LED matrix and switches. Which makes it
+more engaging for the new-commer.</p>
+<p><a href="/img/ripes_animation.gif">Ripes in action</a></p>
+<p>Stay tuned..</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpertually AI auto blogging from RSS news feed: My experience with NO-CODE tools — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Perpertually AI auto blogging from RSS news feed: My experience with NO-CODE tools</h1>
+                <time datetime="2024-10-05">Oct 05, 2024</time>
+                <span class="post-category">webdev</span>
+                <div class="post-tags">
+                    <a href="/tags/no-code/" class="tag-link">no-code</a>
+                    <a href="/tags/workflow/" class="tag-link">workflow</a>
+                    <a href="/tags/AI-blogging-howto/" class="tag-link">AI blogging howto</a>
+                </div>
+            </header>
+<p>Enter <a href="https://n8n.io/">n8n</a>, an up-and-comming
+alternative to Make.com; that helps create a drag-and-drop workflow for
+building web pipilines without coding. The distinguishing of n8n is that
+it is self-hostable without any license and is released as
+opensource.</p>
+<p>With the ever shrinking AI costs, and with AI agents being all the
+rage on Youtube tutorials, I felt an itch to try them out…
+naturally.</p>
+<p>Most of these tutorials featured web workflows with Make.com. I
+tilted towards the selfhosted n8n… again, naturally. These workflows can
+be linked to OpenAI API to build agents in the workflow. And the utility
+of the combination is mindblowing!! Especially ease of use, for the
+layman!</p>
+<p>And so I set out to implement fully automated blogging from news
+source - without any human intervention. I chose to use the GPT 4o-mini
+model as it’s the most cost effective. One article costs under 5c to
+generate.</p>
+<p>In creating the workflow I had one initial major hurdle - enabling
+the AI agent to access the news source web page. I got onto the n8n
+community forum, and boy! I recieved a prompt response from the staff
+with a specific implementation example for my usecase!</p>
+<p>The final workflow looks like this:</p>
+<figure>
+<img src="/img/n8n-autoblogging-workflow.png"
+alt="n8n Workflow screen" />
+<figcaption aria-hidden="true">n8n Workflow screen</figcaption>
+</figure>
+<pre><code>{
+  &quot;meta&quot;: {
+    &quot;instanceId&quot;: &quot;3ff62b04b44d3432aa968154a94112c96c611f8f64771b1525f31b170fd94df5&quot;
+  },
+  &quot;nodes&quot;: [
+    {
+      &quot;parameters&quot;: {
+        &quot;model&quot;: &quot;gpt-4o-mini&quot;,
+        &quot;options&quot;: {
+          &quot;maxTokens&quot;: 1000
+        }
+      },
+      &quot;id&quot;: &quot;043f35ee-3851-49ae-94e5-15f4c03d5672&quot;,
+      &quot;name&quot;: &quot;OpenAI Chat Model&quot;,
+      &quot;type&quot;: &quot;@n8n/n8n-nodes-langchain.lmChatOpenAi&quot;,
+      &quot;typeVersion&quot;: 1,
+      &quot;position&quot;: [
+        1100,
+        660
+      ],
+      &quot;credentials&quot;: {
+        &quot;openAiApi&quot;: {
+          &quot;id&quot;: &quot;HwtpRSRN6gaCQp8N&quot;,
+          &quot;name&quot;: &quot;OpenAi account&quot;
+        }
+      }
+    },
+    {
+      &quot;parameters&quot;: {},
+      &quot;id&quot;: &quot;56356c70-c111-4e86-b612-00ed5f6618c7&quot;,
+      &quot;name&quot;: &quot;Limit&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.limit&quot;,
+      &quot;typeVersion&quot;: 1,
+      &quot;position&quot;: [
+        660,
+        260
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;model&quot;: &quot;gpt-4o-mini&quot;,
+        &quot;options&quot;: {
+          &quot;maxTokens&quot;: 1000
+        }
+      },
+      &quot;id&quot;: &quot;b1f8a92e-ceb5-4742-af7d-ebc4f23e01c7&quot;,
+      &quot;name&quot;: &quot;OpenAI Chat Model1&quot;,
+      &quot;type&quot;: &quot;@n8n/n8n-nodes-langchain.lmChatOpenAi&quot;,
+      &quot;typeVersion&quot;: 1,
+      &quot;position&quot;: [
+        1440,
+        680
+      ],
+      &quot;credentials&quot;: {
+        &quot;openAiApi&quot;: {
+          &quot;id&quot;: &quot;HwtpRSRN6gaCQp8N&quot;,
+          &quot;name&quot;: &quot;OpenAi account&quot;
+        }
+      }
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;url&quot;: &quot;={{ $json.link }}&quot;,
+        &quot;sendQuery&quot;: true,
+        &quot;queryParameters&quot;: {
+          &quot;parameters&quot;: [
+            {
+              &quot;name&quot;: &quot;headers&quot;,
+              &quot;value&quot;: &quot;&#39;User-Agent&#39;: &#39;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36&#39;&quot;
+            },
+            {
+              &quot;name&quot;: &quot;cookies&quot;,
+              &quot;value&quot;: &quot;&#39;CONSENT&#39;: &#39;YES+cb.20220419-08-p0.cs+FX+111&#39;&quot;
+            }
+          ]
+        },
+        &quot;options&quot;: {
+          &quot;redirect&quot;: {
+            &quot;redirect&quot;: {}
+          }
+        }
+      },
+      &quot;id&quot;: &quot;c6186aa5-b187-4b29-8188-2106fb7c610e&quot;,
+      &quot;name&quot;: &quot;HTTP Request&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.httpRequest&quot;,
+      &quot;typeVersion&quot;: 4.2,
+      &quot;position&quot;: [
+        880,
+        260
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;operation&quot;: &quot;extractHtmlContent&quot;,
+        &quot;extractionValues&quot;: {
+          &quot;values&quot;: [
+            {
+              &quot;key&quot;: &quot;body&quot;,
+              &quot;cssSelector&quot;: &quot;#article-body&quot;
+            }
+          ]
+        },
+        &quot;options&quot;: {
+          &quot;cleanUpText&quot;: true
+        }
+      },
+      &quot;id&quot;: &quot;77f14452-56ff-495d-9de2-c1da18c0fd36&quot;,
+      &quot;name&quot;: &quot;HTML&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.html&quot;,
+      &quot;typeVersion&quot;: 1.2,
+      &quot;position&quot;: [
+        1100,
+        260
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;operation&quot;: &quot;toText&quot;,
+        &quot;sourceProperty&quot;: &quot;result&quot;,
+        &quot;options&quot;: {
+          &quot;fileName&quot;: &quot;={{ $(&#39;Generate URL SLUG&#39;).item.json.text }}.md&quot;
+        }
+      },
+      &quot;id&quot;: &quot;d4266fdc-6a6e-4786-adfc-a3971a8a6ecb&quot;,
+      &quot;name&quot;: &quot;Convert to File&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.convertToFile&quot;,
+      &quot;typeVersion&quot;: 1.1,
+      &quot;position&quot;: [
+        2720,
+        460
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;mode&quot;: &quot;raw&quot;,
+        &quot;jsonOutput&quot;: &quot;={
+
+\&quot;meta\&quot;: \&quot;+++
+title = \&quot;{{ $(&#39;Gen Title&#39;).item.json.text }}\&quot;
+date = {{ $now.format(\&quot;yyyy-MM-dd HH:mm:ss\&quot;) }}
+draft = false
+
+[taxonomies]
+categories = [\&quot;Tech News\&quot;]
+tags = [\&quot;Tech News\&quot;]
+
+[extra]
+lang = \&quot;en\&quot;
+toc = true
+comment = false
+copy = true
+math = false
+mermaid = false
+outdate_alert = false
+outdate_alert_days = 120
+display_tags = true
+truncate_summary = false
++++
+
+\&quot;
+}&quot;,
+        &quot;options&quot;: {}
+      },
+      &quot;id&quot;: &quot;d62388c7-065e-4e20-8c1d-ca3d46cb0f48&quot;,
+      &quot;name&quot;: &quot;add_meta&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.set&quot;,
+      &quot;typeVersion&quot;: 3.4,
+      &quot;position&quot;: [
+        2240,
+        460
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;jsCode&quot;: &quot;let z = $input.first().json.meta;
+z = z.concat($(&#39;Gen Article&#39;).first().json.text);
+
+
+//let z = Object.assign($input.first().json.meta, $input.first().json.text);
+//let z = $input.first().json.meta
+
+
+return {
+  json: {
+    result: z // Return the result text
+  }
+}; &quot;
+      },
+      &quot;id&quot;: &quot;68ccc345-aa70-4565-8709-1133e96ad688&quot;,
+      &quot;name&quot;: &quot;Code&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.code&quot;,
+      &quot;typeVersion&quot;: 2,
+      &quot;position&quot;: [
+        2460,
+        460
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;promptType&quot;: &quot;define&quot;,
+        &quot;text&quot;: &quot;=Generate a post on this article: {{ $(&#39;HTML&#39;).item.json.body }}
+
+Here&#39;s the title of the article: {{ $json.text }}
+
+You&#39;re a blog writer and you are turning the article given above into a unique SEO-optimised blog post. DO NOT include the title as it&#39;s already written so please start with the body to the article.
+
+Formatting: Use H1, H2 and H3 headers. You choose what to bold and bullet point.
+
+Parameters: This is a blog post and it should be approx. 500 words long.&quot;
+      },
+      &quot;id&quot;: &quot;ad801655-230e-489d-91dc-6df5f10e5f9c&quot;,
+      &quot;name&quot;: &quot;Gen Article&quot;,
+      &quot;type&quot;: &quot;@n8n/n8n-nodes-langchain.chainLlm&quot;,
+      &quot;typeVersion&quot;: 1.4,
+      &quot;position&quot;: [
+        1440,
+        460
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;model&quot;: &quot;gpt-4o-mini&quot;,
+        &quot;options&quot;: {
+          &quot;maxTokens&quot;: 1000
+        }
+      },
+      &quot;id&quot;: &quot;24634b0d-c6e3-4113-9bba-7a386b6b7620&quot;,
+      &quot;name&quot;: &quot;OpenAI Chat Model2&quot;,
+      &quot;type&quot;: &quot;@n8n/n8n-nodes-langchain.lmChatOpenAi&quot;,
+      &quot;typeVersion&quot;: 1,
+      &quot;position&quot;: [
+        1860,
+        680
+      ],
+      &quot;credentials&quot;: {
+        &quot;openAiApi&quot;: {
+          &quot;id&quot;: &quot;HwtpRSRN6gaCQp8N&quot;,
+          &quot;name&quot;: &quot;OpenAi account&quot;
+        }
+      }
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;resource&quot;: &quot;file&quot;,
+        &quot;owner&quot;: {
+          &quot;__rl&quot;: true,
+          &quot;value&quot;: &quot;ntn888&quot;,
+          &quot;mode&quot;: &quot;name&quot;
+        },
+        &quot;repository&quot;: {
+          &quot;__rl&quot;: true,
+          &quot;value&quot;: &quot;ecosmartabode_online&quot;,
+          &quot;mode&quot;: &quot;list&quot;,
+          &quot;cachedResultName&quot;: &quot;ecosmartabode_online&quot;,
+          &quot;cachedResultUrl&quot;: &quot;https://github.com/ntn888/ecosmartabode_online&quot;
+        },
+        &quot;filePath&quot;: &quot;=content/blog/{{ $(&#39;Generate URL SLUG&#39;).item.json.text }}.md&quot;,
+        &quot;binaryData&quot;: true,
+        &quot;commitMessage&quot;: &quot;=create post: {{ $(&#39;Generate URL SLUG&#39;).item.json.text }}&quot;,
+        &quot;additionalParameters&quot;: {
+          &quot;branch&quot;: {
+            &quot;branch&quot;: &quot;main&quot;
+          }
+        }
+      },
+      &quot;id&quot;: &quot;c4aed289-807d-4388-8a74-55d5865c6802&quot;,
+      &quot;name&quot;: &quot;GitHub&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.github&quot;,
+      &quot;typeVersion&quot;: 1,
+      &quot;position&quot;: [
+        3000,
+        460
+      ],
+      &quot;credentials&quot;: {
+        &quot;githubApi&quot;: {
+          &quot;id&quot;: &quot;JfzHKbfULAozXWJ2&quot;,
+          &quot;name&quot;: &quot;GitHub account&quot;
+        }
+      }
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;pollTimes&quot;: {
+          &quot;item&quot;: [
+            {
+              &quot;mode&quot;: &quot;everyHour&quot;
+            }
+          ]
+        },
+        &quot;feedUrl&quot;: &quot;https://www.techradar.com/rss&quot;
+      },
+      &quot;id&quot;: &quot;9ea6652a-c6c1-4ff2-b0f2-51b6a7097471&quot;,
+      &quot;name&quot;: &quot;RSS Feed Trigger&quot;,
+      &quot;type&quot;: &quot;n8n-nodes-base.rssFeedReadTrigger&quot;,
+      &quot;typeVersion&quot;: 1,
+      &quot;position&quot;: [
+        320,
+        260
+      ]
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;promptType&quot;: &quot;define&quot;,
+        &quot;text&quot;: &quot;=You&#39;re a blog writer and your job is to turn the following news article into a unique SEO optimised blog post.
+
+Here&#39;s the title of the article: {{ $(&#39;Limit&#39;).item.json.title }}
+Here&#39;s the article, please read it here: {{ $json.body }}
+
+Based on the information given above, please generate an SEO Optimised Article Title.
+
+Parameters:
+
+Max 10 words &amp; 1 sentence flow
+
+DO NOT put quotes around the title&quot;
+      },
+      &quot;id&quot;: &quot;1ee9c123-9a81-445a-b092-03142589e219&quot;,
+      &quot;name&quot;: &quot;Gen Title&quot;,
+      &quot;type&quot;: &quot;@n8n/n8n-nodes-langchain.chainLlm&quot;,
+      &quot;typeVersion&quot;: 1.4,
+      &quot;position&quot;: [
+        1080,
+        460
+      ],
+      &quot;executeOnce&quot;: false
+    },
+    {
+      &quot;parameters&quot;: {
+        &quot;promptType&quot;: &quot;define&quot;,
+        &quot;text&quot;: &quot;=Generate a short URL SLUG for the blog post titled:  {{ $(&#39;Gen Title&#39;).item.json.text }}
+
+Keep it short and DO NOT include the domain name. Provide only the relative path. DO NOT include any slashes.&quot;
+      },
+      &quot;id&quot;: &quot;18da5708-1d1c-4af7-bc62-ff5c284c3dfa&quot;,
+      &quot;name&quot;: &quot;Generate URL SLUG&quot;,
+      &quot;type&quot;: &quot;@n8n/n8n-nodes-langchain.chainLlm&quot;,
+      &quot;typeVersion&quot;: 1.4,
+      &quot;position&quot;: [
+        1840,
+        460
+      ]
+    }
+  ],
+  &quot;connections&quot;: {
+    &quot;OpenAI Chat Model&quot;: {
+      &quot;ai_languageModel&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Gen Title&quot;,
+            &quot;type&quot;: &quot;ai_languageModel&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;Limit&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;HTTP Request&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;OpenAI Chat Model1&quot;: {
+      &quot;ai_languageModel&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Gen Article&quot;,
+            &quot;type&quot;: &quot;ai_languageModel&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;HTTP Request&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;HTML&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;HTML&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Gen Title&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;Convert to File&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;GitHub&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;add_meta&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Code&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;Code&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Convert to File&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;Gen Article&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Generate URL SLUG&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;OpenAI Chat Model2&quot;: {
+      &quot;ai_languageModel&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Generate URL SLUG&quot;,
+            &quot;type&quot;: &quot;ai_languageModel&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;RSS Feed Trigger&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Limit&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;Gen Title&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;Gen Article&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    },
+    &quot;Generate URL SLUG&quot;: {
+      &quot;main&quot;: [
+        [
+          {
+            &quot;node&quot;: &quot;add_meta&quot;,
+            &quot;type&quot;: &quot;main&quot;,
+            &quot;index&quot;: 0
+          }
+        ]
+      ]
+    }
+  },
+  &quot;pinData&quot;: {}
+}</code></pre>
+<p>It’s pretty much self-explainatory. The first node <em>RSS Feed
+Trigger</em> runs periodically and pulls in the latest news item. The
+end node is used to commit our new post content to the Github repo
+(where the code for my SSG website resides). Be sure to modify this
+value to target your own repo. You can simply copy and paste this
+workflow code into your instance of n8n!</p>
+<p>Finally you may see the results produced on my test blog here: <a
+href="https://ecosmartabode.online/blog/">https://ecosmartabode.online/blog/</a></p>
+<blockquote>
+<p>Note: I gathered the AI prompts from this <a
+href="https://www.youtube.com/watch?v=u5TyXyf1jRk">Youtube
+tutorial</a>.</p>
+</blockquote>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

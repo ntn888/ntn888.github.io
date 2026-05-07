@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Developer's Workstation — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Building a Developer's Workstation</h1>
+                <time datetime="2023-05-23">May 23, 2023</time>
+                <span class="post-category">misc</span>
+                <div class="post-tags">
+                    <a href="/tags/hardware/" class="tag-link">hardware</a>
+                    <a href="/tags/workstation/" class="tag-link">workstation</a>
+                </div>
+            </header>
+<p>In this article we will see how we build a developer’s workstation
+that has good overall performance and suitably compact in size.</p>
+<p>Our first decision is the OS. I may be a <em>little</em> biased here.
+But you may have guessed that Linux is our choice of OS. As discussed in
+<a
+href="%7B%%20post_url%20/update/2023-05-11-debian_testing%20%%7D">this
+article</a>, Debian is unsuitable as a daily driver. We choose it’s
+derivative <a href="https://system76.com/pop">POP! OS</a> as our OS. It
+is a quite popular distro that is well maintained.</p>
+<p>Hardware wise our goto is the ex-lease HP Elitedesk 800 G2 mini
+desktop. Although it comes in several revisions, my recommendation is to
+go for the G2 version (running the 6th Gen core-i5) which I think is a
+good compromise between cost and performance/efficiency. I believe the
+G4 revision is the current one as of Q2 2023, which can be purchased new
+direct from HP site.</p>
+<p>The good thing about buying an ex-lease item (other than low cost) is
+that you repurpose it which would have otherwise ended up straight in a
+landfill. And you help out the planet which is a win-win. In addition to
+this, Linux loves these ex-lease systems. Being a few years old and
+bieng in the field for a while, linux has mature drivers for it’s
+chipsets and peripherals.</p>
+<blockquote>
+<p>These HP/DELL branded office desktops are very durable systems that
+they pose great value even as second hand ex-lease systems. That’s one
+thing that I observed in my stint as a repair tech at a refurbished
+computer store.</p>
+</blockquote>
+<p><a
+href="https://www.ebay.com/sch/i.html?_nkw=hp+elitedesk+800+g2+mini+desktop&amp;_sacat=171957&amp;mkcid=1&amp;mkrid=711-53200-19255-0&amp;siteid=0&amp;campid=5338988127&amp;customid=g2mini&amp;toolid=10001&amp;mkevt=1">Here’s
+a referral link to ebay</a> if you are interested to purchase this. This
+gets me a small commission at no extra cost to you!</p>
+<h3 id="installing-software">Installing Software</h3>
+<p>The absolute first thing you must install in a fresh install of
+<em>POP! OS</em> (or any distro for that matter) is <a
+href="https://ohmyz.sh/">Oh My Zsh</a>. It genuinely is your terminal on
+steroids. It will spruce up your terminal to a whole another level. Some
+of it’s features include:</p>
+<ul>
+<li>Predictive Completion</li>
+<li>Enhanced Tab completion</li>
+<li>Syntax highlighting (right in the shell!)</li>
+</ul>
+<p><a
+href="https://dev.to/kumareth/a-beginner-s-guide-for-setting-up-autocomplete-on-ohmyzsh-hyper-with-plugins-themes-47f2">This
+article</a> has a guide on how to install it and a couple plugins to get
+the above functionality.</p>
+<p>Next comes the decision on a text editor. If you’d like to go the vim
+route, I highly recommend taking a look at <a
+href="%7B%%20post_url%20/update/2022-11-16-doom%20%%7D">Doom Emacs</a>.
+It’s <em>emacs</em> but with vim keybindings. Or you could go with the
+ever popular VS Code.</p>
+<p>Finally you need to install your development environment for the
+framework that you use, be it web dev (node/PHP/Python etc backend) or
+for embedded (Zephyr in our case). If you’d like to dive into Zephyr
+development, take a look of my <a
+href="https://simplycreate.online/zephyr-guide/">Zephyr Guide</a>.<a
+href="https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundamentals/">Nordic
+dev academy</a> also has a great intro.</p>
+<p>Have fun hackin’.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set-up a cross-compile environment for buildroot Linux system running on Orange PI Zero 3 — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Set-up a cross-compile environment for buildroot Linux system running on Orange PI Zero 3</h1>
+                <time datetime="2023-12-19">Dec 19, 2023</time>
+                <span class="post-category">embedded-linux</span>
+                <div class="post-tags">
+                    <a href="/tags/embedded-linux/" class="tag-link">embedded-linux</a>
+                    <a href="/tags/linux/" class="tag-link">linux</a>
+                    <a href="/tags/buildroot/" class="tag-link">buildroot</a>
+                </div>
+            </header>
+<p>Assuming host system Ubuntu 22.04. Install the pre-requisite packages
+needed for this lab:</p>
+<pre><code>sudo apt install build-essential git autoconf bison flex texinfo help2man gawk libtool-bin libncurses5-dev unzip</code></pre>
+<h3 id="setting-up-the-tftp-server">Setting up the TFTP server</h3>
+<p>Let’s install a TFTP server on your development workstation:</p>
+<pre><code>sudo apt install tftpd-hpa</code></pre>
+<p>Then edit the file <code>/etc/default/tftpd-hpa</code> to change this
+setting:</p>
+<pre><code>TFTP_DIRECTORY=&quot;/srv/tftp&quot;</code></pre>
+<p>Now restart the service:</p>
+<pre><code>systemctl restart tftpd-hpa</code></pre>
+<h2 id="grab-and-compile-buildroot">Grab and compile buildroot</h2>
+<pre><code>git clone https://git.buildroot.net/buildroot
+cd buildroot</code></pre>
+<p>Load the default config for Orange PI Zero 3. And build it. Note that
+we shouldn’t change the kernel version as it’s been assigned to a custom
+version compatible with Orange PI.</p>
+<pre><code>make orangepi_zero3_defconfig
+make</code></pre>
+<p>Once the build process is finished you will have an image called
+“sdcard.img” in the output/images/ directory. Flash this image to your
+SD card and boot.</p>
+<p>On login prompt enter <code>root</code> and no password. TA-DA - and
+you’re in your very own custom linux system!</p>
+<p>For more details see <em>Using a build system, example with
+Buildroot</em> chapter in the slides <a
+href="https://bootlin.com/doc/training/embedded-linux-qemu/embedded-linux-qemu-labs.pdf">bootlin
+embedded linux qemu slides</a>.</p>
+<h2 id="compiling-a-kernel-module">Compiling a kernel module</h2>
+<p>Now we’ll setup the cross-compile variables.</p>
+<p>Include the following in your PATH:</p>
+<pre><code>export PATH=&quot;$PATH:~/buildroot/output/host/bin&quot;</code></pre>
+<p>And set the following variables:</p>
+<pre><code>export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-</code></pre>
+<p>Make a new directory somewhere in your home folder called
+<code>hello</code>. Inside it create a C file <code>hello.c</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;linux/module.h&gt;</span><span class="pp">    </span><span class="co">/* Needed by all modules */</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;linux/kernel.h&gt;</span><span class="pp">    </span><span class="co">/* Needed for KERN_INFO */</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> init_module<span class="op">(</span><span class="dt">void</span><span class="op">){</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    printk<span class="op">(</span>KERN_INFO <span class="st">&quot;Hello World!</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;);</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> cleanup_module<span class="op">(</span><span class="dt">void</span><span class="op">){</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    printk<span class="op">(</span>KERN_INFO <span class="st">&quot;Goodbye World.</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;);</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>MODULE_LICENSE<span class="op">(</span><span class="st">&quot;GPL&quot;</span><span class="op">);</span></span></code></pre></div>
+<p>Create <code>Makefile</code>:</p>
+<pre><code>CC = $(CROSS_COMPILE)gcc
+
+obj-m := hello.o
+KDIR := ~/buildroot/output/build/linux-custom
+
+all:
+        $(MAKE) -C $(KDIR) M=$(PWD)
+</code></pre>
+<p>Noting to adjust the <code>KDIR</code> according to where you have
+buildroot. Assuming Homefolder here.</p>
+<p>Now run <code>make</code>. You’ll get a bunch of files as result. We
+are interested in <code>hello.ko</code> file.</p>
+<h2 id="serial-console-setup">Serial console setup</h2>
+<p>The board has 3 pins at the top exposing the serial UART. This will
+act as the serial console to interact with it over the terminal. The
+following image from the OrangePI website indicates these pins
+(TX/RX).</p>
+<figure>
+<img src="/img/opi-zero3.png" alt="OPI Zero3 Pinouts" />
+<figcaption aria-hidden="true">OPI Zero3 Pinouts</figcaption>
+</figure>
+<p>You may link this to a PC using a ftdi chip (available extensively on
+AliExpress), or like what I do use a Pico-probe which is equipped with a
+serial-to-usb port! On the host you can use Screen or Minicom to
+connect.</p>
+<h3 id="transfer-the-compiled-module">Transfer the compiled module</h3>
+<p>We need to transfer this file to our board. We’ll use the tftp
+service we setup earlier.</p>
+<p>First copy the <code>hello.ko</code> file to <code>/srv/tftp</code>
+directory. Then in the board’s prompt:</p>
+<pre><code>cd /root
+tftp -gr hello.ko &lt;server-ip&gt;</code></pre>
+<p>Once successfully copied, clear the system log, and load the
+module:</p>
+<pre><code>sudo dmesg -c
+insmod hello.ko</code></pre>
+<p>Now check for the message, running <code>dmesg</code> again. To
+remove this module, simply <code>rmmod hello.ko</code>. Check the output
+again and you’ll see Goodbye world.</p>
+<p>This tests that we have a successful cross-compiler environment
+working to compile and study device driver development on Orange PI Zero
+3 running Linux!</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

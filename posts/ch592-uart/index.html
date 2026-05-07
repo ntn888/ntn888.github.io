@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH592 UART — Ajit Ananthadevan</title>
+    <meta name="description" content="WCH CH592 chip UART tutorial">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>CH592 UART</h1>
+                <time datetime="2025-08-21">Aug 21, 2025</time>
+                <span class="post-category">ch592</span>
+                <div class="post-tags">
+                    <a href="/tags/ch592/" class="tag-link">ch592</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                </div>
+            </header>
+<p>Here’s a program to send data over the UART:</p>
+<pre><code>// TXD3: PA5
+
+
+#include &quot;CH59x_common.h&quot;
+#include &lt;string.h&gt;
+
+
+int main()
+{
+  char *s = &quot;Hello world
+&quot;;
+  SetSysClock(CLK_SOURCE_PLL_60MHz);
+  
+  GPIOA_ModeCfg(bTXD3, GPIO_ModeOut_PP_5mA);
+  UART3_DefInit();  
+  
+  while (1) {
+    UART3_SendString((uint8_t *)s, strlen(s));
+    mDelaymS(1000);
+  }
+  
+}
+</code></pre>
+<p>Note <code>bTXD3</code> is equivalent to <code>PA5</code>. Make sure
+to include <code>CH59x_uart3.c</code> in the compilation Makefile:</p>
+<pre><code>C_SOURCES = \
+src/main.c \
+../../vendor/StdPeriphDriver/CH59x_clk.c \
+../../vendor/StdPeriphDriver/CH59x_gpio.c \
+../../vendor/StdPeriphDriver/CH59x_pwr.c \
+../../vendor/StdPeriphDriver/CH59x_sys.c \
+../../vendor/StdPeriphDriver/CH59x_uart3.c \                # &lt;== add this
+../../vendor/RVMSIS/core_riscv.c \</code></pre>
+<h2 id="using-the-debug-flag">Using the DEBUG flag</h2>
+<p>There is a convenience offered in the SDK; the DEBUG flag. As per
+<code>CH59x_common.h</code> it can take one of these values:</p>
+<pre><code>#define Debug_UART0        0
+#define Debug_UART1        1
+#define Debug_UART2        2
+#define Debug_UART3        3</code></pre>
+<p>Which is followed by the line:</p>
+<pre><code>#ifdef DEBUG
+#include &lt;stdio.h&gt;
+#endif</code></pre>
+<p>And in <code>CH59x_sys.h</code>:</p>
+<pre><code>#ifdef DEBUG
+int _write(int fd, char *buf, int size)
+{
+    int i;
+    for(i = 0; i &lt; size; i++)
+    {
+#if DEBUG == Debug_UART0
+        while(R8_UART0_TFC == UART_FIFO_SIZE);
+        R8_UART0_THR = *buf++;
+#elif DEBUG == Debug_UART1
+        while(R8_UART1_TFC == UART_FIFO_SIZE);
+        R8_UART1_THR = *buf++;
+#elif DEBUG == Debug_UART2
+        while(R8_UART2_TFC == UART_FIFO_SIZE);
+        R8_UART2_THR = *buf++;
+#elif DEBUG == Debug_UART3       
+        while(R8_UART3_TFC == UART_FIFO_SIZE);
+        R8_UART3_THR = *buf++;
+#endif
+    }
+    return size;
+}
+
+#endif</code></pre>
+<p>These constructs enable us to use <code>printf()</code>. But there’s
+more… In <code>CH592SFR.h</code>:</p>
+<pre><code>#ifdef  DEBUG
+#define PRINT(X...) printf(X)
+#else
+#define PRINT(X...)
+#endif</code></pre>
+<p>Which means if we use <code>PRINT(X)</code> instead, depending on the
+<code>DEBUG</code> flag, this expression will be evaluated and still not
+cause an compiling error if we are not in DEBUG condition.</p>
+<p>We will see an example.</p>
+<pre><code>// TXD3: PA5
+
+
+#define DEBUG   Debug_UART3
+#include &quot;CH59x_common.h&quot;
+
+
+int main()
+{
+  char *s = &quot;Hello world
+&quot;;
+  SetSysClock(CLK_SOURCE_PLL_60MHz);
+  
+#ifdef DEBUG
+  GPIOA_ModeCfg(bTXD3, GPIO_ModeOut_PP_5mA);
+  UART3_DefInit();
+#endif
+  
+  while (1) {
+    PRINT(s);
+    mDelaymS(1000);
+  }
+  
+}
+</code></pre>
+<p>Or to switch up the convenience, we could move the
+<code>#define DEBUG   Debug_UART3</code> flag to the makefile.</p>
+<p>Insert this line at the top:</p>
+<pre><code>DEFINES = -DDEBUG=Debug_UART3</code></pre>
+<p>And change:</p>
+<pre><code>CFLAGS = $(MCU) $(C_INCLUDES) $(OPT) $(DEFINES) -Wall -fdata-sections -ffunction-sections</code></pre>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

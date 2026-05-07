@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zephyr-7b-beta: Or how to run a ChatGPT alternative on an 8GB Graphics Card — Ajit Ananthadevan</title>
+    <meta name="description" content="How to run the Zephyr-7b-beta LLM model locally on your system">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Zephyr-7b-beta: Or how to run a ChatGPT alternative on an 8GB Graphics Card</h1>
+                <time datetime="2023-11-14">Nov 14, 2023</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/opensource/" class="tag-link">opensource</a>
+                    <a href="/tags/AI/" class="tag-link">AI</a>
+                    <a href="/tags/selfhosted/" class="tag-link">selfhosted</a>
+                    <a href="/tags/llamav2/" class="tag-link">llamav2</a>
+                </div>
+            </header>
+<p>This article was written a while back. While the setup still works if
+you need a truly local, unconnected AI inference, I’ve moved to a third
+party inference provider <a
+href="https://openrouter.ai/">openrouter</a>, so you don’t have to
+splurge on hardware. The usage costs are next to nothing, and it’s all
+the AI under one roof!</p>
+<p>Although I believe they have a chat interface, I just use the api and
+my own chat application. <em>chatbox</em> is a simple desktop app, but
+it was giving me network errors all the time. So I use the selfhosted
+(on localhost) <a
+href="https://github.com/danny-avila/LibreChat">librechat</a>. Do note
+the instructions to enable openrouter provider <a
+href="https://www.librechat.ai/docs/configuration/librechat_yaml/ai_endpoints/openrouter">here</a>.</p>
+<hr />
+<p>Recently we have seen the rise of the small LLMs. As discussed in <a
+href="/posts/llama2">this article</a> the <a
+href="https://huggingface.co/TheBloke/zephyr-7B-beta-GGUF">Zephyr-7b-beta</a>
+model is making ground for it’s impressive results. Here we shall see
+how to run the model locally on your system, all you need is a GPU with
+8GB VRAM. My <a href="/posts/x99-motherboards">workstation</a> sports an
+AMD RX 580 card that is ideally suited for this task! While this guide
+is targetted towards AMD cards note that you can run it on NVIDIA as
+well. On my system it runs at speed around 7-9 tokens/sec.</p>
+<p>We will use the ‘Text generation web UI’ <a
+href="https://github.com/oobabooga/text-generation-webui">https://github.com/oobabooga/text-generation-webui</a>
+as our client. This is the software that helps us to host and use the
+LLM model.</p>
+<p>First we need to install what is called ROCm. This is a library that
+works on top of the AMD GPU driver. The following steps assume you’re
+running POP-OS 22.04. We need to install version 5.6 (as of Nov 2023).
+The requirement is dictated by ‘Text generation web UI’, so see its
+documentation for the exact version you need in future. The following
+has been exctracted from <a
+href="https://are-we-gfx1100-yet.github.io/post/a1111-webui/#prerequisites">here</a>.</p>
+<pre><code># install the amdgpu driver with rocm support
+curl -O https://repo.radeon.com/amdgpu-install/5.6/ubuntu/jammy/amdgpu-install_5.6.50600-1_all.deb
+sudo dpkg -i amdgpu-install_5.6.50600-1_all.deb</code></pre>
+<p>Now edit the install script at <code>/usr/bin/amdgpu-install</code>
+via a text editor and add <code>|pop</code> next to <code>ubuntu</code>
+like so:</p>
+<pre><code>case &quot;$ID&quot; in
+ubuntu|linuxmint|debian|pop)
+    ...</code></pre>
+<pre><code># opencl might cause issues later, so skip it unless you need it
+sudo amdgpu-install --usecase=graphics,rocm --no-dkms
+
+# grant current user the access to gpu devices
+sudo usermod -aG video $USER
+sudo usermod -aG render $USER
+
+# reboot is needed to make both driver and user group take effect
+sudo reboot</code></pre>
+<blockquote>
+<p>You may wish to install <code>radeontop</code>, an app that’ll give
+various deets of the running status of the GPU. And run it alongside in
+another terminal while you prompt away.</p>
+</blockquote>
+<p>Once ROCm is installed we can proceed with installing ‘Text
+generation web UI’.</p>
+<p>First we need to set an environment variable:</p>
+<pre><code>export ROCBLAS_TENSILE_LIBPATH=/opt/rocm/lib/rocblas/library/</code></pre>
+<blockquote>
+<p>You’ll have to run the above evertime before you invoke the ‘Text
+generation web UI’ with <code>./start_linux.sh</code> or the app will
+crash when you load in your model.</p>
+</blockquote>
+<p>Finally:</p>
+<pre><code>git clone https://github.com/oobabooga/text-generation-webui.git
+cd text-generation-webui
+./start_linux.sh</code></pre>
+<p>That last command is a convenient script that on first run does the
+actual installation. It will create the directory
+<code>installer_files</code>. When prompted for the type of installation
+enter <code>B</code> for AMD GPU.</p>
+<p>It’ll download a couple of GBs and take some time.</p>
+<p>Once finished open up the displayed link in your browser. You’ll be
+greeted with the ‘Text generation web UI’ interface.</p>
+<p>The settings will be easily overwhelming at first with lots of
+variables but I’m going to present here what worked on my 8GB AMD
+card!</p>
+<p>Obviously first we need to download a model. Go to the
+<code>Model</code> tab and enter
+<code>TheBloke/zephyr-7B-beta-GGUF</code> in the
+<code>Download Model</code> field. In the second <code>File name</code>
+box enter: <code>zephyr-7b-beta.Q4_K_M.gguf</code> which is recommended
+for 8GB cards. You can see details in the HuggingFace card <a
+href="https://huggingface.co/TheBloke/zephyr-7B-beta-GGUF">page</a>.</p>
+<p>Once it’s downloaded push the reload button next to the model name
+<code>blank</code> on the top and then select the model name. Then set
+the following options below:</p>
+<pre><code>n-gpu-layers: anything above 35
+n_ctx: 8000</code></pre>
+<p>The <code>n-gpu-layers</code> is a parameter you get when loading the
+GGUF models; which can scale between the GPU and CPU as you see fit! So
+using this parameter you can select, for example, 32 out of the 35 (the
+max for our <code>zephyr-7b-beta</code> model) to be offloaded to the
+GPU by selecting 32 here.</p>
+<p>Finally press load. This will take some time. Then goto
+<code>Parameters</code> tab. Under <code>Generation</code>:</p>
+<pre><code>max_new_tokens: 2000
+top_p: 0.95
+top_k: 40</code></pre>
+<p>Under <code>Instruction Template</code>: Choose
+<code>ChatML</code>.</p>
+<p>That’s it for settings.</p>
+<p>Now go to <code>Default</code> tab and paste the following
+prompt:</p>
+<pre><code>&lt;|system|&gt;
+You are a creative writing assistant
+&lt;|user|&gt;
+&lt;your prompt here&gt;
+&lt;|assistant|&gt;</code></pre>
+<p>Substitue it with your prompt and have fun!</p>
+<p>Zephyr-7b brings the excitement of a capable model into the hands of
+affordable 8Gig GPU cards. Very quickly you’ll be amazed at the results,
+although there is some telling difference from the present benchmark -
+GPT-4!</p>
+<p>But admittedly it is a fast moving landscape. There’s new strides
+being made <em>every single day</em>. And many claim it wouldn’t be the
+distant future that a 7b model easily outperfoms the current performance
+of GPT-4! And I can’t wait for that day to self-host it on my humble
+8Gig card.</p>
+<blockquote>
+<p>UPDATE: I installed Ubuntu Server 22.04 on the PC and converted it
+into a server (and access textgen web ui remotely). Ubuntu being fully
+supported by AMD; you can omit the <code>--no-dkms</code> flag above to
+install the kernel modules. With this I’ve seen a significant
+improvement in responsiveness. It starts spitting out the text almost
+instantly (similar to my experiences with vast.ai instances) and get a
+consistently higher tokens/s. Therefore I do not recommend a POP! OS
+system.</p>
+</blockquote>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

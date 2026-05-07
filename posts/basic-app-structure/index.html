@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic application structure — Ajit Ananthadevan</title>
+    <meta name="description" content="Setup Makefeile based environment for the bl702 MCU development">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Basic application structure</h1>
+                <time datetime="2022-02-22">Feb 22, 2022</time>
+                <span class="post-category">bl702</span>
+                <div class="post-tags">
+                    <a href="/tags/bl702/" class="tag-link">bl702</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/environment/" class="tag-link">environment</a>
+                </div>
+            </header>
+<p>The <code>bl_iot_sdk</code> is the development toolkit provided for
+the development of applications for the BL70X and BL60X controllers. It
+is quite a pleasant environment built upon the following major
+components:</p>
+<ul>
+<li>freeRTOS kernel</li>
+<li>lwIP stack</li>
+<li>‘HOSAL’ API (based off AliOS-Things HAL)</li>
+</ul>
+<p>To acquire the SDK, use the following git command (preferably from
+the home folder):</p>
+<pre><code>git clone https://github.com/bouffalolab/bl_iot_sdk.git</code></pre>
+<blockquote>
+<p><strong>ProTip</strong></p>
+<p>The sdk docs are available at <a
+href="https://bouffalolab.github.io/bl_iot_sdk/index.html">https://bouffalolab.github.io/bl_iot_sdk/index.html</a>.
+Use the firefox translate <a
+href="https://addons.mozilla.org/en-US/firefox/addon/traduzir-paginas-web/">plugin</a>
+to view it in English. I found that the chrome version is a bit
+finnicky…</p>
+</blockquote>
+<hr />
+<p>A basic bl-iot-sdk project structure is as follows:</p>
+<pre><code>.
+├── compile_commands.json
+├── main
+│   ├── bouffalo.mk
+│   └── main.c
+├── Makefile
+└── proj_config.mk</code></pre>
+<p>One file may already be familiar to you:
+<code>compile_commands.json</code>. If not see <a
+href="/posts/dev-env">this post</a> on how to setup a dev
+environment.</p>
+<p><code>main.c</code> is the main application C file. It contains the
+<code>main()</code> function. In our blinky example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;hosal_gpio.h&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;FreeRTOS.h&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;task.h&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> hosal_gpio_dev_t gp1<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main <span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>   <span class="co">// setup</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>   gp1<span class="op">.</span>port <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="co">// &lt;== make sure led connected to pin D0!</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>   gp1<span class="op">.</span>config <span class="op">=</span> OUTPUT_OPEN_DRAIN_NO_PULL<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>   hosal_gpio_init<span class="op">(&amp;</span>gp1<span class="op">);</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>   hosal_gpio_output_set<span class="op">(&amp;</span>gp1<span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>   <span class="dt">uint8_t</span> value <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>   <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      hosal_gpio_output_set<span class="op">(&amp;</span>gp1<span class="op">,</span> value <span class="op">);</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      value <span class="op">=</span> <span class="op">!</span>value<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      vTaskDelay<span class="op">(</span><span class="dv">500</span><span class="op">);</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>   <span class="op">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The specifics of this file are not important to us right now. We will
+study the contents in the next post.</p>
+<p>The other three makefiles are simply copied over from the official
+blinky sample, and are required to successfully build the project.</p>
+<p>The main makefile <code>Makefile</code> in the project root, is
+slightly modified:</p>
+<pre><code>#
+# This is a project Makefile. It is assumed the directory this Makefile resides in is a
+# project subdirectory.
+#
+
+PROJECT_NAME := main
+BL60X_SDK_PATH=~/bl_iot_sdk
+CONFIG_CHIP_NAME=BL702
+export BL60X_SDK_PATH CONFIG_CHIP_NAME
+PROJECT_PATH := $(abspath .)
+PROJECT_BOARD := evb
+export PROJECT_PATH PROJECT_BOARD
+#CONFIG_TOOLPREFIX :=
+
+-include ./proj_config.mk
+
+ifeq ($(origin BL60X_SDK_PATH), undefined)
+BL60X_SDK_PATH_GUESS ?= $(shell pwd)
+BL60X_SDK_PATH ?= $(BL60X_SDK_PATH_GUESS)/../../..
+$(info ****** Please SET BL60X_SDK_PATH ******)
+$(info ****** Trying SDK PATH [$(BL60X_SDK_PATH)])
+endif
+
+COMPONENTS_BLSYS   := bltime blfdt blmtd bloop loopset looprt
+COMPONENTS_VFS     := romfs
+
+SOC_DRV = $(shell echo $(CONFIG_CHIP_NAME) | tr A-Z a-z)
+
+
+INCLUDE_COMPONENTS += $(SOC_DRV)_rf
+INCLUDE_COMPONENTS += $(SOC_DRV)_freertos
+
+INCLUDE_COMPONENTS += $(SOC_DRV) $(SOC_DRV)_std
+INCLUDE_COMPONENTS += hosal mbedtls_lts lwip cli vfs yloop utils blog blog_testc newlibc
+INCLUDE_COMPONENTS += $(COMPONENTS_NETWORK)
+INCLUDE_COMPONENTS += $(COMPONENTS_BLSYS)
+INCLUDE_COMPONENTS += $(COMPONENTS_VFS)
+INCLUDE_COMPONENTS += $(PROJECT_NAME)
+
+include $(BL60X_SDK_PATH)/make_scripts_riscv/project.mk</code></pre>
+<p>We have hardcoded the chip name and the sdk path. This makes the make
+command simpler. Also note that we have changed the
+<code>PROJECT_NAME</code> to a generic name: main. This avoids the need
+to modify the variable to match each project.</p>
+<p>A quick tutorial on Make is viewable <a
+href="https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/">here</a>.</p>
+<p>NOTE: The makefile variable <code>BL60X_SDK_PATH</code> assumes that
+you have cloned the sdk into your home directory. If not please modify
+this variable to reflect your chosen path.</p>
+<p>In <code>proj_config.mk</code>:</p>
+<pre><code>
+####
+CONFIG_SYS_VFS_ENABLE:=1
+CONFIG_SYS_VFS_UART_ENABLE:=1
+CONFIG_SYS_AOS_CLI_ENABLE:=1
+CONFIG_SYS_AOS_LOOP_ENABLE:=1
+CONFIG_SYS_BLOG_ENABLE:=1
+CONFIG_SYS_DMA_ENABLE:=1
+CONFIG_SYS_USER_VFS_ROMFS_ENABLE:=0
+CONFIG_SYS_APP_TASK_STACK_SIZE:=4096
+CONFIG_SYS_APP_TASK_PRIORITY:=15
+
+
+CONFIG_SYS_COMMON_MAIN_ENABLE:=1
+CONFIG_BL702_USE_ROM_DRIVER:=1
+CONFIG_BUILD_ROM_CODE := 1
+CONFIG_USE_XTAL32K:=1
+
+
+LOG_ENABLED_COMPONENTS:= blog_testc hosal</code></pre>
+<p>In <code>bouffalo.mk</code>:</p>
+<pre><code>#
+# &quot;main&quot; pseudo-component makefile.
+#
+# (Uses default behaviour of compiling all source files in directory, adding &#39;include&#39; to include path.)
+
+include $(BL60X_SDK_PATH)/components/network/ble/ble_common.mk
+
+ifeq ($(CONFIG_ENABLE_PSM_RAM),1)
+CPPFLAGS += -DCONF_USER_ENABLE_PSRAM
+endif
+
+ifeq ($(CONFIG_ENABLE_CAMERA),1)
+CPPFLAGS += -DCONF_USER_ENABLE_CAMERA
+endif
+
+ifeq ($(CONFIG_ENABLE_BLSYNC),1)
+CPPFLAGS += -DCONF_USER_ENABLE_BLSYNC
+endif
+
+ifeq ($(CONFIG_ENABLE_VFS_SPI),1)
+CPPFLAGS += -DCONF_USER_ENABLE_VFS_SPI
+endif
+
+ifeq ($(CONFIG_ENABLE_VFS_ROMFS),1)
+CPPFLAGS += -DCONF_USER_ENABLE_VFS_ROMFS
+endif
+
+CPPFLAGS += -DCONF_USER_BL702</code></pre>
+<blockquote>
+<p>As a convenience you may simply download the following <a
+href="/assets/src.zip">project skeleton</a>. Extract it to a ‘workspace’
+directory of choice; then whenever you want to initiate a new project,
+simply run: <code>cp -a src/ my_proj</code></p>
+</blockquote>
+<p>Once the above files are in place all you have to do is run:</p>
+<pre><code>make  -j</code></pre>
+<p>Once your project compiles successfully; you may run
+<code>make flash</code> to burn the firmware (ensuring you have the chip
+in bootloader mode).</p>
+<p>If you ever run into problems run <code>make clean</code> as the
+first step.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

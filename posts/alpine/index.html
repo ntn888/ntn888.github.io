@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine Linux intro — Ajit Ananthadevan</title>
+    <meta name="description" content="Discuss viability of Alpine Linux as a server OS">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Alpine Linux intro</h1>
+                <time datetime="2025-05-17">May 17, 2025</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/NAS/" class="tag-link">NAS</a>
+                    <a href="/tags/self-host/" class="tag-link">self-host</a>
+                    <a href="/tags/server/" class="tag-link">server</a>
+                </div>
+            </header>
+<p>In my adventures in selfhosting, I’ve noticed I never install
+anything (save firewall and Docker) on the host OS and run everything
+inside containers. This may be out of paranoia - more
+packages/dependencies, more chance of system breaking / update
+failure.</p>
+<p>I’ve run Debian as the server OS for the longest time (admittedly a
+popular, and “everything just works” OS).. But this reflection calls for
+a reconsideration of the host OS. Enter Alpine Linux; small, lean,
+minimal. Even boots in seconds (on a PI).</p>
+<blockquote>
+<p>Although, the main factor behind this ‘distrohop’ is Podman. Looking
+to try out Podman (tempted by it’s rootless feature), I was surprised
+how ancient the version in Debian is, missing important practical
+features.. Maybe Podman is not as widespread as I anticipated.
+Anyway..</p>
+</blockquote>
+<p>One thing I’m fond of in the installer (which is a text based wizard
+like script), is it’s simple sensible default partitioning option. No
+need to concern with part tools, complex layout selections if you don’t
+want to.</p>
+<p>A distinct feature (apart from it’s <code>apk</code> package manager)
+is <code>OpenRC</code> inplace of systemd. Although the <a
+href="https://wiki.alpinelinux.org/wiki/Main_Page">wiki</a> is more
+extensive, look at the <a href="https://docs.alpinelinux.org/">docs</a>
+for our lean system maintenance.</p>
+<p><a href="https://www.youtube.com/watch?v=EaCCB3y1ZGM">This Youtube
+video</a> has a quick walkthrough of it’s important parts.</p>
+<h2 id="mdns">mDNS</h2>
+<p>One of the first things to do in a local selfhost server is to assign
+a <code>.local</code> hostname (so it could be easily accessed from
+within the network). Once you’ve made sure you’ve set a
+<code>.local</code> suffix’d hostname, see <a
+href="https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts#setup-hostname">here</a>:</p>
+<pre><code># Install, enable and start avahi with:
+doas apk add avahi
+doas rc-update add avahi-daemon
+doas rc-service avahi-daemon start</code></pre>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

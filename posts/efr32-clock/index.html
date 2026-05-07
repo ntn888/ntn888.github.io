@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the Clock Subsytem — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Understanding the Clock Subsytem</h1>
+                <time datetime="2025-02-19">Feb 19, 2025</time>
+                <span class="post-category">efr32</span>
+                <div class="post-tags">
+                    <a href="/tags/efr32/" class="tag-link">efr32</a>
+                    <a href="/tags/Silicon-Labs/" class="tag-link">Silicon Labs</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                </div>
+            </header>
+<p>As mentioned, the vendor provides a <a
+href="https://github.com/SiliconLabs/peripheral_examples">repo of
+examples</a> for their various chips. You can study them to use the
+various peripherals. So we won’t repeat them here. But we’ll discuss one
+crucial component - the clock.</p>
+<p>One peculiarity of these Si-Labs chips (at-least the efr32Xg21
+family) is they take a fixed 38.4MHz crystal for the external source.
+This simplifies a lot of the clock setup configs.</p>
+<p>Here is a basic diagram with the most used components.</p>
+<figure>
+<img src="/img/efr32-clock-tree.jpg" alt="clock circuit" />
+<figcaption aria-hidden="true">clock circuit</figcaption>
+</figure>
+<p>Note that the chip boots on <code>FSRCO</code> then switches to
+<code>HFRCODPLL</code> before executing user firmware.</p>
+<h2 id="setting-up-for-external-crystal">Setting up for external
+crystal</h2>
+<p>Our <code>ZYZBP008</code> module comes with an external crystal
+attached (according to the datasheet, it is mandatory to source from the
+external clock to enable the radio unit). Here is a code excerpt from
+the example repo on how to configure for the external source:</p>
+<pre><code>
+#include &quot;em_cmu.h&quot;
+#include &quot;em_chip.h&quot;
+
+int main(void)
+{
+  CHIP_Init();
+
+  // Start the HFXO with safe default parameters
+  CMU_HFXOInit_TypeDef hfxoInit = CMU_HFXOINIT_DEFAULT;
+  CMU_HFXOInit(&amp;hfxoInit);
+  CMU_OscillatorEnable(cmuOsc_HFXO, true, true);
+  //                            enable^     ^wait until clock succeeds before returning
+
+  // Switch the SYSCLK to the HFXO.
+  CMU_ClockSelectSet(cmuClock_SYSCLK, cmuSelect_HFXO);
+  
+  while(1);
+  
+  return 0;
+}</code></pre>
+<p>Lookup for these functions and their possible options in the <a
+href="https://docs.silabs.com/gecko-platform/5.1.1/platform-emlib-efr32xg21/cmu">clock
+component documentation</a>. <code>CMU_HFXOINIT_DEFAULT</code> is
+defined in <code>em_cmu.h</code> and apparently suitable in most usual
+cases.</p>
+<p>To verify that it works, we will test the UART peripheral (which is
+time sensitive).</p>
+<pre><code>#include &quot;em_cmu.h&quot;
+#include &quot;em_chip.h&quot;
+#include &quot;em_gpio.h&quot;
+#include &quot;em_usart.h&quot;
+
+#define BSP_BCC_TXPORT  gpioPortA // A05 - TX
+#define BSP_BCC_TXPIN   5 //
+#define BSP_BCC_RXPORT  gpioPortA // A06 - RX
+#define BSP_BCC_RXPIN   6 //
+
+int main (void)
+{
+  CHIP_Init();
+
+  // Start the HFXO with safe default parameters
+  CMU_HFXOInit_TypeDef hfxoInit = CMU_HFXOINIT_DEFAULT;
+  CMU_HFXOInit(&amp;hfxoInit);
+  CMU_OscillatorEnable(cmuOsc_HFXO, true, true);
+
+  // Switch the SYSCLK to the HFXO.
+  CMU_ClockSelectSet(cmuClock_SYSCLK, cmuSelect_HFXO);
+  
+  CMU_ClockEnable(cmuClock_GPIO, true);
+  GPIO_PinModeSet(gpioPortA, 0/*pin 4*/, gpioModePushPull /*push-pull output*/, 1/*output level*/);
+
+  CMU_ClockEnable(cmuClock_USART0, true);
+  
+  USART_InitAsync_TypeDef initAsync = USART_INITASYNC_DEFAULT;
+  initAsync.baudrate = 115200;
+  
+  GPIO-&gt;USARTROUTE[0].TXROUTE = (BSP_BCC_TXPORT &lt;&lt; _GPIO_USART_TXROUTE_PORT_SHIFT)
+            | (BSP_BCC_TXPIN &lt;&lt; _GPIO_USART_TXROUTE_PIN_SHIFT);
+  GPIO-&gt;USARTROUTE[0].RXROUTE = (BSP_BCC_RXPORT &lt;&lt; _GPIO_USART_RXROUTE_PORT_SHIFT)
+            | (BSP_BCC_RXPIN &lt;&lt; _GPIO_USART_RXROUTE_PIN_SHIFT);
+  
+  GPIO-&gt;USARTROUTE[0].ROUTEEN = GPIO_USART_ROUTEEN_RXPEN | GPIO_USART_ROUTEEN_TXPEN;
+  USART_InitAsync(USART0, &amp;initAsync);
+
+  GPIO_PinModeSet(BSP_BCC_TXPORT, BSP_BCC_TXPIN, gpioModePushPull, 1);
+  GPIO_PinModeSet(BSP_BCC_RXPORT, BSP_BCC_RXPIN, gpioModeInput, 0);
+  
+  //USART_Tx (USART_TypeDef * usart, uint8_t data)
+  
+  char buf[] = &quot;Hello&quot;;
+  
+  while(1) {
+    GPIO_PinOutToggle(gpioPortA, 0/*pin 4*/);
+    
+    for (int i = 0; i &lt; 6; i++) {
+      USART_Tx (USART0, buf[i]);
+      USART_Tx (USART0, &#39;
+&#39;);
+    }
+    
+    for (volatile uint32_t i = 0; i &lt; 100000; i++) { } // busy delay
+  }
+  
+  return 0;
+}</code></pre>
+<p>The above code should print <em>Hello</em> via serial repeatedly with
+the roughly specified pauses.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

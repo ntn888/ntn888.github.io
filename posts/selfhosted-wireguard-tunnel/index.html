@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port forwarding on site-to-site VPN using wireguard, AKA Howto bittorrent behind CGNAT for free — Ajit Ananthadevan</title>
+    <meta name="description" content="Using a selfhosted Wireguard server on VPS to enable port forwarding through CGNAT">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Port forwarding on site-to-site VPN using wireguard, AKA Howto bittorrent behind CGNAT for free</h1>
+                <time datetime="2024-10-19">Oct 19, 2024</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/selfhosted/" class="tag-link">selfhosted</a>
+                    <a href="/tags/wireguard/" class="tag-link">wireguard</a>
+                    <a href="/tags/tunnelling/" class="tag-link">tunnelling</a>
+                </div>
+            </header>
+<blockquote>
+<p>Disclaimer: Note that we will be using bitorrent to share Linux ISOs
+here. The free providers I mention (Oracle being the most generous) will
+get you into trouble otherwise. The free providers are available as per
+demand. Alternatively you could head over to lowendbox.com to grab the
+ultimate $1 pm VPS deals; atleast that’s what I did to trial out the
+system without colluding my main VPS with IPTable rules :)</p>
+</blockquote>
+<p>Another disclaimer: messing with IPTables on your VPS could leave it
+inaccessible via SSH and lock you out. Fortunately they don’t persist
+reboots :)</p>
+<p>So I recently got a 5g home wireless plan. The speeds are great; but
+my provider only provides a CGNAT link. This means local port forwarding
+on the router is out of the question. It wouldn’t work.</p>
+<p>Sure you could use ip6. While it’s estimated to be used by 40% of
+users, when it comes to bittorrent it’s hardly supported.</p>
+<p>There are however docker images exactly for this purpose which run a
+VPN client in conjunction with qBittorrent. But as I’ve seen all of them
+only support (a select) commercial VPN providers. They don’t function in
+a selfhosted wireguard scenario.</p>
+<p>Which brings me to <a
+href="https://www.linuxserver.io/blog/routing-docker-host-and-container-traffic-through-wireguard">this
+blog article</a>. Although it’s a manual setup, they cutoff the
+instructions with only the client side setup and again assume a VPN
+provider.</p>
+<p>But that’s no good for us! We selfhost. This will be a full guide on
+site-to-site tunneling with port forwarding. Sure each setup will be
+varied; but I believe I have a very vanilla setup with a public facing
+VPS server and both the server and the client running wireguard in
+docker.</p>
+<p>Here’s a visual view of what we’ll be setting up:</p>
+<figure>
+<img src="/img/wg_tunnel.png" alt="Tunnel Diagram" />
+<figcaption aria-hidden="true">Tunnel Diagram</figcaption>
+</figure>
+<h2 id="the-server">The server</h2>
+<p>In our case we’ll be running the wireguard server via docker as well.
+This may take up extra resources than running in bare metal, but I’m
+used to docker so much. In the example we will be forwarding port
+<code>5000</code>.</p>
+<p>Here’s the docker-compose.yml file:</p>
+<pre><code>services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - SERVERURL=&lt;server-ip&gt; #optional
+      - SERVERPORT=51820 #optional
+      - PEERS=1 #optional
+      - PEERDNS=auto #optional
+      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - ALLOWEDIPS=0.0.0.0/0 #optional
+      - PERSISTENTKEEPALIVE_PEERS= #optional
+      - LOG_CONFS=true #optional
+    volumes:
+      - /home/&lt;user&gt;/.config/appdata/wg:/config #&lt;-- note this location
+      - /lib/modules:/lib/modules #optional
+    ports:
+      - 51820:51820/udp
+      - 5000:5000
+      - 5000:5000/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped</code></pre>
+<p>You need to put in your <code>&lt;server-ip&gt;</code> accordingly.
+Bring it up, and it’ll autogenerate the wg.conf files. The server conf
+file will be <code>~/.config/appdata/wg/wg_confs/wg0.conf</code>. We’ll
+need to put in some IPTables into it.</p>
+<pre><code>[Interface]
+Address = 10.13.13.1
+ListenPort = 51820
+PrivateKey = 
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth+ -j MASQUERADE
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth+ -j MASQUERADE
+
+
+PreUp = iptables -t nat -A PREROUTING -p tcp --dport 5000 -j DNAT --to-destination 10.13.13.2:5000; iptables -t nat -A PREROUTING -p udp --dport 5000 -j DNAT --to-destination 10.13.13.2:5000
+PostDown = iptables -t nat -D PREROUTING -p tcp --dport 5000 -j DNAT --to-destination 10.13.13.2:5000; iptables -t nat -D PREROUTING -p udp --dport 5000 -j DNAT --to-destination 10.13.13.2:5000
+PreUp = iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o wg0 -j MASQUERADE
+
+PreUp = iptables -A FORWARD -i eth0 -o wg0 -p tcp --dport 5000 -j ACCEPT; iptables -A FORWARD -i eth0 -o wg0 -p udp --dport 5000 -j ACCEPT
+PreUp = iptables -A FORWARD -i wg0 -o eth0 -p tcp --sport 5000 -j ACCEPT; iptables -A FORWARD -i wg0 -o eth0 -p udp --sport 5000 -j ACCEPT
+
+PreUp = iptables -t nat -A POSTROUTING -o wg0 -p tcp --dport 5000 -j MASQUERADE; iptables -t nat -A POSTROUTING -o wg0 -p udp --dport 5000 -j MASQUERADE
+
+PostDown = iptables -D FORWARD -i eth0 -o wg0 -p tcp --dport 5000 -j ACCEPT; iptables -D FORWARD -i eth0 -o wg0 -p udp --dport 5000 -j ACCEPT
+PostDown = iptables -D FORWARD -i wg0 -o eth0 -p tcp --sport 5000 -j ACCEPT; iptables -D FORWARD -i wg0 -o eth0 -p udp --sport 5000 -j ACCEPT
+
+PostDown = iptables -t nat -D POSTROUTING -o wg0 -p tcp --dport 5000 -j MASQUERADE; iptables -t nat -D POSTROUTING -o wg0 -p udp --dport 5000 -j MASQUERADE
+
+[Peer]
+# peer1
+PublicKey = 
+PresharedKey = 
+AllowedIPs = 10.13.13.2/32</code></pre>
+<p>The first two routes, <code>PostUp</code> and <code>PostDown</code>
+will be added automatically, don’t change it.</p>
+<p>Once that is added, bring up the service one more time. Now run
+<code>docker compose logs</code> and check there’s no errors.</p>
+<h2 id="client">Client</h2>
+<p>Much of the client side config is based off of the above referenced
+blog post. But in my experience it needed additional IPTables route
+lines I will show below.</p>
+<p>Here’s the docker compose:</p>
+<pre><code>networks:
+  default:
+    name: wgnet
+    ipam:
+      config:
+      - subnet: 172.20.0.0/24
+
+services:
+
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Sydney
+    volumes:
+      - /mnt/main/config/wg:/config      #&lt;--- path for your config
+      - /lib/modules:/lib/modules
+    networks:
+      default:
+        ipv4_address: 172.20.0.50
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      #- net.ipv6.conf.all.disable_ipv6=0
+      #- net.ipv4.ip_forward=1
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    #networks:
+      #- wgnet
+    networks:
+      default:
+        ipv4_address: 172.20.0.2
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Australia/Sydney
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=5000
+    volumes:
+      - /mnt/main/config/qbtorrent:/config
+      - /mnt/main/media/torrents:/data/torrents:rw
+    ports:
+      - 8080:8080
+    restart: unless-stopped</code></pre>
+<p>Now copy <code>~/.config/appdata/wg/peer1/wg0.conf</code> to the
+client machine. Make the file as
+<code>&lt;your_path&gt;/wg_confs/wg0.conf</code>. Now add these
+IPTables.</p>
+<pre><code>[Interface]
+Address = 10.13.13.2
+PrivateKey = 
+ListenPort = 51820
+DNS = 10.13.13.1
+
+PostUp = iptables -t nat -A POSTROUTING -o wg+ -j MASQUERADE; iptables -t nat -A PREROUTING -p tcp --dport 5000 -j DNAT --to-destination 172.20.0.2:5000; iptables -t nat -A PREROUTING -p udp --dport 5000 -j DNAT --to-destination 172.20.0.2:5000
+PreDown = iptables -t nat -D POSTROUTING -o wg+ -j MASQUERADE; iptables -t nat -D PREROUTING -p tcp --dport 5000 -j DNAT --to-destination 172.20.0.2:5000; iptables -t nat -D PREROUTING -p udp --dport 5000 -j DNAT --to-destination 172.20.0.2:5000
+
+PostUp = iptables -A FORWARD -i wg0 -p tcp --dport 5000 -j ACCEPT; iptables -A FORWARD -i wg0 -p udp --dport 5000 -j ACCEPT
+PreDown = iptables -D FORWARD -i wg0 -p tcp --dport 5000 -j ACCEPT; iptables -D FORWARD -i wg0 -p udp --dport 5000 -j ACCEPT
+
+[Peer]
+PublicKey = 
+PresharedKey = 
+Endpoint = &lt;server-ip&gt;:51820
+AllowedIPs = 0.0.0.0/0</code></pre>
+<p>Now bring up the services on the client. Then run these commands:</p>
+<pre><code>docker exec --privileged qbittorrent ip route del default
+docker exec --privileged qbittorrent ip route add default via 172.20.0.50
+
+docker exec --privileged qbittorrent ip route add 192.168.0.0/24 via 172.20.0.1</code></pre>
+<p>The first two will re-route qBT container traffic to wireguard
+container, and then through the tunnel. The third command will make an
+exception for the qBT webUI to be accessed locally. Make sure to use the
+appropriate subnet accordingly. Eg. you may need to change to
+<code>192.168.1.0/24</code> which is another popular Home LAN
+subnet.</p>
+<p>Remember these <code>docker exec</code> commands need to be run each
+time you restart these containers. Alternatively you may script them for
+automation.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

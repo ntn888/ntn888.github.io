@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ditch Proxmox. Incus is the powerful, modern, community driven solution — Ajit Ananthadevan</title>
+    <meta name="description" content="Caveats for setting up Incus as a VM solution">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Ditch Proxmox. Incus is the powerful, modern, community driven solution</h1>
+                <time datetime="2025-05-17">May 17, 2025</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/NAS/" class="tag-link">NAS</a>
+                    <a href="/tags/self-host/" class="tag-link">self-host</a>
+                    <a href="/tags/server/" class="tag-link">server</a>
+                </div>
+            </header>
+<blockquote>
+<p>By default Incus is setup in <code>bridge</code> network type with
+NAT enabled! But we don’t want NAT (a sub-network is created), to
+facilitate reaching our VMs outside of the host (from other computers in
+our home network). See <a
+href="https://linuxcontainers.org/incus/docs/main/reference/network_bridge/#configuration-options">docs</a>
+on how to disable. Look for <code>ipv4.nat</code>, <code>ipv6.nat</code>
+boolean flags.</p>
+</blockquote>
+<p>https://blog.simos.info/how-to-make-your-lxd-containers-get-ip-addresses-from-your-lan-using-a-bridge/</p>
+<h2 id="addressing-quirks-on-alpine-linux-host">Addressing quirks on
+Alpine Linux host</h2>
+<p>I choose to run Alpine as the hypervisor host. See <a
+href="/posts/alpine">this article</a>, it’s very minimal and ideal for
+the purpose. You can see in the docs, how to install Incus on it. But I
+noticed a couple of quirks in running it..</p>
+<p>When launching images I get an error in the likes of
+<code>tap&lt;&gt;: No such file or directory</code>. You need to enable
+the module <code>tun</code> before use:</p>
+<pre><code>echo tun | doas tee -a /etc/modules
+reboot</code></pre>
+<p>Second the docs state that you need to add yourself to
+<code>incus-admin</code> group. This was not the case in my
+installation. I had to add to <code>incus</code> group instead and got
+admin privileges. To check which group to assign, run:</p>
+<pre><code>ls -l /var/lib/incus/unix.socket
+srw-rw----    1 root     incus            0 May 16 23:47 /var/lib/incus/unix.socket</code></pre>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

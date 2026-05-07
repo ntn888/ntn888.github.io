@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro:Bit IO breakout board — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Micro:Bit IO breakout board</h1>
+                <time datetime="2023-05-05">May 05, 2023</time>
+                <span class="post-category">nrf</span>
+                <div class="post-tags">
+                    <a href="/tags/nRF52/" class="tag-link">nRF52</a>
+                    <a href="/tags/embedded-hobbyist/" class="tag-link">embedded hobbyist</a>
+                    <a href="/tags/micro:bit/" class="tag-link">micro:bit</a>
+                </div>
+            </header>
+<p>As we have seen prevously, we have switched our interest to the
+Nordic family of chips.</p>
+<p>Providing a whole portfolio of low-power wireless microcontrollers,
+we are spoiled for choice when it comes to IoT centric projects. Given
+that 99% of embedded projects these days is somehow IoT based, this is
+the rationale behind going for these chips. Infact RF is in the name for
+Nordic, think nRF (the name of their mcu range).</p>
+<p>In a wide range of Nordic chips our go-to is the nRF52833 controller.
+I find it has the right balance of cost vs performance. Detailed info of
+this chip <a
+href="https://www.nordicsemi.com/products/nrf52833">here</a>.</p>
+<p>Now there are two viable hobbiest boards for this MCU<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. -
+nRF52840 Dongle [Which uses a similar chip only difference being double
+RAM/ROM] - Micro:Bit v2</p>
+<figure>
+<img src="/img/micro_bit.jpg" alt="bbc micro:bit" />
+<figcaption aria-hidden="true">bbc micro:bit</figcaption>
+</figure>
+<p>I choose the Micro:Bit. Here’s why.</p>
+<p>It packs in a lot of on-board sensors, which can be beneficial to
+quickly getting up and running; and at a reasonable price overhead. It
+retails for around $17.</p>
+<p>It is also widely available.</p>
+<p>Although its initial concept was to aid in kids’ programming
+education; it has found its way into the arsenal of the serious firmware
+developer. Now isn’t that a very familiar story?</p>
+<p>But there is one hurdle in using the Micro:Bit in breadboarding
+prototypes. There is a solution to this. Enter, the <em>T-type breakout
+board</em>.</p>
+<figure>
+<img src="/img/micro_bit_breakout.jpg" alt="breakout board pic" />
+<figcaption aria-hidden="true">breakout board pic</figcaption>
+</figure>
+<p>It can be procured from Aliexpress <a
+href="https://www.aliexpress.com/item/1005003217623333.html">here</a>.
+Here’s an excerpt of the board’s device tree in Zephyr that conveniently
+shows the GPIO mapping of the nRF52833 to the marked pins in the
+breakout board.</p>
+<pre><code>edge_connector: connector {
+        compatible = &quot;microbit,edge-connector&quot;;
+        #gpio-cells = &lt;2&gt;;
+        gpio-map-mask = &lt;0xffffffff 0xffffffc0&gt;;
+        gpio-map-pass-thru = &lt;0 0x3f&gt;;
+        gpio-map = &lt;0 0 &amp;gpio0 2 0&gt;,    /* P0 */
+               &lt;1 0 &amp;gpio0 3 0&gt;,    /* P1 */
+               &lt;2 0 &amp;gpio0 4 0&gt;,    /* P2 */
+               &lt;3 0 &amp;gpio0 31 0&gt;,   /* P3 */
+               &lt;4 0 &amp;gpio0 28 0&gt;,   /* P4 */
+               &lt;5 0 &amp;gpio0 14 0&gt;,   /* P5 */
+               &lt;6 0 &amp;gpio1 5 0&gt;,    /* P6 */
+               &lt;7 0 &amp;gpio0 11 0&gt;,   /* P7 */
+               &lt;8 0 &amp;gpio0 10 0&gt;,   /* P8 */
+               &lt;9 0 &amp;gpio0 9 0&gt;,    /* P9 */
+               &lt;10 0 &amp;gpio0 30 0&gt;,  /* P10 */
+               &lt;11 0 &amp;gpio0 23 0&gt;,  /* P11 */
+               &lt;12 0 &amp;gpio0 12 0&gt;,  /* P12 */
+               &lt;13 0 &amp;gpio0 17 0&gt;,  /* P13 */
+               &lt;14 0 &amp;gpio0 1 0&gt;,   /* P14 */
+               &lt;15 0 &amp;gpio0 13 0&gt;,  /* P15 */
+               &lt;16 0 &amp;gpio1 2 0&gt;,   /* P16 */
+               &lt;19 0 &amp;gpio0 26 0&gt;,  /* P19 */
+               &lt;20 0 &amp;gpio1 0 0&gt;;   /* P20 */
+};</code></pre>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>For an updated post of a newly available alternative see
+<a href="/posts/nrf-clones">this post</a>.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

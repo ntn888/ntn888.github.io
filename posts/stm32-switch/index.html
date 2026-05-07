@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The STM32WB series — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>The STM32WB series</h1>
+                <time datetime="2025-02-26">Feb 26, 2025</time>
+                <span class="post-category">efr32</span>
+                <div class="post-tags">
+                    <a href="/tags/stm32/" class="tag-link">stm32</a>
+                    <a href="/tags/efr32/" class="tag-link">efr32</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                </div>
+            </header>
+<p>Choosing the SiLabs’ EFR chips is a mistake in a hobby setting. It
+has</p>
+<ul>
+<li>lack of breadboard friendly dev boards</li>
+<li>lack of low cost flashers</li>
+</ul>
+<p>That second one is a dealbreaker. They use the Segger ecosystem of
+programmers, and boy are they expensive! I looked at several options to
+make use of a CMSIS-DAP (cortex-M universal) flasher. But couldn’t get
+them to work.</p>
+<ul>
+<li>Blackmagic Probe has no support for the series 2 family</li>
+<li><code>pyocd</code> did claim support via DFP packs but it didn’t
+actually work. (Gave memory transfer errors)</li>
+<li>The <code>stlink-reflasher</code> software from Segger, turns an
+stlink into a j-link (effectively). But it’s illegal to use it outside
+of ST’s parts. (Also this reflasher only runs on Windows (yuk!)).</li>
+</ul>
+<figure>
+<img src="/img/stm32wbic.jpg" alt="stm32wb hero image" />
+<figcaption aria-hidden="true">stm32wb hero image</figcaption>
+</figure>
+<p>This brings us to ST’s STM32WB series chips. Announced in <a
+href="https://www.hackster.io/news/stmicro-s-stm32wb55-chips-finally-available-after-13-month-wait-a92ea30182fd">2019</a>,
+they offer a family of low power MCUs featuring BLE and Thread. <a
+href="https://www.hackster.io/news/stmicro-s-stm32wb-family-gets-a-lower-cost-entry-point-with-new-value-line-parts-starting-at-1-57-2a37e6488764">A
+year later</a> they introduced the value line series in this family.</p>
+<p>ST may have been late to the wireless MCU portfolio party, but their
+stronghold in a mature ecosystem in general reflects in the new series
+too. The are ideal for the hobbyists (battery powered apps). Cheap
+flashers, vast documentation, plethora of online guides, and lastly
+[even if not elegant] beginner friendly tools and software ecosystem
+(ahem, CubeMX).</p>
+<p>The cost conscious Nucleo Boards have coverage for this series. But
+even cheaper and breadboard friendly is the <a
+href="https://www.aliexpress.com/item/1005007119406784.html">We-Act
+board</a>. So there is no fiddling with the (already scarce) SMD
+packages or making DIY breakouts for them. It’s all off-the-shelf.</p>
+<p>If we look at the SDK, we are supplied with the CubeIDE (a concept
+that has been replicated by many vendors!). I personally dislike it and
+prefer command line development. But it’s certainly a start. Included is
+a click-and-pick peripheral config tool - CubeMX. Of note is the
+family’s Cube firmware package which is downloaded as needed. In our
+case <a
+href="https://github.com/STMicroelectronics/STM32CubeWB">stm32cubeWB</a>.
+It contains all the HAL and CMSIS drivers. It also contains the needed
+middleware libraries such as, freeRTOS and OpenThread. Therefore you can
+always ditch the CubeIDE and go simple Makefiles! We’ll explore this in
+a further post.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

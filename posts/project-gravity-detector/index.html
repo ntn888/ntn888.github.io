@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Gravity Detector — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Project: Gravity Detector</h1>
+                <time datetime="2023-05-06">May 06, 2023</time>
+                <span class="post-category">nrf</span>
+                <div class="post-tags">
+                    <a href="/tags/nRF52/" class="tag-link">nRF52</a>
+                    <a href="/tags/accelerometer/" class="tag-link">accelerometer</a>
+                    <a href="/tags/sensors/" class="tag-link">sensors</a>
+                </div>
+            </header>
+<p>Here we will hookup a MPU6050 accelerometer/gyro sensor to our
+micro:bit to detect the orientation of the board.</p>
+<p>The microbit comes with an onboard accelerometer; but for the purpose
+of learning the procedure we will attach an external sensor to the
+board. The microbit also conveniently features a 5x5 LED Matrix, which
+we will use as a display to indicate direction. Basically we will
+imitate the effect of a dot on the display to flow towards the direction
+of gravity.</p>
+<p>Given this is our first proper project with Zephyr, this will serve
+as an exercise of project bring-up and its structural nature.</p>
+<hr />
+<p>We begin by cloning (or copying) the basic <code>hello world</code>
+project. Which will be our minimal starting point.</p>
+<p>Hardware wise we attach the microbit to the breakout board and then
+attach it and the sensor to the breadboard. Then simply wire as follows:
+<img src="/img/mpu6050conn.png" alt="mpu6050 wiring diagram" /></p>
+<p>We will communicate with the sensor via I<sup>2</sup>C bus. The
+actual driver file for the MPU6050 is already provided with the Zephyr
+sources! But we will need to provide an overlay file to reflect our
+custom wiring (which is the main exercise of using an external sensor).
+And remember to activate the modules in <code>prj.conf</code>.</p>
+<p><code>&lt;zephyr_root&gt;/applications/mpu6050/boards/bbc_microbit_v2.overlay</code>:</p>
+<pre><code>
+&amp;pinctrl {
+    i2c1_default: i2c1_default {
+        group1 {
+            psels = &lt;NRF_PSEL(TWIM_SDA, 1, 0)&gt;,
+                &lt;NRF_PSEL(TWIM_SCL, 0, 26)&gt;;
+        };
+    };
+
+    i2c1_sleep: i2c1_sleep {
+        group1 {
+            psels = &lt;NRF_PSEL(TWIM_SDA, 1, 0)&gt;,
+                &lt;NRF_PSEL(TWIM_SCL, 0, 26)&gt;;
+            low-power-enable;
+        };
+    };
+};
+
+
+&amp;i2c1 {
+    compatible = &quot;nordic,nrf-twim&quot;;
+    status = &quot;okay&quot;;
+    clock-frequency = &lt;I2C_BITRATE_FAST&gt;;
+
+    pinctrl-0 = &lt;&amp;i2c1_default&gt;;
+    pinctrl-1 = &lt;&amp;i2c1_sleep&gt;;
+    pinctrl-names = &quot;default&quot;, &quot;sleep&quot;;
+    /*sda-pin = &lt;34&gt;;
+    scl-pin = &lt;35&gt;;*/
+    mpu6050@68 {
+        compatible = &quot;invensense,mpu6050&quot;;
+        reg = &lt;0x68&gt;;
+        status = &quot;okay&quot;;
+        int-gpios = &lt;&amp;gpio0 2 GPIO_ACTIVE_HIGH&gt;;
+    };
+};</code></pre>
+<p><code>prj.conf</code>:</p>
+<pre><code>CONFIG_I2C=y
+CONFIG_SENSOR=y
+CONFIG_MPU6050_TRIGGER_NONE=y
+CONFIG_CBPRINTF_FP_SUPPORT=y
+
+CONFIG_DISPLAY=y</code></pre>
+<p>The basic overall application structure is as follows:</p>
+<pre><code>.
+├── boards
+│   └── bbc_microbit_v2.overlay
+├── CMakeLists.txt
+├── prj.conf
+└── src
+    └── main.c
+</code></pre>
+<h2 id="communication-with-sensor">Communication with sensor</h2>
+<p>In our first iteration we will achieve basic interaction with the
+sensor module.</p>
+<p>Luckily there is a sample application in the Zephyr:
+<code>&lt;zephyr_root&gt;/zephyr/samples/sensor/mpu6050/</code>
+directory from which we will copy the main.c contents:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;zephyr/kernel.h&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;zephyr/device.h&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;zephyr/drivers/sensor.h&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>now_str<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">char</span> buf<span class="op">[</span><span class="dv">16</span><span class="op">];</span> <span class="co">/* ...HH:MM:SS.MMM */</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> now <span class="op">=</span> k_uptime_get_32<span class="op">();</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> ms <span class="op">=</span> now <span class="op">%</span> MSEC_PER_SEC<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> s<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> min<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> h<span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    now <span class="op">/=</span> MSEC_PER_SEC<span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> now <span class="op">%</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    now <span class="op">/=</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    min <span class="op">=</span> now <span class="op">%</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    now <span class="op">/=</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> now<span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    snprintf<span class="op">(</span>buf<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buf<span class="op">),</span> <span class="st">&quot;</span><span class="sc">%u</span><span class="st">:</span><span class="sc">%02u</span><span class="st">:</span><span class="sc">%02u</span><span class="st">.</span><span class="sc">%03u</span><span class="st">&quot;</span><span class="op">,</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>         h<span class="op">,</span> min<span class="op">,</span> s<span class="op">,</span> ms<span class="op">);</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> buf<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">int</span> process_mpu6050<span class="op">(</span><span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span>dev<span class="op">)</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> sensor_value temperature<span class="op">;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> sensor_value accel<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> sensor_value gyro<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> rc <span class="op">=</span> sensor_sample_fetch<span class="op">(</span>dev<span class="op">);</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        rc <span class="op">=</span> sensor_channel_get<span class="op">(</span>dev<span class="op">,</span> SENSOR_CHAN_ACCEL_XYZ<span class="op">,</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                    accel<span class="op">);</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        rc <span class="op">=</span> sensor_channel_get<span class="op">(</span>dev<span class="op">,</span> SENSOR_CHAN_GYRO_XYZ<span class="op">,</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>                    gyro<span class="op">);</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        rc <span class="op">=</span> sensor_channel_get<span class="op">(</span>dev<span class="op">,</span> SENSOR_CHAN_AMBIENT_TEMP<span class="op">,</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                    <span class="op">&amp;</span>temperature<span class="op">);</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;[</span><span class="sc">%s</span><span class="st">]:</span><span class="sc">%g</span><span class="st"> Cel</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;  accel </span><span class="sc">%f</span><span class="st"> </span><span class="sc">%f</span><span class="st"> </span><span class="sc">%f</span><span class="st"> m/s/s</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;  gyro  </span><span class="sc">%f</span><span class="st"> </span><span class="sc">%f</span><span class="st"> </span><span class="sc">%f</span><span class="st"> rad/s</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>               now_str<span class="op">(),</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>               sensor_value_to_double<span class="op">(&amp;</span>temperature<span class="op">),</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>               sensor_value_to_double<span class="op">(&amp;</span>accel<span class="op">[</span><span class="dv">0</span><span class="op">]),</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>               sensor_value_to_double<span class="op">(&amp;</span>accel<span class="op">[</span><span class="dv">1</span><span class="op">]),</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>               sensor_value_to_double<span class="op">(&amp;</span>accel<span class="op">[</span><span class="dv">2</span><span class="op">]),</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>               sensor_value_to_double<span class="op">(&amp;</span>gyro<span class="op">[</span><span class="dv">0</span><span class="op">]),</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>               sensor_value_to_double<span class="op">(&amp;</span>gyro<span class="op">[</span><span class="dv">1</span><span class="op">]),</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>               sensor_value_to_double<span class="op">(&amp;</span>gyro<span class="op">[</span><span class="dv">2</span><span class="op">]));</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;sample fetch/get failed: </span><span class="sc">%d</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;, rc);</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rc<span class="op">;</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="pp">#ifdef CONFIG_MPU6050_TRIGGER</span></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="kw">struct</span> sensor_trigger trigger<span class="op">;</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">void</span> handle_mpu6050_drdy<span class="op">(</span><span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span>dev<span class="op">,</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>                <span class="dt">const</span> <span class="kw">struct</span> sensor_trigger <span class="op">*</span>trig<span class="op">)</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> rc <span class="op">=</span> process_mpu6050<span class="op">(</span>dev<span class="op">);</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;cancelling trigger due to failure: </span><span class="sc">%d</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;, rc);</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dt">void</span><span class="op">)</span>sensor_trigger_set<span class="op">(</span>dev<span class="op">,</span> trig<span class="op">,</span> NULL<span class="op">);</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif </span><span class="co">/* CONFIG_MPU6050_TRIGGER */</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span><span class="dt">const</span> mpu6050 <span class="op">=</span> DEVICE_DT_GET_ONE<span class="op">(</span>invensense_mpu6050<span class="op">);</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>device_is_ready<span class="op">(</span>mpu6050<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Device </span><span class="sc">%s</span><span class="st"> is not ready</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;, mpu6050-&gt;name);</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="pp">#ifdef CONFIG_MPU6050_TRIGGER</span></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>    trigger <span class="op">=</span> <span class="op">(</span><span class="kw">struct</span> sensor_trigger<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span>type <span class="op">=</span> SENSOR_TRIG_DATA_READY<span class="op">,</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span>chan <span class="op">=</span> SENSOR_CHAN_ALL<span class="op">,</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>sensor_trigger_set<span class="op">(</span>mpu6050<span class="op">,</span> <span class="op">&amp;</span>trigger<span class="op">,</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>                   handle_mpu6050_drdy<span class="op">)</span> <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Cannot configure trigger</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;);</span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>    printk<span class="op">(</span><span class="st">&quot;Configured for triggered sampling.</span></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;);</span></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span>IS_ENABLED<span class="op">(</span>CONFIG_MPU6050_TRIGGER<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> rc <span class="op">=</span> process_mpu6050<span class="op">(</span>mpu6050<span class="op">);</span></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>rc <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>        k_sleep<span class="op">(</span>K_SECONDS<span class="op">(</span><span class="dv">2</span><span class="op">));</span></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* triggered runs with its own thread after exit */</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The output on the Zephyr serial console:</p>
+<pre><code>*** Booting Zephyr OS build zephyr-v3.3.0-3014-ge59e65dc75e4 ***
+[0:00:00.008]:19.9182 Cel
+  accel 0.351947 -0.275334 10.371681 m/s/s
+  gyro  -0.021583 -0.014655 -0.006794 rad/s
+[0:00:02.019]:19.8712 Cel
+  accel 0.272938 -0.150835 10.292672 m/s/s
+  gyro  -0.019584 -0.009592 -0.012124 rad/s</code></pre>
+<h2 id="output-via-led-matrix">Output via LED Matrix</h2>
+<p>Now that we have confirmed successful communication with the module,
+we will strip off code related to console logging. And introduce the
+following function:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> update_mydisplay<span class="op">(</span><span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> z<span class="op">,</span> <span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span>dev<span class="op">)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// makeup buf here</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">/*  buf[0] = PIXEL_MASK(1, 0, 1, 0, 1);</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[1] = PIXEL_MASK(1, 1, 0, 0, 1);</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[2] = PIXEL_MASK(1, 0, 1, 0, 1);</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[3] = PIXEL_MASK(1, 0, 0, 1, 1);</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[4] = PIXEL_MASK(1, 0, 1, 0, 1);</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> tbuf<span class="op">[</span><span class="dv">5</span><span class="op">][</span><span class="dv">5</span><span class="op">];</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i<span class="op">,</span> j<span class="op">,</span> ii<span class="op">,</span> jj<span class="op">,</span> ret<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>            tbuf<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">// work the dot here</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    jj <span class="op">=</span> <span class="dv">0</span> <span class="op">-</span> y<span class="op">/</span><span class="dv">10</span><span class="op">*</span><span class="dv">5</span> <span class="op">+</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    ii <span class="op">=</span> z<span class="op">/</span><span class="dv">10</span><span class="op">*</span><span class="dv">5</span> <span class="op">+</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// assign ceiling values to trap the dot into display!</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ii <span class="op">&gt;</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        ii <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>jj <span class="op">&gt;</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        jj <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ii <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        ii <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>jj <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        jj <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    tbuf<span class="op">[</span>ii<span class="op">][</span>jj<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        buf<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>            buf<span class="op">[</span>i<span class="op">]</span> <span class="op">|=</span> tbuf<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>j <span class="op">&lt;</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>                buf<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> display_set_brightness<span class="op">(</span>dev<span class="op">,</span> <span class="bn">0x7F</span><span class="op">);</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ret <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;display_set_brightness failed: </span><span class="sc">%u</span><span class="st">/</span><span class="sc">%d</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>            __LINE__<span class="op">,</span> ret<span class="op">);</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> display_write<span class="op">(</span>dev<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="op">&amp;</span>buf_desc<span class="op">,</span> buf<span class="op">);</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ret <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;display_write failed: </span><span class="sc">%u</span><span class="st">/</span><span class="sc">%d</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>            __LINE__<span class="op">,</span> ret<span class="op">);</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> display_blanking_off<span class="op">(</span>dev<span class="op">);</span></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ret <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;display_blanking_off failed: </span><span class="sc">%u</span><span class="st">/</span><span class="sc">%d</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>            __LINE__<span class="op">,</span> ret<span class="op">);</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>In the code above, we use an intermediate 2d array to represent the
+LED Matrix to flexibly refer to our indicating dot. This <em>dot</em>
+will move towards the direction of flowing gravity. Now our sensor is
+3-dimensional but we only consider 2 axes for the 2d array. By means of
+trial-and-error, this works out to be the x and z axis of the sensor,
+which is passed to this function.</p>
+<p>Since our final LED Matrix data is single dimensional 5bit array; we
+need to populate this data by means of our temporary 2d array. We do
+this by bitwise shifting to the left while cycling through each row and
+copy it through.</p>
+<p>And we need to periodically call this function after processing
+sensor data. Here’s the updated main.c:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;zephyr/kernel.h&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;zephyr/device.h&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;zephyr/drivers/display.h&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;zephyr/drivers/sensor.h&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#define PIXEL_BIT</span><span class="op">(</span><span class="pp">idx</span><span class="op">,</span><span class="pp"> val</span><span class="op">)</span><span class="pp">  </span><span class="op">(</span><span class="pp">val </span><span class="op">?</span><span class="pp"> BIT</span><span class="op">(</span><span class="pp">idx</span><span class="op">)</span><span class="pp"> </span><span class="op">:</span><span class="pp"> </span><span class="dv">0</span><span class="op">)</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define PIXEL_MASK</span><span class="op">(...)</span><span class="pp">      </span><span class="op">(</span><span class="pp">FOR_EACH_IDX</span><span class="op">(</span><span class="pp">PIXEL_BIT</span><span class="op">,</span><span class="pp"> </span><span class="op">(|),</span><span class="pp"> __VA_ARGS__</span><span class="op">))</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="kw">struct</span> display_capabilities caps<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">uint8_t</span> buf<span class="op">[</span><span class="dv">5</span><span class="op">];</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">const</span> <span class="kw">struct</span> display_buffer_descriptor buf_desc <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>buf_size <span class="op">=</span> <span class="kw">sizeof</span><span class="op">(</span>buf<span class="op">),</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>width    <span class="op">=</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>height   <span class="op">=</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>pitch    <span class="op">=</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> update_mydisplay<span class="op">(</span><span class="dt">double</span> y<span class="op">,</span> <span class="dt">double</span> z<span class="op">,</span> <span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span>dev<span class="op">)</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// makeup buf here</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">/*  buf[0] = PIXEL_MASK(1, 0, 1, 0, 1);</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[1] = PIXEL_MASK(1, 1, 0, 0, 1);</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[2] = PIXEL_MASK(1, 0, 1, 0, 1);</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[3] = PIXEL_MASK(1, 0, 0, 1, 1);</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">    buf[4] = PIXEL_MASK(1, 0, 1, 0, 1);</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> tbuf<span class="op">[</span><span class="dv">5</span><span class="op">][</span><span class="dv">5</span><span class="op">];</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> i<span class="op">,</span> j<span class="op">,</span> ii<span class="op">,</span> jj<span class="op">,</span> ret<span class="op">;</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>            tbuf<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">// work the dot here</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    jj <span class="op">=</span> <span class="dv">0</span> <span class="op">-</span> y<span class="op">/</span><span class="dv">10</span><span class="op">*</span><span class="dv">5</span> <span class="op">+</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    ii <span class="op">=</span> z<span class="op">/</span><span class="dv">10</span><span class="op">*</span><span class="dv">5</span> <span class="op">+</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">// assign ceiling values to trap the dot into display!</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ii <span class="op">&gt;</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        ii <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>jj <span class="op">&gt;</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        jj <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ii <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        ii <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>jj <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        jj <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    tbuf<span class="op">[</span>ii<span class="op">][</span>jj<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>        buf<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span>j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>            buf<span class="op">[</span>i<span class="op">]</span> <span class="op">|=</span> tbuf<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>j <span class="op">&lt;</span> <span class="dv">4</span><span class="op">)</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>                buf<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> display_set_brightness<span class="op">(</span>dev<span class="op">,</span> <span class="bn">0x7F</span><span class="op">);</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ret <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;display_set_brightness failed: </span><span class="sc">%u</span><span class="st">/</span><span class="sc">%d</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>            __LINE__<span class="op">,</span> ret<span class="op">);</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> display_write<span class="op">(</span>dev<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="op">&amp;</span>buf_desc<span class="op">,</span> buf<span class="op">);</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ret <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;display_write failed: </span><span class="sc">%u</span><span class="st">/</span><span class="sc">%d</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>            __LINE__<span class="op">,</span> ret<span class="op">);</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> display_blanking_off<span class="op">(</span>dev<span class="op">);</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ret <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;display_blanking_off failed: </span><span class="sc">%u</span><span class="st">/</span><span class="sc">%d</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>            __LINE__<span class="op">,</span> ret<span class="op">);</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>now_str<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">char</span> buf<span class="op">[</span><span class="dv">16</span><span class="op">];</span> <span class="co">/* ...HH:MM:SS.MMM */</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> now <span class="op">=</span> k_uptime_get_32<span class="op">();</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> ms <span class="op">=</span> now <span class="op">%</span> MSEC_PER_SEC<span class="op">;</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> s<span class="op">;</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> min<span class="op">;</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unsigned</span> <span class="dt">int</span> h<span class="op">;</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>    now <span class="op">/=</span> MSEC_PER_SEC<span class="op">;</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> now <span class="op">%</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>    now <span class="op">/=</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>    min <span class="op">=</span> now <span class="op">%</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>    now <span class="op">/=</span> <span class="dv">60</span><span class="bu">U</span><span class="op">;</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> now<span class="op">;</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>    snprintf<span class="op">(</span>buf<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buf<span class="op">),</span> <span class="st">&quot;</span><span class="sc">%u</span><span class="st">:</span><span class="sc">%02u</span><span class="st">:</span><span class="sc">%02u</span><span class="st">.</span><span class="sc">%03u</span><span class="st">&quot;</span><span class="op">,</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>         h<span class="op">,</span> min<span class="op">,</span> s<span class="op">,</span> ms<span class="op">);</span></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> buf<span class="op">;</span></span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> <span class="dt">int</span> process_mpu6050<span class="op">(</span><span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span>dev<span class="op">,</span> <span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span>ddev<span class="op">)</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> sensor_value temperature<span class="op">;</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> sensor_value accel<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> sensor_value gyro<span class="op">[</span><span class="dv">3</span><span class="op">];</span></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> rc <span class="op">=</span> sensor_sample_fetch<span class="op">(</span>dev<span class="op">);</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>        rc <span class="op">=</span> sensor_channel_get<span class="op">(</span>dev<span class="op">,</span> SENSOR_CHAN_ACCEL_XYZ<span class="op">,</span></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>                    accel<span class="op">);</span></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>        rc <span class="op">=</span> sensor_channel_get<span class="op">(</span>dev<span class="op">,</span> SENSOR_CHAN_GYRO_XYZ<span class="op">,</span></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>                    gyro<span class="op">);</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>        rc <span class="op">=</span> sensor_channel_get<span class="op">(</span>dev<span class="op">,</span> SENSOR_CHAN_AMBIENT_TEMP<span class="op">,</span></span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>                    <span class="op">&amp;</span>temperature<span class="op">);</span></span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>rc <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="co">/*      printf(&quot;[%s]:%g Cel</span></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="co">               &quot;  accel %f %f %f m/s/s</span></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;</span></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="co">               &quot;  gyro  %f %f %f rad/s</span></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;,</span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="co">               now_str(),</span></span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a><span class="co">               sensor_value_to_double(&amp;temperature),</span></span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="co">               sensor_value_to_double(&amp;accel[0]),</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="co">               sensor_value_to_double(&amp;accel[1]),</span></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="co">               sensor_value_to_double(&amp;accel[2]),</span></span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="co">               sensor_value_to_double(&amp;gyro[0]),</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="co">               sensor_value_to_double(&amp;gyro[1]),</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="co">               sensor_value_to_double(&amp;gyro[2]));*/</span></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;sample fetch/get failed: </span><span class="sc">%d</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;, rc);</span></span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>    update_mydisplay<span class="op">(</span>sensor_value_to_double<span class="op">(&amp;</span>accel<span class="op">[</span><span class="dv">0</span><span class="op">]),</span> sensor_value_to_double<span class="op">(&amp;</span>accel<span class="op">[</span><span class="dv">2</span><span class="op">]),</span> ddev<span class="op">);</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rc<span class="op">;</span></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span><span class="dt">const</span> mpu6050 <span class="op">=</span> DEVICE_DT_GET_ONE<span class="op">(</span>invensense_mpu6050<span class="op">);</span></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>device_is_ready<span class="op">(</span>mpu6050<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;Device </span><span class="sc">%s</span><span class="st"> is not ready</span></span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;, mpu6050-&gt;name);</span></span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> ret<span class="op">;</span></span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="kw">struct</span> device <span class="op">*</span><span class="dt">const</span> dev <span class="op">=</span> DEVICE_DT_GET_ONE<span class="op">(</span>nordic_nrf_led_matrix<span class="op">);</span></span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>dev<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;Display device not ready</span></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;);</span></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>    display_get_capabilities<span class="op">(</span>dev<span class="op">,</span> <span class="op">&amp;</span>caps<span class="op">);</span></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!(</span>caps<span class="op">.</span>supported_pixel_formats <span class="op">&amp;</span> PIXEL_FORMAT_MONO01<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;Expected pixel format not supported</span></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;);</span></span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> display_set_pixel_format<span class="op">(</span>dev<span class="op">,</span> PIXEL_FORMAT_MONO01<span class="op">);</span></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>ret <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>        printk<span class="op">(</span><span class="st">&quot;display_set_pixel_format failed: </span><span class="sc">%u</span><span class="st">/</span><span class="sc">%d</span></span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,</span></span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>            __LINE__<span class="op">,</span> ret<span class="op">);</span></span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!</span>IS_ENABLED<span class="op">(</span>CONFIG_MPU6050_TRIGGER<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> rc <span class="op">=</span> process_mpu6050<span class="op">(</span>mpu6050<span class="op">,</span> dev<span class="op">);</span></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>rc <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>        k_msleep<span class="op">(</span><span class="dv">100</span><span class="op">);</span></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* triggered runs with its own thread after exit */</span></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<figure>
+<img src="/img/accel_final_effect.gif" alt="animation final effect" />
+<figcaption aria-hidden="true">animation final effect</figcaption>
+</figure>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

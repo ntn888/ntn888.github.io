@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selfhosted email delivery with postfix — Ajit Ananthadevan</title>
+    <meta name="description" content="Guide on selfhosted email setup for your selfhosted services">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Selfhosted email delivery with postfix</h1>
+                <time datetime="2022-12-27">Dec 27, 2022</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/selfhosted/" class="tag-link">selfhosted</a>
+                    <a href="/tags/servers/" class="tag-link">servers</a>
+                    <a href="/tags/open-source/" class="tag-link">open-source</a>
+                </div>
+            </header>
+<p>Note that it is assumed that a Gitlab docker instance is setup on a
+Debian 10/11 machine… This article follows the <a
+href="/posts/selfhosted-gitlab">post</a>.</p>
+<p>According to the docs, the official image of Gitlab doesn’t include a
+Mail Transfer Agent (MTA) preinstalled. For our purposes this is the
+program that routes out the email from our system. So we’ll install it
+on the host system and setup Gitlab to route mail to it.</p>
+<p>This is simple enough, but getting our local hosted email service to
+play nice with Gmail is a different story.</p>
+<p>We begin by setting up basic postfix email. Install
+<code>postfix</code> as per <a
+href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-20-04">this</a>.
+We only need <em>step one</em>.</p>
+<p>To test:</p>
+<pre><code>echo &quot;Subject: test&quot; | sendmail -v mymail@mydomain.com</code></pre>
+<p>This will not actually deliver the mail as yet; but atleast it should
+run without errors!</p>
+<p>To allow the docker container to access postfix we make a small
+change to <code>/etc/postfix/main.cf</code>. Add <code>0.0.0.0/0</code>
+to <code>mynetworks</code>. This allows any IP to initiate email, as IP
+address change with every container restarts, we will take this
+approach.</p>
+<p>Remember to restart postfix on every edit to this file by:</p>
+<pre><code>sudo systemctl reload postfix</code></pre>
+<p>Then add this smtp settings in our Gitlab’s
+<code>docker-compose.yml</code>:</p>
+<pre><code>gitlab_rails[&#39;smtp_enable&#39;] = true
+gitlab_rails[&#39;smtp_address&#39;] = &quot;gitlab.example.com&quot;
+gitlab_rails[&#39;smtp_port&#39;] = 25</code></pre>
+<p>Note that <code>'smtp_address'</code> will be the FQDN that we set as
+our host machine domain.</p>
+<p>Now to test, execute the following:</p>
+<pre><code>sudo docker exec -it  gitlab-compose-web-1 bash
+gitlab-rails console -e production
+
+Notify.test_email(&#39;mymail@mydomain.com&#39;, &#39;Message Subject&#39;, &#39;Message Body&#39;).deliver_now</code></pre>
+<p>In the first command <code>gitlab-compose-web-1</code> is the name of
+the container. To check your running name run
+<code>sudo docker ps</code>.</p>
+<p>Note this will not yet work if you’re using a Gmail addresses read on
+to fix this…</p>
+<h2 id="setting-up-sasl-for-gmail-receipients">Setting up SASL (for
+Gmail receipients)</h2>
+<p>Next thing to do is to install Dovecot. On debian:</p>
+<pre><code>sudo apt install dovecot-core dovecot-pop3d dovecot-imapd</code></pre>
+<p>Then in <code>/etc/dovecot/conf.d/10-master.conf</code>:</p>
+<pre><code>service auth {
+  unix_listener auth-userdb {
+    mode = 0666
+    user = postfix
+    group = postfix
+  }
+
+  # Postfix smtp-auth
+  #unix_listener /var/spool/postfix/private/auth {
+  #  mode = 0666
+  #}
+
+  # Auth process is run as this user.
+  #user = $default_internal_user
+}</code></pre>
+<p>Don’t forget to restart dovecot:</p>
+<pre><code>sudo systemctl restart dovecot</code></pre>
+<p>Then modify postfix to use dovecot ADD
+<code>/etc/postfix/main.cf</code>:</p>
+<pre><code>smtpd_sasl_type = dovecot</code></pre>
+<p>Don’t forget to restart postfix:</p>
+<pre><code>sudo systemctl reload postfix</code></pre>
+<p>Lastly we need to add a TXT record for our domain:</p>
+<pre><code>v=spf1 ip4:x.x.x.x ~all</code></pre>
+<p>where <code>x.x.x.x</code> is the IP of the server.</p>
+<p>Now try:</p>
+<pre><code>echo &quot;Subject: test&quot; | sendmail -v me@gmail.com</code></pre>
+<p>Tip: handy commands to view the log messages: postfix:
+<code>sudo tail -f /var/log/mail.log</code> Dovecot:
+<code>sudo tail -f /var/log/syslog</code></p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

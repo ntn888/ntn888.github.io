@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sphinx Documentation Generator — Ajit Ananthadevan</title>
+    <meta name="description" content="Basic guide for the Sphinx Documentation Generator">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Sphinx Documentation Generator</h1>
+                <time datetime="2022-12-07">Dec 07, 2022</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/selfhosted/" class="tag-link">selfhosted</a>
+                    <a href="/tags/documentation/" class="tag-link">documentation</a>
+                </div>
+            </header>
+<p>Today I write about the python documentation generator; Sphinx. Which
+is based on reStructuredText.</p>
+<p>reStructuredText is an alternative to Markdown in styling text
+fragments using simple relevant syntax. However restructured text (or
+reST for short) is bit more versatile and in my opinion more featured.
+It is also extensible using third party plugins! One notable feature is
+the native ability to handle LaTex; which is great for including
+Mathematic formulas.</p>
+<p>In comparison with Markdown, reST aims to be more readable and less
+obtrusive. For example link addresses are provided with reference as
+opposed to being inline as in Markdown. The second method is also
+possible as I said it being versatile.</p>
+<p>I intend to document my ideas about RISC-V lowlevel concepts in
+Sphinx; I believe this will be an interesting take.</p>
+<p>One of the initial difficulty in grasping Sphinx is understanding the
+toctree for linking the table of contents. Which I will clarify
+here…</p>
+<p>Basically it is a recursive link to the other page as a relative
+reference from the current page’s current directory. Once you have
+generated the base skeleton project from the
+<code>sphinx-quickstart</code> command; you just need to append these
+links to other pages in the toc section in <code>index.rst</code>. Like
+so:</p>
+<p>index.rst:</p>
+<pre><code>.. toctree::
+   :maxdepth: 4
+   :caption: Contents:
+
+   fm/welcome</code></pre>
+<p>And then in <code>./fm/welcome.rst</code> for example:</p>
+<pre><code>
+=================
+Test welcome page
+=================
+
+This is the first proper page we will write. This should show up as the first page from the TOC!
+
+.. toctree::
+   :maxdepth: 4
+
+   test-page_1
+   test-page_2</code></pre>
+<p>The above welcome page contains reference to
+<code>test-page_1.rst</code> and <code>test-page_2.rst</code> which we
+will need to provide inside the <code>./fm/</code> subdir.</p>
+<p>As is apparent you can structure your book directory into other
+subfolders as <code>./ch1/</code> and so on.</p>
+<p>The Sphinx documentation can be found <a
+href="https://www.sphinx-doc.org/en/master/">here</a> and the reST
+syntax is <a
+href="https://docutils.sourceforge.io/docs/user/rst/quickstart.html">here</a>.</p>
+<p>Happy Writing!</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switch host to Codeberg — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Switch host to Codeberg</h1>
+                <time datetime="2025-02-25">Feb 25, 2025</time>
+                <span class="post-category">update</span>
+                <div class="post-tags">
+                    <a href="/tags/blog/" class="tag-link">blog</a>
+                    <a href="/tags/hosting/" class="tag-link">hosting</a>
+                    <a href="/tags/self-reflection/" class="tag-link">self-reflection</a>
+                </div>
+            </header>
+<p>This site has now switched to Codeberg hosting. Codeberg is an
+up-and-coming community run alternative to the popular Github service.
+Being a FOSS enthusiast myself, it was an natural move for me. Going
+forward I intend to host all my new projects in Codeberg. I have linked
+to my Codeberg profile in the site homepage now instead.</p>
+<p>Codeberg is built on the open-source Forgejo base software. Naturally
+I tried my hand at selfhosting it, complete with a runner (CI workflow
+host helper). Unfortunately the online version doesn’t offer a CI runner
+for free.</p>
+<p>As a result of this, we can’t have automated hosted (on push) builds
+of the SSG site generation. We have to build it locally (or supply a CI
+runner in the form of a VM). But I see this as a good thing. This will
+force you to test the generated site for errors locally.</p>
+<p>We could have also pushed to a temporary host branch/repo to see if
+it’s successful before merging into the actual site repo (but this is
+beyond my understanding). So far I have been just making the necessary
+changes to source files and then blindly push to Github, where the
+runner builds (fingers crossed). Fortunately <code>zola</code> version
+provided by Github images was not updated over time (which have come
+through breaking changes!).</p>
+<p>To make this local build process seamless, I use a Makefile in the
+project root:</p>
+<pre><code>.PHONY: pages clean publish
+SHELL := /bin/bash
+LAST_COMMIT_MESSAGE := $(shell git log -n 1 --pretty=format:&#39;%s&#39;)
+PAGES_REPO_URL := git@codeberg.org:ntn888/pages.git
+PAGES_DIR := ../pages
+
+pages: clean
+    flatpak run org.getzola.zola build
+
+clean:
+    rm -rf public/
+
+publish: pages
+    # Clone the repo if it doesn&#39;t exist
+    if [ ! -d &quot;$(PAGES_DIR)&quot; ]; then \
+        git clone --depth=1 $(PAGES_REPO_URL) $(PAGES_DIR); \
+    fi
+
+    # Remove all files except .git (ensuring .git and its content remain intact)
+    find $(PAGES_DIR) -mindepth 1 -not -path &quot;$(PAGES_DIR)/.git/*&quot; -not -name &quot;.git&quot; -exec rm -rf {} +
+
+    # Copy all built files to the cleaned pages directory
+    cp -r public/. $(PAGES_DIR)/
+
+    # Push new changes to the remote repository
+    pushd $(PAGES_DIR) &amp;&amp; \
+        git add . &amp;&amp; \
+        git commit -m &quot;Update site: $(LAST_COMMIT_MESSAGE)&quot; &amp;&amp; \
+        git push origin main &amp;&amp; \
+    popd</code></pre>
+<p>As seen, this creates (if not already present) <code>pages</code>
+directory adjacent to the current SSG source project directory. And
+pushes this to the <code>pages</code> repo to Codeberg (which is the
+specified repo for hosting pages).</p>
+<p>Now, run <code>make pages</code> to generate followed by
+<code>make publish</code>.</p>
+<p>In other news, I have reclaimed my <code>simplycreate.online</code>
+domain for this site. This will help sustain the site in-case of
+problems with a specific host, in this case Codeberg.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

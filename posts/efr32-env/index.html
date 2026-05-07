@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting up the environment — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Setting up the environment</h1>
+                <time datetime="2025-02-19">Feb 19, 2025</time>
+                <span class="post-category">efr32</span>
+                <div class="post-tags">
+                    <a href="/tags/efr32/" class="tag-link">efr32</a>
+                    <a href="/tags/Silicon-Labs/" class="tag-link">Silicon Labs</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                </div>
+            </header>
+<p>In this article we will see about setting up a development
+environment for Silicon Labs’ BLE/Thread range of MCUs. Specifically for
+the EFR32MG21A020F768IM32 chip which appears in the inexpensive ZYZBP008
+module. I built a breakout board for this module. KiCAD files available
+<a href="https://github.com/ntn888/efr32_breakout">here</a>.</p>
+<p>Silicon labs’ EFR32 series IOT low power wireless chips are low cost
+and have good availability. They’re know for good power efficiency and
+being of western origin; have great documentation. Another attractive
+feature (unlike Nordic) is the traditional embedded development SDK.</p>
+<p>Like ST they provide an Eclipse based IDE. But this is resource heavy
+to run on the host, and has been laggy under Linux (for me). As usual in
+this blog we avoid propriety IDEs and have a generic VIM/makefile
+workflow.</p>
+<p>Producing makefiles by hand has another inadvertent advantage: you
+intricately learn the project dependencies. Which helps you understand
+the environment better.</p>
+<p>First install dependencies:</p>
+<pre><code>sudo apt install git git-lfs gcc-arm-none-eabi make bear gcc-multilib libstdc++-arm-none-eabi-newlib openocd gdb-multiarch</code></pre>
+<p>On arch:</p>
+<pre><code>sudo pacman -Sy git git-lfs make bear arm-none-eabi-gcc arm-none-eabi-newlib arm-none-eabi-gdb openocd</code></pre>
+<p>On Fedora:</p>
+<pre><code>sudo dnf install git git-lfs arm-none-eabi-gcc-cs make bear arm-none-eabi-newlib openocd</code></pre>
+<blockquote>
+<p>On Fedora <code>arm-none-eabi-gdb</code> is not available in the
+repos. See <a
+href="https://copr.fedorainfracloud.org/coprs/rleh/arm-none-eabi-gdb/">here</a>
+to install gdb.</p>
+</blockquote>
+<p>Then clone the gecko SDK:</p>
+<pre><code>git clone https://github.com/SiliconLabs/gecko_sdk.git </code></pre>
+<p>Alternatively download the SDK zip file from their releases. This
+results in a smaller download.</p>
+<p>Now CD into this directory. We now need to create the files for a
+makefile structured project. The SDK uses a <code>SLC</code> based
+projects, but we will ignore this. I only succeeded to generate the
+blinky example using this. We will use makefile instead. This is the
+resulting file tree:</p>
+<pre><code>gecko-sdk
+|
+├── platform
+│    ├── CMSIS
+│    └── emlib
+│    │
+│    ...
+│
+└── myapps
+     └── blinky
+          ├── Makefile
+          ├── main.mk
+          ├── emlib.mk
+          ├── compile_commands.json
+          ├── linker_script
+          │     └── efr32mg21.ld
+          └── src
+               └── main.c</code></pre>
+<p>We see the familiar <code>CMSIS</code> directory. <code>emlib</code>
+is Silicon labs’ equivalent of peripheral HAL. The main make
+<code>Makefile</code> is a template available <a
+href="https://github.com/arturlangner/EFM32_makefile_project/blob/master/Makefile">here</a>.
+I copied the linker script over from
+<code>gecko-sdk/platform/Device/SiliconLabs/EFR32MG21/Source/GCC/efr32mg21.ld</code>.
+Note that this file differs between projects, especially if an RTOS is
+used.</p>
+<p><code>main.mk</code>:</p>
+<pre><code>CC = arm-none-eabi-gcc
+SIZE = arm-none-eabi-size
+OBJCOPY = arm-none-eabi-objcopy
+
+COMMON_FLAGS = \
+ -mcpu=cortex-m33 \
+ -mthumb \
+ -mfpu=fpv5-sp-d16 \
+ -mfloat-abi=hard \
+ -std=c99 \
+ -Wall \
+ -Wextra \
+ -Os \
+ -fdata-sections \
+ -ffunction-sections \
+ -fomit-frame-pointer \
+ -imacros sl_gcc_preinclude.h \
+ -mcmse \
+ -g
+
+DEFINES = -DEFR32MG21A020F768IM32
+
+INCLUDE += -I include -I ../../platform/CMSIS/Core/Include -I ./ \
+ -I../../platform/Device/SiliconLabs/EFR32MG21/Include \
+ -I../../platform/common/inc \
+ -I ../../platform/common/toolchain/inc \
+ -I ../../platform/emlib/inc
+
+
+CFLAGS := $(COMMON_FLAGS) $(INCLUDE) $(DEFINES)
+
+SUBMAKEFILES := emlib.mk
+SOURCES := ../../platform/Device/SiliconLabs/EFR32MG21/Source/system_efr32mg21.c \
+../../platform/Device/SiliconLabs/EFR32MG21/Source/startup_efr32mg21.c \
+src/main.c
+
+
+BUILD_DIR  := build
+TARGET_DIR := build_output
+
+#nosys.specs are required for printf
+LDFLAGS =  \
+ -mcpu=cortex-m33 \
+ -mthumb \
+ -mfpu=fpv5-sp-d16 \
+ -mfloat-abi=hard \
+ -T&quot;linker_script/efr32mg21.ld&quot; \
+ --specs=nano.specs \
+ #--specs=nosys.specs \
+ -Xlinker -Map=$(TARGET_DIR)/main.map \
+ -Wl,--gc-sections
+ 
+# Startup file
+#LDLIBS := ../../platform/Device/SiliconLabs/EFR32MG21/Source/GCC/startup_efr32mg21.S
+
+###########
+
+GROUP_START =-Wl,--start-group
+GROUP_END =-Wl,--end-group
+
+PROJECT_LIBS = \
+ -lgcc \
+ -lc \
+ -lm \
+ -lnosys
+
+LIBS += $(GROUP_START) $(PROJECT_LIBS) $(GROUP_END)
+
+TGT_LDFLAGS += $(LIBS)
+##########
+
+TARGET := main.elf
+
+size: $(TARGET_DIR)/main.elf
+    $(SIZE) $(TARGET_DIR)/main.elf
+</code></pre>
+<p><code>emlib.mk</code></p>
+<pre><code>SOURCES := ../../platform/emlib/src/em_cmu_fpga.c \
+../../platform/emlib/src/em_dma.c \
+../../platform/emlib/src/em_csen.c \
+../../platform/emlib/src/em_msc.c \
+../../platform/emlib/src/em_lcd.c \
+../../platform/emlib/src/em_rtcc.c \
+../../platform/emlib/src/em_can.c \
+../../platform/emlib/src/em_wdog.c \
+../../platform/emlib/src/em_system.c \
+../../platform/emlib/src/em_prs.c \
+../../platform/emlib/src/em_se.c \
+../../platform/emlib/src/em_eusart.c \
+../../platform/emlib/src/em_dbg.c \
+../../platform/emlib/src/em_cmu.c \
+../../platform/emlib/src/em_rmu.c \
+../../platform/emlib/src/em_vcmp.c \
+../../platform/emlib/src/em_gpio.c \
+../../platform/emlib/src/em_aes.c \
+../../platform/emlib/src/em_burtc.c \
+../../platform/emlib/src/em_usart.c \
+../../platform/emlib/src/em_qspi.c \
+../../platform/emlib/src/em_lesense.c \
+../../platform/emlib/src/em_adc.c \
+../../platform/emlib/src/em_core.c \
+../../platform/emlib/src/em_letimer.c \
+../../platform/emlib/src/em_idac.c \
+../../platform/emlib/src/em_ldma.c \
+../../platform/emlib/src/em_vdac.c \
+../../platform/emlib/src/em_rtc.c \
+../../platform/emlib/src/em_dac.c \
+../../platform/emlib/src/em_pcnt.c \
+../../platform/emlib/src/em_pdm.c \
+../../platform/emlib/src/em_cryotimer.c \
+../../platform/emlib/src/em_iadc.c \
+../../platform/emlib/src/em_acmp.c \
+../../platform/emlib/src/em_opamp.c \
+../../platform/emlib/src/em_timer.c \
+../../platform/emlib/src/em_i2c.c \
+../../platform/emlib/src/em_gpcrc.c \
+../../platform/emlib/src/em_crypto.c \
+../../platform/emlib/src/em_emu.c \
+../../platform/emlib/src/em_ebi.c \
+../../platform/emlib/src/em_leuart.c</code></pre>
+<p><code>main.c</code>:</p>
+<pre><code>#include &quot;em_cmu.h&quot;
+#include &quot;em_gpio.h&quot;
+
+int main (void)
+{
+  CMU_ClockEnable(cmuClock_GPIO, true);
+  GPIO_PinModeSet(gpioPortA, 0/*pin 0*/, gpioModePushPull /*push-pull output*/, 1/*output level*/);
+  
+  while(1) {
+    GPIO_PinOutToggle(gpioPortA, 0/*pin 0*/);
+    for (volatile uint32_t i = 0; i &lt; 100000; i++) { } // busy delay
+  }
+  
+  return 0;
+}
+</code></pre>
+<p>You can run <code>make -j</code> to build. To get intellisense in
+VIM/VSCODE we need to produce the <code>compile_commands.json</code>
+file. To do this make sure to clean the build
+<code>rm -rf build build_output</code> and run
+<code>bear -- make -j</code>.</p>
+<p>##Flashing</p>
+<p><a
+href="https://docs.silabs.com/matter/latest/matter-references/flash-silabs-device">Simplicity
+commander CLI</a> tool provided from Si Labs with J-Link. Or use <a
+href="https://github.com/blackmagic-debug/blackmagic">Blackmagic
+Probe</a>. Remember you can use the blackmagic tool over STlink or DAP
+adapter.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

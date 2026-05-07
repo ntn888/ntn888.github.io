@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>freeRTOS Overview — Ajit Ananthadevan</title>
+    <meta name="description" content="freeRTOS preliminaries as bundled with the bl702 MCU SDK">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>freeRTOS Overview</h1>
+                <time datetime="2022-02-24">Feb 24, 2022</time>
+                <span class="post-category">bl702</span>
+                <div class="post-tags">
+                    <a href="/tags/bl702/" class="tag-link">bl702</a>
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/freeRTOS/" class="tag-link">freeRTOS</a>
+                </div>
+            </header>
+<p>The SDK includes the freeRTOS as the system kernel. More info can be
+seen by clicking on the ‘More Info’ button on the top of this page. But
+the kernel is already configured for use in the SDK, so we do not need
+to worry about it’s config or setting up.</p>
+<p>In this article we’ll go through a rough overview of freeRTOS of just
+the necessary features.</p>
+<figure>
+<img src="/img/2tasks.gif" alt="2tasks" />
+<figcaption aria-hidden="true">2tasks</figcaption>
+</figure>
+<h2 id="tasks">Tasks</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;hosal_gpio.h&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;FreeRTOS.h&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;task.h&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">static</span> hosal_gpio_dev_t gp1<span class="op">,</span> gp2<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> my_task <span class="op">(</span><span class="dt">void</span> <span class="op">*</span>p<span class="op">)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>   <span class="dt">static</span> <span class="dt">_Bool</span> val <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>   <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      hosal_gpio_output_set<span class="op">(&amp;</span>gp2<span class="op">,</span> val<span class="op">);</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      val <span class="op">=</span> <span class="op">!</span>val<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      vTaskDelay<span class="op">(</span>pdMS_TO_TICKS<span class="op">(</span><span class="dv">700</span><span class="op">));</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>   <span class="op">}</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main <span class="op">(</span><span class="dt">void</span><span class="op">)</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>   <span class="co">// setup</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>   gp1<span class="op">.</span>port <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>   gp1<span class="op">.</span>config <span class="op">=</span> OUTPUT_OPEN_DRAIN_NO_PULL<span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>   hosal_gpio_init<span class="op">(&amp;</span>gp1<span class="op">);</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>   <span class="dt">_Bool</span> value <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>   <span class="co">// setup second gpio</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>   gp2<span class="op">.</span>port <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>   gp2<span class="op">.</span>config <span class="op">=</span> OUTPUT_OPEN_DRAIN_NO_PULL<span class="op">;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>   hosal_gpio_init<span class="op">(&amp;</span>gp2<span class="op">);</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>   xTaskCreate<span class="op">(</span>my_task<span class="op">,</span> <span class="st">&quot;second_entry&quot;</span><span class="op">,</span> <span class="dv">1024</span><span class="op">,</span> NULL<span class="op">,</span> <span class="dv">15</span><span class="op">,</span> NULL<span class="op">);</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>   <span class="cf">while</span> <span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// should never reach this point</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      hosal_gpio_output_set<span class="op">(&amp;</span>gp1<span class="op">,</span> value <span class="op">);</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>      value <span class="op">=</span> <span class="op">!</span>value<span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>      vTaskDelay<span class="op">(</span>pdMS_TO_TICKS<span class="op">(</span><span class="dv">500</span><span class="op">));</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>   <span class="op">}</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Tasks are created using the function in line 30. You need to specify
+the entry callback function here (as first parameter) and have it
+defined. The external task we define here is <code>my_task</code> in
+line 7. Other parameters are as follows:</p>
+<ul>
+<li><p><code>"second_entry"</code>: A descriptive name for the task.
+This is not used by FreeRTOS in any way. It is included purely as a
+debugging aid.</p></li>
+<li><p><code>1024</code>: The stack depth. Note the value is
+<code>number-of-bytes</code> / 4. Learning to choose the right size is
+an artform you pickup as you work through the examples.</p></li>
+<li><p><code>NULL</code>: Parameter to our callback function. Here we’re
+passing nothing.</p></li>
+<li><p><code>15</code>: The task Priority. See below.</p></li>
+<li><p><code>Null</code>: Not used.</p></li>
+</ul>
+<p>In this example we maintain our blinky program in main that toggles
+every 500ms. In addition to this we are creating a task for a secondary
+blinky on port D4, with a different frequency… This example shows how an
+off-the self kernel eases our multitasking.</p>
+<h3 id="priorities">Priorities</h3>
+<p>The SDK sets the maximum number of priorities to 32. See
+configMAX_PRIORITIES in
+<code>bl_iot_sdk/components/platform/soc/bl602/freertos_riscv/config/FreeRTOSConfig.h</code>.</p>
+<p>Higher the value: higher the priority. If two tasks have the same
+priority a round robin scheduling is done. To modify the priority of a
+running task use <code>vTaskPrioritySet(n)</code>.</p>
+<h2 id="queues">Queues</h2>
+<h2 id="semaphores">Semaphores</h2>
+<h3 id="mutex">Mutex</h3>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self hosted Mastodon Instance — Ajit Ananthadevan</title>
+    <meta name="description" content="Selfhosting your own Mastodon instance on a VPS">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Self hosted Mastodon Instance</h1>
+                <time datetime="2022-11-13">Nov 13, 2022</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/selfhosted/" class="tag-link">selfhosted</a>
+                    <a href="/tags/social-media/" class="tag-link">social-media</a>
+                    <a href="/tags/servers/" class="tag-link">servers</a>
+                </div>
+            </header>
+<p>In keeping with the times, I messed about with setting up an own
+Mastodon self-hosted instance!</p>
+<p><del>An ideal VM is the Oracle’s OCI cloud service. In there they
+provide a 4vcore, 24GB ram(!) as a free service. Which is plenty for
+this purpose. In contrast to the other competitors offering which I
+found is actually insufficient for self hosting Mastodon. Additionally
+you get 150G block storage free (in addition to 50G boot volume). Oracle
+calls it “VM.Standard.A1.Flex”.</del></p>
+<p>I instead went ahead with LUXVPS. They allow open port on 25 (upon
+request) for sending emails from local machine without a middleman
+subscription (and they get expensive quick). They’re prices are also
+very affordable; for 3EUR you get a 1c / 4GB VM with KVM virtualisation.
+In my experiment this is sufficient… My instance with two test users,
+with federation relay and full text search only consumes 1G Ram and
+plenty of processor left. Should be enough for a small gathering :).</p>
+<hr />
+<p>If you’re taking the local server option for emails, you have a good
+guide here: <a
+href="https://doc.dovecot.org/configuration_manual/howto/postfix_and_dovecot_sasl/">https://doc.dovecot.org/configuration_manual/howto/postfix_and_dovecot_sasl/</a>.
+Setting up your own local mail server is tricky with a combination of
+packages required. This is due to the fact most mail providers
+(especially Google’s GMail) require SASL authentication. But it’s worth
+the effort I think. Again one thing you cannot avoid is that your setup
+will send the mail almost invariably to the users SPAM folder! But you
+can always opt for a mail forwarder subscription.</p>
+<p>Following on from the above link, some lines has to be commented in
+/etc/postfix/master.cf:</p>
+<pre><code>submission inet n - n - - smtpd
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path=private/auth
+  -o smtpd_sasl_security_options=noanonymous
+  -o smtpd_sasl_local_domain=$myhostname
+#  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+#  -o smtpd_sender_login_maps=hash:/etc/postfix/virtual
+  -o smtpd_sender_restrictions=reject_sender_login_mismatch
+#  -o smtpd_recipient_restrictions=reject_non_fqdn_recipient,reject_unknown_recipient_domain,permit_sasl_authenticated,reject</code></pre>
+<p>Here’s the mastodon config
+(/home/mastodon/live/.env.production)relating to smtp:</p>
+<pre><code>SMTP_SERVER=localhost
+SMTP_PORT=587
+SMTP_LOGIN=
+SMTP_PASSWORD=
+SMTP_FROM_ADDRESS=notifications@yourdomain.online
+SMTP_AUTH_METHOD=plain
+SMTP_OPENSSL_VERIFY_MODE=none
+SMTP_ENABLE_STARTTLS_AUTO=true</code></pre>
+<hr />
+<p>Once you get a VM instance up and running, continue with the official
+help page: <a
+href="https://docs.joinmastodon.org/admin/install/">https://docs.joinmastodon.org/admin/install/</a>.
+I installed on a Debian 11 image.</p>
+<p>An ‘errata’ to the last bit with certbot has input here if you run
+into problems: <a
+href="https://github.com/mastodon/documentation/issues/940">https://github.com/mastodon/documentation/issues/940</a>.
+Don’t forget the prerequisites: <a
+href="https://docs.joinmastodon.org/admin/prerequisites/">https://docs.joinmastodon.org/admin/prerequisites/</a></p>
+<p>My instance setup is accessible via <a
+href="https://simplysocial.online/">https://simplysocial.online/</a><a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>. Users can create accounts on this
+instance!</p>
+<p>Stay in touch for further discussion on integrating cloudflare with
+Backblaze for free egress, in bringing costs down further!</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>In Ubuntu 22.04 you need to run
+<code>sudo usermod -a -G mastodon www-data</code> to fix permissions
+issue: https://github.com/mastodon/mastodon/discussions/19651<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

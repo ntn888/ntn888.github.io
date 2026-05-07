@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Radarr for x265 encodes — Ajit Ananthadevan</title>
+    <meta name="description" content="Configure radarr for better automated release selection">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Setup Radarr for x265 encodes</h1>
+                <time datetime="2024-04-27">Apr 27, 2024</time>
+                <span class="post-category">selfhosting</span>
+                <div class="post-tags">
+                    <a href="/tags/NAS/" class="tag-link">NAS</a>
+                    <a href="/tags/self-host/" class="tag-link">self-host</a>
+                    <a href="/tags/seedbox/" class="tag-link">seedbox</a>
+                </div>
+            </header>
+<p>This article is a continuation of <a href="/posts/diy-nas">this
+post</a> on setting up a DIY NAS. Here we will setup Radarr/Sonarr
+custom formats, such that it prioritises the efficient x265 1080p
+encodes.</p>
+<p>First go to Settings-&gt;Custom Formats and setup two custom formats
+like so:</p>
+<figure>
+<img src="/img/RalphyXD-like.png" alt="RalphyXD-like" />
+<figcaption aria-hidden="true">RalphyXD-like</figcaption>
+</figure>
+<figure>
+<img src="/img/Lama-like.png" alt="Lama-like" />
+<figcaption aria-hidden="true">Lama-like</figcaption>
+</figure>
+<p>With the appropriate conditions as shown. The x265 &amp; x264 are
+preset conditions available in the drop-down!</p>
+<p>Next go to Settings-&gt;Profiles. Select <code>HD - 720p/1080p</code>
+And add the custom formats as indicated below, using the
+<code>score</code> value to prioritise the x265.</p>
+<figure>
+<img src="/img/720p_1080p-quality-profile.png"
+alt="720p/1080p quality profile" />
+<figcaption aria-hidden="true">720p/1080p quality profile</figcaption>
+</figure>
+<p>Third and final step, setup Quality Definitions. We are interested in
+720p &amp; 1080p profiles here.</p>
+<figure>
+<img src="/img/quality-slider.png" alt="Quality Slider" />
+<figcaption aria-hidden="true">Quality Slider</figcaption>
+</figure>
+<hr />
+<p>Additionally, you may want to import these custom formats from
+Trash-Guides to weed out the low quality encodes:</p>
+<ul>
+<li><p><a
+href="https://trash-guides.info/Radarr/Radarr-collection-of-custom-formats/#lq">Low
+Quality Releases = LQ</a> <em>I tend to exclude iVy and Tigole in this
+list as I like those</em></p></li>
+<li><p><a
+href="https://trash-guides.info/Radarr/Radarr-collection-of-custom-formats/#no-rlsgroup">No-RlsGroup</a></p></li>
+</ul>
+<p>Instruction on using these lists, <a
+href="https://trash-guides.info/Radarr/Radarr-import-custom-formats/">here</a>.</p>
+<p>Then go ahead Auto ‘Search Movie’ feature on top in the movie listing
+page to test it. Be sure to select the <code>HD - 720p/1080p</code>
+Quality Profile when you add the new movie!</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

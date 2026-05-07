@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Frugal Gaming PC — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Building a Frugal Gaming PC</h1>
+                <time datetime="2023-11-08">Nov 08, 2023</time>
+                <span class="post-category">misc</span>
+                <div class="post-tags">
+                    <a href="/tags/hardware/" class="tag-link">hardware</a>
+                    <a href="/tags/workstation/" class="tag-link">workstation</a>
+                    <a href="/tags/gaming-PC/" class="tag-link">gaming PC</a>
+                </div>
+            </header>
+<p><strong>Motherboards: The Refurbished x99 AliExpress
+Special</strong></p>
+<p>Here we will talk about a new obsession of mine - refurbished LGA
+2011v3 socket motherboards; paired up with used Intel E5 1600/2700
+series processor forms the basis for a cheap gaming system. These are
+sold in AliExpress as a [motherboard, CPU, RAM] combo for upwards of
+USD80 depending on the manufacturer.</p>
+<p>There’s good information about these boards on the Russian site: <a
+href="https://xeon-e5450.ru/">https://xeon-e5450.ru/</a>. Just use
+<em>Translate Web Pages</em> plugin for your browser to
+auto-translate.</p>
+<p>There’s also the Miyconst <a
+href="https://github.com/miyconst/Mi899/blob/master/src/Mi899/README">Youtube
+Channel</a> that provides good information.</p>
+<p>When I purchased, I personally went for the QIYIDA AliExpress seller
+(the product had tons of good reviews). And received the <a
+href="https://xeon-e5450.ru/socket-2011-3/x99h/">x99h v1.41 board</a>.
+According to Miyconst this is a poor board. Mainly due to having
+apparently only single DDR RAM channel.</p>
+<p>I also noticed that the motherboard doesn’t support <em>Suspend</em>
+functionality. In the <strong>AHCI</strong> options in BIOS,
+<em>Suspend</em> value is permanently set to <em>Disabled</em>.</p>
+<p>The one <a
+href="https://www.aliexpress.com/item/1005004519470412.html">I
+purchased</a> came with the following combo:</p>
+<ul>
+<li>x99h v1.41 board (QIYIDA)</li>
+<li>Intel Xeon E5 2670v3 processor (used)</li>
+<li>16G (2x 8G) RAM QIYIDA brand (refurbished)</li>
+</ul>
+<p>It was priced at $110 on Jan 2023.</p>
+<p>From my personal experience, I’d advice to do thorough checks (using
+the sources provided above) and not just rely on AliExpress
+rankings/ratings. I regret my purchase as I cannot put my PC to sleep (a
+functionality I heavily rely on).</p>
+<p>The whole ecosystem is possible because of the enormous market of the
+used Xeon chips. The 2670v3 sells on Ali for a grand total of $7!
+<del>But I recommend buying as a combo for a piece of mind due to any
+compatiblity issues.</del> See UPDATE below.</p>
+<p>Last comes our most important component: A Graphics card. Ali has us
+covered in this regard as well! For around $80 you can get a Radeon
+RX580 8G! Unbeatable! I believe you can go with the AliExpress reviews
+on this one.</p>
+<p>On the bright side though (going with the Xeon 2670v3 processor,
+which has 12 cores 24 threads), it’s refreshing to see the <em>System
+Monitor</em> report the 24 threads available on the system!</p>
+<figure>
+<img src="/img/xeon-monitor-24-threads.png"
+alt="System Monitor screenshot" />
+<figcaption aria-hidden="true">System Monitor screenshot</figcaption>
+</figure>
+<hr />
+<p>UPDATE (31/12/23): On second thought, actually getting the parts
+separately instead of the MB/CPU/RAM Combo is a better idea. Thanks to
+the information available on <a
+href="https://xeon-e5450.ru/">https://xeon-e5450.ru/</a>.</p>
+<p>First search Ali for <code>x99</code> and pick for a good (popular)
+motherboard. Then head to xeon-e5450.ru and see for compatible RAM. They
+provide links for matching RAM. If available, going with server RAM is
+safer and cheaper! And finally check for compatible CPU. I believe the
+2011-3 chip Xeon E5 2670v3 is always matched.</p>
+<p>Using the above information I have since upgraded my RAM to 32GB ECC
+Server version and now use the machine as a Linux kernel compilation
+cruncher! It compliles the full kernel for an embedded system typically
+under 10mins.</p>
+<p>Highly Recommended!</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

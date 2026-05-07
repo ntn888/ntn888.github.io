@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best microcontroller for Beginners — Ajit Ananthadevan</title>
+    <meta name="description" content="Discussing capable beginner friendly microcontroller boards">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Best microcontroller for Beginners</h1>
+                <time datetime="2023-11-05">Nov 05, 2023</time>
+                <span class="post-category">misc</span>
+                <div class="post-tags">
+                    <a href="/tags/stm32/" class="tag-link">stm32</a>
+                    <a href="/tags/blue-pill/" class="tag-link">blue-pill</a>
+                    <a href="/tags/embedded-hobbyist/" class="tag-link">embedded hobbyist</a>
+                    <a href="/tags/microcontrollers/" class="tag-link">microcontrollers</a>
+                </div>
+            </header>
+<p>One of the most asked questions on <em>r/embedded</em> Reddit is
+<em>How do I get started in embedded electronics?</em> or <em>What is
+the best microcontroller for beginners?</em>. This post will aim to
+address that.</p>
+<p>There are wide range of microcontrollers, here are some popular
+microcontrollers that are great choices for beginners:</p>
+<ol type="1">
+<li><p><strong>Arduino:</strong> Arduino is widely considered one of the
+best options for beginners. It offers a user-friendly, open-source
+platform with a simple programming environment. The Arduino community is
+large and supportive, and there are numerous tutorials and projects
+available online. The Arduino Uno and Arduino Nano are notable starter
+boards.</p></li>
+<li><p><strong>Raspberry Pi Pico:</strong> The Raspberry Pi Pico is a
+microcontroller board from the Raspberry Pi Foundation. It’s based on
+the RP2040 microcontroller and is great for beginners. It supports the
+MicroPython programming language, which is easy to learn and use. The
+Pico is affordable and has plenty of online resources.</p></li>
+<li><p><strong>STM32 Bluepill:</strong> The Bluepill is an inexpensive
+minimal breadboard-friendly board with the STM32F103 MCU.</p></li>
+</ol>
+<p>Many take the Arduino route. Although this may be a good idea; in
+this blog we’re not concerned with Arduino; these are heavy frameworks.
+Simple, plain and close to metal frameworks are more performant and more
+importantly - exciting. The Raspberry Pi Pico is excellent for the
+beginner with plenty of documentation although it’s caveat is poor power
+performance, and is not professionally viable..</p>
+<p>Hence my suggestion is to begin with the widely available and
+inexpensive <a
+href="https://web.archive.org/web/20190428082446/http://wiki.stm32duino.com/index.php?title=Blue_Pill">blue-pill
+board</a>. It is powered by the ST’s ARM Cortex-M3 STM32F103C8; A chip
+that is widely used in the industry. It’s got enough RAM and flash to
+run your initial projects while you pick up some embedded skills.</p>
+<p>Pairing it up with this book: <a
+href="https://www.amazon.com/BEGINNING-STM32-DEVELOPING-LIBOPENCM3-Paperback/dp/1484245970">Beginning
+STM32</a>, will give you a great start with step-by-step hand-holding.
+This book uses the <a
+href="https://github.com/libopencm3/libopencm3">libopenCM3</a> HAL
+(that’s Hardware Abstraction Layer) framework. In my opinion this
+framework is far superior to the ST’s default cube HAL which is a
+botched mess.</p>
+<figure>
+<img src="/img/begin_stm32.jpg" alt="Begining STM32 cover" />
+<figcaption aria-hidden="true">Begining STM32 cover</figcaption>
+</figure>
+<p>Or if you’re feeling adventurous I recommend the STM32G030 boards, as
+featured in our <a href="/posts/10c-mcu">low cost MCU article</a>. The
+<em>WeACT STM32G030F6P6</em> boards available from AliExpress, $3 for a
+5 pack! Being relatively modern, they are more power efficient. More
+importantly, being of the uncomplicated Cortex-M0 architecture, they are
+great for Assembly language beginners if you seek to go down that
+route.</p>
+<p>The bluepill has copious amount of guides online so you’d have a lot
+of initial hand-holding, which makes it an easier endeavour. Of course
+you may switch to the <em>G0</em> board after you’ve grasped the
+fundamentals.</p>
+<p>To complement your microcontroller board and to do projects, you will
+need a set of commonly used electronic components. Fortunately one may
+find many <em>electronic starter-kits</em> on AliExpress that will
+suffice for a beginner hobbyist.</p>
+<p>Finally you need a multimeter. Again Ali has you covered here. Note
+that the accuracy of the multimeter is denoted in <em>counts</em>. 4000
+counts would probably be about right for hobbyist use; but the more the
+better.. See <a
+href="https://instrumentationtools.com/multimeter-digits-counts/">here</a>
+for an explanation. See <a href="/posts/multimeters">here</a> for a
+breakdown of various options.</p>
+<p><a href="/posts/building-lab">This post</a> works through building an
+economical home lab.</p>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

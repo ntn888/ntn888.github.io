@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My experience with Debian Testing — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>My experience with Debian Testing</h1>
+                <time datetime="2023-05-11">May 11, 2023</time>
+                <span class="post-category">update</span>
+                <div class="post-tags">
+                    <a href="/tags/workstation/" class="tag-link">workstation</a>
+                    <a href="/tags/dev-environment/" class="tag-link">dev-environment</a>
+                    <a href="/tags/open-source/" class="tag-link">open-source</a>
+                </div>
+            </header>
+<p>I’m a big proponent of Linux [Or GNU/Linux to be technically
+correct]. I like the idea of how the entire system is just a collection
+of individual functioning pieces of software.</p>
+<p>Their motto is <em>Do one thing and do it well</em>. I think this is
+a great mantra for successful engineering altogether. That is, break
+down the task into simple manageable tasks and implement and integrate
+them!</p>
+<p>Although it’s not as popular in desktops and personal computer
+markets, it unanimously powers the web. A good portion of servers run
+linux. This is no surprise considering the reliability and flexibility
+of the Linux OS. To probe further, the popularity of the humble
+Wordpress platform drives the need for Linux web servers, as Wordpress
+is run on top the old school LAMP stack (Where <em>L</em> denotes the
+Linux part).</p>
+<p>Among Linux servers, Debian is one of the most popular<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.
+The mainline Debian distribution is considered to be the hallmark of
+stability. That’s great. But it comes with a downside… It’s software
+repository is not the most upto-date. Usually you’d be pulling in
+updates that are lagging around two years behind the current status. So
+it seems Debian is not so great for powering a daily driver personal
+workstation.</p>
+<p>Enter Debian Testing. Debian has two other stable stuatus of
+releases: <code>Unstable</code> and <code>Testing</code>. Unstable was
+too unstable for me. <code>Testing</code> seemed like a good
+middle-ground. You can read more about <code>Testing</code> <a
+href="https://wiki.debian.org/DebianTesting">here</a>. One of the
+pre-requisites is that the package to make it into <code>Testing</code>
+must have been in Unstable for atleast two days.</p>
+<p>One major problem with these
+<code>Unstable</code>/<code>Testing</code> releases is that they tend to
+unexpectedly break software when updating. But there are ways to fortify
+testing. We do this with an application called <a
+href="https://github.com/linuxmint/timeshift">Timeshift</a>. As the name
+implies, we can backup the hard drive contents and revert the system to
+a previous state following an undesired outcome.</p>
+<p>Note that <code>Timeshift</code> requires the partition to be
+formatted in <code>btrfs</code> type and that too in the right naming
+scheme. The following Youtube video has instructions on installing
+<code>Debian Testing</code> this proper way with <code>Timeshift</code>
+enabled if you want to try it out.</p>
+<p>{{ youtube(id=“IdqkjpsyUNg”) }}</p>
+<p>In my experience it wasn’t good enough. I found myself reaching too
+often to the Timeshift backups, from things breaking after an update.
+Very often I had the problem of installed applications going
+missing.</p>
+<p>Hence I just use POP-OS. It comes from the Debian lineage, so we have
+familarity there especially with the package manager <code>apt</code>.
+It’s a very popular desktop based distribution. However I’m not found of
+it’s <code>Cosmic</code> Desktop. I find it a butchered up version of
+GNOME desktop. To install the GNOME desktop I just have to run
+<code>sudo apt install gnome-session</code>. I run trusty Debian for
+servers and VPSs (like we did in the other post about Servarr as a
+Docker host!).</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a
+href="https://w3techs.com/technologies/details/os-linux">https://w3techs.com/technologies/details/os-linux</a><a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+        </article>
+    </div>
+    <footer>
+        <p>&copy; Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>
