@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting up a container based ARM-cortex development environment — Ajit Ananthadevan</title>
+    <meta name="description" content="Ditch Distrobox; setup lean ephemeral environments using Dockerfile">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Setting up a container based ARM-cortex development environment</h1>
+                <time datetime="2026-10-25">Oct 25, 2026</time>
+                <span class="post-category">misc</span>
+                <div class="post-tags">
+                    <a href="/tags/sdk/" class="tag-link">sdk</a>
+                    <a href="/tags/podman/" class="tag-link">podman</a>
+                    <a href="/tags/dev-env/" class="tag-link">dev-env</a>
+                </div>
+            </header>
+<p>In the past we’d looked at <em>Distrobox</em> as a means to setup
+ephemeral environments. Here we take a more traditional and a lighter
+path, direct on the container engine.</p>
+<p>For this we’ll be using <em>Podman</em>. It’s an alternative to the
+ever popular Docker, but I find Podman integrates better with the rest
+of Linux. Of course you may prefer Docker, in that case just substitute
+the commands, they’d be identical.</p>
+<p>Now, this is not a primer on containers, so we’ll breeze past the
+setup, but feel free to look up the concepts if you’re inclined. First
+install Podman on your system. For Debian this’d be:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sudo</span> apt install podman</span></code></pre></div>
+<p>We’ll take the baseline minimal Alpine Linux image, and build a
+custom local image, adding the required toolchain. For this we need a
+<em>Dockerfile</em>.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>   <span class="kw">FROM</span> docker.io/library/alpine</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Python</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   <span class="kw">RUN</span> <span class="ex">apk</span> add <span class="at">--no-cache</span> python3 python3-dev</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>   <span class="co"># GNU Arm embedded toolchain</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>   <span class="co">#   gcc-arm-none-eabi      -&gt; arm-none-eabi-gcc, arm-none-eabi-ar, libgcc</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   <span class="co">#   binutils-arm-none-eabi -&gt; pulled in as a dependency: arm-none-eabi-objcopy/-ld</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>   <span class="co">#   newlib-arm-none-eabi   -&gt; bare-metal C library + headers (stdint.h, string.h)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>   <span class="co">#   make                   -&gt; </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>   <span class="kw">RUN</span> <span class="ex">apk</span> add <span class="at">--no-cache</span> <span class="dt">\</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>           make <span class="dt">\</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>           gcc-arm-none-eabi <span class="dt">\</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>           newlib-arm-none-eabi <span class="dt">\</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>           gdb-multiarch</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>   <span class="kw">RUN</span> <span class="ex">apk</span> add <span class="at">--no-cache</span> py3-pyocd</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>   <span class="co">#&lt;add PyOCD target support&gt;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>   <span class="kw">WORKDIR</span> /project</span></code></pre></div>
+<p>Create a new directory in your preferred location, call it
+<code>dev-env</code>. In that directory create a file name
+<code>Dockerfile</code> with the above content.</p>
+<p>Now run:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="ex">podman</span> build <span class="at">-t</span> arm-toolchain .</span></code></pre></div>
+<p>This will build a local image named <code>arm-toolchain</code> with
+the toolchain as we required. Now we can invoke the following command in
+our workspace directory to drop into the container with the tools
+available to us.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   <span class="ex">podman</span> run <span class="at">-it</span> <span class="at">--rm</span> <span class="at">-v</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">:/project&quot;</span> arm-toolchain</span></code></pre></div>
+<p>Then you can run <code>make --version</code> and
+<code>arm-none-eabi-gcc --version</code> to confirm they work. When you
+are finished with a development session simply run <code>exit</code> or
+press <code>CTRL-D</code>. You will need to run the command whenever you
+start development.</p>
+<p>Make sure to set the appropriate <a href="/posts/usb-rules">usb
+rules</a> so that the probe is accessible within the container!</p>
+        </article>
+    </div>
+    <footer>
+        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license"><img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="Creative Commons BY-SA 4.0" style="height:32px;vertical-align:middle;margin-right:8px;"></a>Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

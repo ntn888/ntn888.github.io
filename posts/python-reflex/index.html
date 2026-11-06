@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web development in Pure Python — Ajit Ananthadevan</title>
+    
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Web development in Pure Python</h1>
+                <time datetime="2025-03-07">Mar 07, 2025</time>
+                <span class="post-category">webdev</span>
+                <div class="post-tags">
+                    <a href="/tags/python/" class="tag-link">python</a>
+                    <a href="/tags/fullstack/" class="tag-link">fullstack</a>
+                    <a href="/tags/iot/" class="tag-link">iot</a>
+                </div>
+            </header>
+<p>Previously we saw using <a
+href="/posts/ai-nocode-autoblogging">no-code</a> tools for web
+development. While it enabled us to create services, we were devoid of
+customisability. And yet you still needed to know JS anyway, atleast in
+our use case.</p>
+<p>Reflex is a framework that enables full stack web development using
+just Python, no need to learn another language.</p>
+<figure class="d2-diagram"><svg role="img" aria-label="diagram" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 293 642"><title>diagram</title><svg class="d2-952745382 d2-svg" width="293" height="642" viewBox="-101 -101 293 642"><rect x="-101" y="-101" width="293" height="642" rx="0" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
+.d2-952745382 .text-bold {
+	font-family: "d2-952745382-font-bold";
+}
+@font-face {
+	font-family: d2-952745382-font-bold;
+	src: url("data:application/font-woff;base64,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");
+}
+.d2-952745382 .text-italic {
+	font-family: "d2-952745382-font-italic";
+}
+@font-face {
+	font-family: d2-952745382-font-italic;
+	src: url("data:application/font-woff;base64,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");
+}]]></style><style type="text/css"><![CDATA[.shape {
+  shape-rendering: geometricPrecision;
+  stroke-linejoin: round;
+}
+.connection {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.blend {
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+		.d2-952745382 .fill-N1{fill:#0A0F25;}
+		.d2-952745382 .fill-N2{fill:#676C7E;}
+		.d2-952745382 .fill-N7{fill:#FFFFFF;}
+		.d2-952745382 .fill-B1{fill:#0D32B2;}
+		.d2-952745382 .fill-B6{fill:#F7F8FE;}
+		.d2-952745382 .stroke-B1{stroke:#0D32B2;}
+		.d2-952745382 .stroke-B2{stroke:#0D32B2;}.appendix text.text{fill:#0A0F25}.md{--color-fg-default:#0A0F25;--color-fg-muted:#676C7E;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#0D32B2;--color-border-muted:#0D32B2;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0D32B2;--color-accent-emphasis:#0D32B2;--color-attention-subtle:#676C7E;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
+		.d2-952745382 .fill-N1{fill:#CDD6F4;}
+		.d2-952745382 .fill-N2{fill:#BAC2DE;}
+		.d2-952745382 .fill-N7{fill:#1E1E2E;}
+		.d2-952745382 .fill-B1{fill:#CBA6f7;}
+		.d2-952745382 .fill-B6{fill:#313244;}
+		.d2-952745382 .stroke-B1{stroke:#CBA6f7;}
+		.d2-952745382 .stroke-B2{stroke:#CBA6f7;}.appendix text.text{fill:#CDD6F4}.md{--color-fg-default:#CDD6F4;--color-fg-muted:#BAC2DE;--color-fg-subtle:#A6ADC8;--color-canvas-default:#1E1E2E;--color-canvas-subtle:#313244;--color-border-default:#CBA6f7;--color-border-muted:#CBA6f7;--color-neutral-muted:#313244;--color-accent-fg:#CBA6f7;--color-accent-emphasis:#CBA6f7;--color-attention-subtle:#BAC2DE;--color-danger-fg:red;}.light-code{display: none}.dark-code{display: block}}]]></style><g class="Y2xpZW50"><g class="shape" ><rect x="3" y="0" width="85" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="45.5" y="38.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">client</text></g><g class="c2VydmVy"><g class="shape" ><rect x="0" y="187" width="91" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="45.5" y="225.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">server</text></g><g class="ZGI="><g class="shape" ><rect x="14" y="374" width="64" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="46" y="412.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">db</text></g><g class="KGNsaWVudCAtJmd0OyBzZXJ2ZXIpWzBd"><marker id="mk-d2-952745382-3488378134" markerWidth="10" markerHeight="12" refX="7" refY="6" viewBox="0 0 10 12" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 10,6 0,12" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 45.5 67.5 C 45.5 114.300003 45.5 138.699997 45.5 183.5" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-952745382-3488378134)" mask="url(#d2-952745382)" /><text x="45.5" y="132" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px">request</text></g><g class="KHNlcnZlciAtJmd0OyBkYilbMF0="><path d="M 45.5 254.5 C 45.5 301.299988 45.5 325.700012 45.5 370.5" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-952745382-3488378134)" mask="url(#d2-952745382)" /><text x="45.5" y="319" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px">query</text></g><mask id="d2-952745382" maskUnits="userSpaceOnUse" x="-101" y="-101" width="293" height="642">
+<rect x="-101" y="-101" width="293" height="642" fill="white"></rect>
+<rect x="18" y="116" width="55" height="21" fill="black"></rect>
+<rect x="24" y="303" width="43" height="21" fill="black"></rect>
+</mask></svg></svg>
+</figure>
+<p>Python is useful in the context of embedded development, as it’s
+increasingly used in embedded workflows: testing and CI. And so I chose
+a python framework to start with. Even so, traditional web development
+requires knowledge of myriad of languages including Javascript. This has
+made me putoff learning web for the longest time.</p>
+<p>Although Reflex helps rapid development, with ready-made templates
+and components, you do sacrifice on versatility. Not knowing HTML/CSS/JS
+you wouldn’t be able to tweak the results to your need.. But it’s still
+a big step up from no-code development tools.</p>
+<p>But in my view, it’s a great skillset for the embedded dev, to roll
+out quick web services to help complement IoT projects.</p>
+        </article>
+    </div>
+    <footer>
+        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license"><img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="Creative Commons BY-SA 4.0" style="height:32px;vertical-align:middle;margin-right:8px;"></a>Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

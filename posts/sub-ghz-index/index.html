@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TI CC1101: sub GHz, low power wireless — Ajit Ananthadevan</title>
+    <meta name="description" content="Gander at a sub GHz, low power wireless radio module - CC1101, for implementing wireless sensor networks">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>TI CC1101: sub GHz, low power wireless</h1>
+                <time datetime="2026-06-02">Jun 02, 2026</time>
+                <span class="post-category">cc1101</span>
+                <div class="post-tags">
+                    <a href="/tags/wsn/" class="tag-link">wsn</a>
+                    <a href="/tags/sub-ghz/" class="tag-link">sub-ghz</a>
+                    <a href="/tags/low-power-wireless/" class="tag-link">low-power wireless</a>
+                </div>
+            </header>
+<p>Over the years, in our blog, we’ve seen applications for standard BLE
+and Thread wireless. Here we’ll look at a simple low cost sub 1GHz radio
+module, the <a href="https://www.ti.com/product/CC1101">TI CC1101</a>.
+Simple means more power efficient. It needs a controller for operation -
+any MCU would do. We’ll reach for TI’s own MSPM0 - value line, general
+purpose cortex-M0 mcu.</p>
+<p>This radio module is ideally suited for low-power wireless sensor
+networks, with a central coordinator (ideally a Linux soc). This
+coordinator can then relay data to a MQTT broker or cloud server.</p>
+<p>We’ll tackle the setup in stages. This is more important since the
+module only provides the physical layer (PHY), and we need to implement
+packet acks, collision detection (in our multi-transmitter topology) in
+application. (Technically acknowledgement is implemented in radio, but
+we could make use of more sleep times if implemented in
+application.)</p>
+<p>The module supports a range of frequencies under the GHz spectrum -
+315/433/868/915 MHz. The <a
+href="https://www.aliexpress.com/item/1005003781140201.html">Aliexpress
+kit</a> we’ll be using has been designed to operate at 433MHz.</p>
+        </article>
+    </div>
+    <footer>
+        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license"><img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="Creative Commons BY-SA 4.0" style="height:32px;vertical-align:middle;margin-right:8px;"></a>Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>

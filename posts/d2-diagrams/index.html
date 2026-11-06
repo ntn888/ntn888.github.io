@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrams-as-code — Ajit Ananthadevan</title>
+    <meta name="description" content="How this blog renders inline D2 diagrams at build time with a pandoc Lua filter">
+    <link rel="stylesheet" href="/main.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <script defer data-domain="simplycreate.online" src="https://mypa.simplycreate.xyz/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">home</a><span class="nav-sep">&#183;</span><a href="/posts/">posts</a><span class="nav-sep">&#183;</span><a href="/services/">services</a>
+        </nav>
+    </header>
+    <div class="wrapper">
+        <article class="content-body post-content">
+            <header class="post-header">
+                <h1>Diagrams-as-code</h1>
+                <time datetime="2026-11-07">Nov 07, 2026</time>
+                <span class="post-category">update</span>
+                <div class="post-tags">
+                    <a href="/tags/blogging/" class="tag-link">blogging</a>
+                    <a href="/tags/documentation/" class="tag-link">documentation</a>
+                    <a href="/tags/d2/" class="tag-link">d2</a>
+                    <a href="/tags/diagrams/" class="tag-link">diagrams</a>
+                </div>
+            </header>
+<p>Documenting your design or code is an important requisite for any
+software developer, and diagrams are a necessary part of that. As coders
+we code, but being forced to reach for a visual sketch tool makes many
+of us whine.</p>
+<p>That’s where the diagrams-as-code ecosystem comes in. <a
+href="https://github.com/d2lang/d2">D2</a>, or <em>Declarative
+Diagramming</em>, is one such tool; <a
+href="https://mermaid.js.org/">Mermaid</a> is another popular one. The
+idea is simple: you don’t sketch from scratch, you describe the diagram
+in code.</p>
+<p>The diagrams on this blog are now rendered this way. This post is
+about how I wired D2 into the build, the design choice behind it, and a
+couple of gotchas I hit along the way.</p>
+<h2 id="implementation">Implementation</h2>
+<p>This blog is built by a POSIX <code>sh</code> script that pipes
+Markdown through <a href="https://pandoc.org/">pandoc</a> to produce
+HTML. Pandoc is excellent at Markdown, but it has no idea what a D2
+diagram is: a fenced block tagged <code>d2</code> is just another code
+block, syntax-highlighted and left as-is. The goal, then, was to turn
+those code blocks into real diagrams at build time.</p>
+<h3 id="two-ways-to-do-it">Two ways to do it</h3>
+<p>Before writing any code I considered two approaches:</p>
+<ul>
+<li><strong>Pre-render out of band.</strong> Keep <code>.d2</code>
+sources somewhere, render them to SVG or PNG by hand, drop them into
+<code>static/img/</code>, and reference them from articles with ordinary
+image tags. No build changes at all.</li>
+<li><strong>Render inline at build time.</strong> Author the D2 directly
+inside the article as a fenced block and let the build turn it into a
+diagram.</li>
+</ul>
+<p>The first option is simpler, but the diagram source then lives apart
+from the prose it belongs to. There’s a manual step that’s easy to
+forget, and the two drift over time. The whole point of diagrams-as-code
+is that the diagram <em>is</em> text, versioned next to the article. So
+I went with the second approach: <strong>the D2 source lives in the
+Markdown, and the build renders it.</strong></p>
+<p>The natural place to hook in is a <strong>pandoc filter</strong>.
+Pandoc ships with a Lua interpreter, so a filter needs no additional
+language runtime — and the only new dependency is the <code>d2</code>
+binary itself.</p>
+<h3 id="the-filter">The filter</h3>
+<p>The filter lives at <code>templates/d2.lua</code> — written in Lua
+(thanks, deepseek!). Its core is a <code>CodeBlock</code> handler that
+only touches blocks whose class is <code>d2</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode lua"><code class="sourceCode lua"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> <span class="kw">function</span> d2_block<span class="op">(</span><span class="va">cb</span><span class="op">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="kw">not</span> <span class="va">cb</span><span class="op">.</span><span class="va">classes</span><span class="op">:</span>includes<span class="op">(</span><span class="st">&quot;d2&quot;</span><span class="op">)</span> <span class="cf">then</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">nil</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<p>For each such block it writes the source to a temporary file, shells
+out to the <code>d2</code> CLI, and reads the SVG back:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode lua"><code class="sourceCode lua"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> <span class="va">ok</span><span class="op">,</span> <span class="va">res</span> <span class="op">=</span> <span class="fu">pcall</span><span class="op">(</span><span class="va">pandoc</span><span class="op">.</span><span class="va">pipe</span><span class="op">,</span> <span class="st">&quot;d2&quot;</span><span class="op">,</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;--no-xml-tag&quot;</span><span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;--theme&quot;</span><span class="op">,</span> <span class="cn">LIGHT_THEME</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;--dark-theme&quot;</span><span class="op">,</span> <span class="cn">DARK_THEME</span><span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">input</span><span class="op">,</span> <span class="va">output</span><span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="op">},</span> <span class="st">&quot;&quot;</span><span class="op">)</span></span></code></pre></div>
+<p>A few deliberate choices in there:</p>
+<ul>
+<li><strong><code>--no-xml-tag</code></strong> strips the
+<code>&lt;?xml ... ?&gt;</code> prolog D2 normally prepends. The SVG is
+inlined straight into the HTML <code>&lt;body&gt;</code>, where an XML
+declaration doesn’t belong.</li>
+<li><strong><code>--theme 0</code></strong> and
+<strong><code>--dark-theme 200</code></strong> pin D2’s default light
+and dark themes. Because a dark theme is supplied, D2 embeds a
+<code>prefers-color-scheme</code> media query in the SVG, so the diagram
+follows the reader’s light/dark preference the same way the rest of the
+site does.</li>
+<li><strong><code>pcall</code></strong> wraps the call so that one
+broken diagram can’t take down the whole build.</li>
+</ul>
+<p>The block is then replaced with an inline
+<code>&lt;figure&gt;</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode lua"><code class="sourceCode lua"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="va">pandoc</span><span class="op">.</span>RawBlock<span class="op">(</span><span class="st">&quot;html&quot;</span><span class="op">,</span> <span class="st">&#39;&lt;figure class=&quot;d2-diagram&quot;&gt;&#39;</span> <span class="op">..</span> <span class="va">svg</span> <span class="op">..</span> <span class="st">&quot;&lt;/figure&gt;&quot;</span><span class="op">)</span></span></code></pre></div>
+<p>The SVG is also annotated with <code>role="img"</code>, an
+<code>aria-label</code>, and a <code>&lt;title&gt;</code> taken from an
+optional <code>alt</code> attribute, so the diagram is at least
+nominally accessible.</p>
+<h3 id="wiring-it-into-the-build">Wiring it into the build</h3>
+<p><code>build.sh</code> gained three small things: a
+<code>LUA_FILTER</code> variable pointing at the filter, a preflight
+check that <code>d2</code> is on <code>PATH</code>, and a
+<code>--lua-filter</code> flag on both pandoc invocations — one for post
+bodies and one for the homepage:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">html_body</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$body</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="ex">pandoc</span> <span class="at">--from</span> markdown <span class="at">--to</span> html5 <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--syntax-highlighting</span><span class="op">=</span>pygments <span class="at">--lua-filter</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$LUA_FILTER</span><span class="st">&quot;</span><span class="va">)</span></span></code></pre></div>
+<p>A little CSS keeps the diagrams in check: max-width, auto height, and
+centring, plus a style for the error fallback.</p>
+<h3 id="the-whole-pipeline">The whole pipeline</h3>
+<p>Which, drawn as a diagram, looks like this:</p>
+<figure class="d2-diagram"><svg role="img" aria-label="diagram" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-d2-version="v0.9.0" preserveAspectRatio="xMinYMin meet" viewBox="0 0 512 829"><title>diagram</title><svg class="d2-3389749383 d2-svg" width="512" height="829" viewBox="-84 -101 512 829"><rect x="-84" y="-101" width="512" height="829" rx="0" class=" fill-N7" stroke-width="0" /><style type="text/css"><![CDATA[
+.d2-3389749383 .text-bold {
+	font-family: "d2-3389749383-font-bold";
+}
+@font-face {
+	font-family: d2-3389749383-font-bold;
+	src: url("data:application/font-woff;base64,d09GRgABAAAAAAnwAAoAAAAAD+QAAguFAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAAA9AAAAGAAAABgXxHXrmNtYXAAAAFUAAAAaAAAAIQCeQIlZ2x5ZgAAAbwAAAQCAAAFKDFwu1FoZWFkAAAFwAAAADYAAAA2G38e1GhoZWEAAAX4AAAAJAAAACQKfwXPaG10eAAABhwAAABAAAAAQCKoAzNsb2NhAAAGXAAAACIAAAAiC7AKYm1heHAAAAaAAAAAIAAAACAAKAD3bmFtZQAABqAAAAMvAAAIKgjwVkFwb3N0AAAJ0AAAACAAAAAg/9EAMgADAioCvAAFAAACigJYAAAASwKKAlgAAAFeADIBKQAAAgsHAwMEAwICBGAAAvcAAAADAAAAAAAAAABBREJPACAAIP//Au7/BgAAA9gBESAAAZ8AAAAAAfAClAAAACAAA3icXMzJCcJAGEDhbzJxjwuWYkeih4AXCYp24oKgjVnLL84xvNt3eEiyhEbtirWVrLKxtdc66pxdIii20zronP4W3/jEO17xjEfc41ZO/ZaSSlYbGBoZm5iaacwt+AEAAP//AwDYgBiPeJxcVEts23QY//6O4z/N0qVOYjtJ82r+jZ20S9PEcTytzdxoafpK1naDFmi3QA8IKGvQ2tJQbRqHiocQmiA9cOFxAAmkCWk3GAoSBwZoOyK4IMFh6jlCEeKQOsgh7VIu+XKwf6/v9xnMsABArVH7YIIesIEdOACZHWDDsiQRrMqqSgSTKiEWL1B2/fPPpCgdjdJDwQ8Du6USKl6l9g9fWSmurf1dGhvTP/7mnv4e2rwHQMFQq4F+QU1wAwEQQqKSSquiSEIMltJpOclzLJEIw6jJtKowDOfkv8st7FUpEg1MDCrx9XOlFyoWOjD1hDvsuDgesC5rF5+2DUgu7nnf4MZ1/ZHsJdcFx7Jl2OcSAADBYKuBaqgJHgBzSBSVVJtFwAYl5+TlZFoVGAa5J8vZ6ddyI1PeSRJUNG3UNeI4F16yZrYvXd7K+IWSr5CdKHK254L9AIYPqdVATaoGDgge+TDkC5IidzkQOzR/rZbHSqnoWTdTrVhoT55ySXbHsJOk49Z3X1/cPu91Fb48vJDwkIrT/cB++sLUzCQgyBpEVA2cRvYyh48CYlMGLGazVeydSy7OVH1Bb8RF1e484x5ev6I/RAPpiFvQ70IHw0/VwNrGYGVVxg4iYS57m/7o06++/eRVjarpGz881H//fmrXeL7VQHaqBrb/XLEyexzST4WxKttjxozdGrauzFHk8DfBjtA1MzbeAzD5UBMG2jyC3NYqnFCMj2e2YqED+YSSdQzMJhbmqr5geNT4iaP6RCA2HAkljmyM6nc74ygP1ARnN0d3HhULHSweB4Lqmj92Mg/K6AOFURNs0H+iETznZBgpmVZSnZUhXivncmVN28jlNrTYyEhsJBbr9CGzdfnSdmanOJEtGLUwcLOtaYpHTXCAH0B4rM7JMCQkSgLnMLBJCHM8b9j3zUjPvjheSgfHPeZ5Mb00POSMfE19kfCQdzafqmj97vn30WC+8Gbsgf10Z4/oNmqC/US+WHzsvL8gcl6Lq9fd5804UX05mTCbb9F0NKn/CQjYVgNtUFsgtF0rClFUVeZkjnQdAazO5wrs7s4O8VndFsGhWl9e+vkas7e3+eNQmKHXGavRfQTjrQb6B9XB+b+OsJ3q/7o4U/UHvSJfrZwyBWat61dQSv9DiXp8aFrvmwyfAQQuAKqO6u2+mGSB543AVLXrn4lIomhcEsb7Nz4YZSwMjXt71Ftne2yYxj04/vbOnRjuxTQ+hc+g+kF4WhRnyUF7TocP9L77JB+J5Mn9tmY/AHpEvQVeAFk5Tymprm9Oe0vGdclcePFmPhENqa6F+FpOu6qMraZc4/wbTxZvvhSLJyTPfFJOrmSUcjltMt+AfwEAAP//AwAuJxXtAAAAAQAAAAILhcUiIkFfDzz1AAED6AAAAADYXaCEAAAAAN1mLzb+N/7ECG0D8QABAAMAAgAAAAAAAAABAAAD2P7vAAAImP43/jcIbQABAAAAAAAAAAAAAAAAAAAAEAKyAFACDwAqAdMAJAI9ACcCOwBBAiQAQQEeAEEDWQBBAjwAQQIrACQCPQBBAY4AQQF/ABECOAA8AwgAGAIQAB4AAAAsAGQAkADCAOQA/AEYAUoBbAGYAcgB6AIOAjACaAKUAAAAAQAAABAAkAAMAGMABwABAAAAAAAAAAAAAAAAAAQAA3icnJTPbhtlFMV/TmzTCsECRVW6ib4FiyK1Y1MlVdusJqRWRkRx8LggJIQ0tie25fHMyDN2Gp6ANW/BW3TFQ/AciDW619euXRAFK4p1Zub+Od+5537AAX+yT6V6H/itnhqucFS/NrzHvfqF4X1a9T3DVR7VfjdcY1BbGK7zea1j+CPeVn8xfI/j6o+G73NYbRn+mKfVA8Of7Dv+MPwpx7xd4go852fDFQ7JDe9xwA+G93mA1axUeUDTcI3PODJc5wjoMqYkYUzKEMcNY4bMmRFTEBIzY8wNMQMcAT4Jpb5NiRQ5hv/4NiKkZEakFUeUOBJCEiIKRlbxJ83KuNaO0memSLr5lIyI6GnGhIgUR8aQjJSYidYpKcl5SYMGBX3lm1NS4FEwJsEjY8aQBm1aXNJlxJgCR0srCbOQjBtKbom0v7MIUaZPTEphrOakDJSnU36xZgdc4miTa+xm5cutCo9xfKvZwk1iHF/i6b/bYLbdd8UmYqF6ioY9EuV5qxMcqeLS1+cbxSUvcTvps83kwxoNlJ3MekyPuc5f5id5wiTFuUN8QnVQ6B7iONPngFAV+Y6ALhe0eU1Xn306dPC5okvAK81t08HxFW2uONeMQPHyW0sdc8X3OL4m0BipHZs+ork8vSE3dwt3cYacY0quWyAzlvOL8+OdJiw7lG25o1BX9HWPJFL2QFSRPYsYmitydcVUtVx5ozD9BuYI+VrqbN99l21Y2O6ttviOTHfYMTdOMrklow9N1XvPM7f65xExIKOnEX0ypjQoudOzXRMxJ8Fxrj6+0C0p8dc50udOXRIzVQYBqdaZketvZL4JjXt/y/fO7hLZvKnu6GR9ql26SOV0Y0avVb3Vt9BUjjcm0LCpZpYjE5bKy5OK9yXa2+IfqvsLvd0ynnBGRsLgbzfAUzyaHHPCKSPtIJVTFnY7NPWGaPKCUz39hFij5L58ozpJhRM8nnHCCS949p6OKybOuLg1l83ePuec0eb0P51iGd/mjFfrd//e9Vdl2tSzOJ6sn57vPMVH/8OtX/B4677s6C0gm7Owau+24oqIqXBxh5tauId4fwEAAP//AwD0t09RAAADAAAAAAAA/84AMgAAAAAAAAAAAAAAAAAAAAAAAAAA");
+}
+.d2-3389749383 .text-italic {
+	font-family: "d2-3389749383-font-italic";
+}
+@font-face {
+	font-family: d2-3389749383-font-italic;
+	src: url("data:application/font-woff;base64,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");
+}]]></style><style type="text/css"><![CDATA[.shape {
+  shape-rendering: geometricPrecision;
+  stroke-linejoin: round;
+}
+.connection {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.blend {
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+		.d2-3389749383 .fill-N1{fill:#0A0F25;}
+		.d2-3389749383 .fill-N2{fill:#676C7E;}
+		.d2-3389749383 .fill-N7{fill:#FFFFFF;}
+		.d2-3389749383 .fill-B1{fill:#0D32B2;}
+		.d2-3389749383 .fill-B6{fill:#F7F8FE;}
+		.d2-3389749383 .stroke-B1{stroke:#0D32B2;}
+		.d2-3389749383 .stroke-B2{stroke:#0D32B2;}.appendix text.text{fill:#0A0F25}.md{--color-fg-default:#0A0F25;--color-fg-muted:#676C7E;--color-fg-subtle:#9499AB;--color-canvas-default:#FFFFFF;--color-canvas-subtle:#EEF1F8;--color-border-default:#0D32B2;--color-border-muted:#0D32B2;--color-neutral-muted:#EEF1F8;--color-accent-fg:#0D32B2;--color-accent-emphasis:#0D32B2;--color-attention-subtle:#676C7E;--color-danger-fg:red;}.light-code{display: block}.dark-code{display: none}@media screen and (prefers-color-scheme:dark){
+		.d2-3389749383 .fill-N1{fill:#CDD6F4;}
+		.d2-3389749383 .fill-N2{fill:#BAC2DE;}
+		.d2-3389749383 .fill-N7{fill:#1E1E2E;}
+		.d2-3389749383 .fill-B1{fill:#CBA6f7;}
+		.d2-3389749383 .fill-B6{fill:#313244;}
+		.d2-3389749383 .stroke-B1{stroke:#CBA6f7;}
+		.d2-3389749383 .stroke-B2{stroke:#CBA6f7;}.appendix text.text{fill:#CDD6F4}.md{--color-fg-default:#CDD6F4;--color-fg-muted:#BAC2DE;--color-fg-subtle:#A6ADC8;--color-canvas-default:#1E1E2E;--color-canvas-subtle:#313244;--color-border-default:#CBA6f7;--color-border-muted:#CBA6f7;--color-neutral-muted:#313244;--color-accent-fg:#CBA6f7;--color-accent-emphasis:#CBA6f7;--color-attention-subtle:#BAC2DE;--color-danger-fg:red;}.light-code{display: none}.dark-code{display: block}}]]></style><g class="YXV0aG9y"><g class="shape" ><rect x="137" y="0" width="94" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="184" y="38.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">author</text></g><g class="bWFya2Rvd24="><g class="shape" ><rect x="123" y="187" width="121" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="183.5" y="225.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">markdown</text></g><g class="cGFuZG9j"><g class="shape" ><rect x="135" y="374" width="97" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="183.5" y="412.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">pandoc</text></g><g class="ZDI="><g class="shape" ><rect x="205" y="561" width="63" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="236.5" y="599.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">d2</text></g><g class="aHRtbA=="><g class="shape" ><rect x="26" y="561" width="78" height="66" class=" stroke-B1 fill-B6" style="stroke-width:2;" /></g><text x="65" y="599.5" class="text-bold fill-N1" style="text-anchor:middle;font-size:16px">html</text></g><g class="KGF1dGhvciAtJmd0OyBtYXJrZG93bilbMF0="><marker id="mk-d2-3389749383-3488378134" markerWidth="10" markerHeight="12" refX="7" refY="6" viewBox="0 0 10 12" orient="auto" markerUnits="userSpaceOnUse"> <polygon points="0,0 10,6 0,12" class="connection fill-B1" stroke-width="2" /> </marker><path d="M 183.75 67.5 C 183.75 114.300003 183.75 138.699997 183.75 183.5" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-3389749383-3488378134)" mask="url(#d2-3389749383)" /><text x="184" y="132" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px">writes</text></g><g class="KG1hcmtkb3duIC0mZ3Q7IHBhbmRvYylbMF0="><path d="M 183.75 254.5 C 183.75 301.299988 183.75 325.700012 183.75 370.5" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-3389749383-3488378134)" mask="url(#d2-3389749383)" /><text x="183.5" y="319" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px">post body</text></g><g class="KHBhbmRvYyAtJmd0OyBkMilbMF0="><path d="M 222.238764 440.835508 C 275.149994 488.299988 281.950012 512.700012 256.697434 558.006077" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-3389749383-3488378134)" mask="url(#d2-3389749383)" /><text x="276.5" y="498" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px">fenced d2 block</text></g><g class="KGQyIC0mZ3Q7IHBhbmRvYylbMF0="><path d="M 216.776283 559.753038 C 190.550003 512.700012 183.75 488.299988 183.75 443.5" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-3389749383-3488378134)" mask="url(#d2-3389749383)" /><text x="188.5" y="509" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px">SVG</text></g><g class="KHBhbmRvYyAtJmd0OyBodG1sKVswXQ=="><path d="M 139.932321 440.741927 C 79.900002 488.299988 64.5 512.700012 64.5 557.5" fill="none" class="connection stroke-B1" style="stroke-width:2;" marker-end="url(#mk-d2-3389749383-3488378134)" mask="url(#d2-3389749383)" /><text x="80.5" y="494" class="text-italic fill-N2" style="text-anchor:middle;font-size:16px">public/*/index.html</text></g><mask id="d2-3389749383" maskUnits="userSpaceOnUse" x="-84" y="-101" width="512" height="829">
+<rect x="-84" y="-101" width="512" height="829" fill="white"></rect>
+<rect x="162" y="116" width="44" height="21" fill="black"></rect>
+<rect x="148" y="303" width="71" height="21" fill="black"></rect>
+<rect x="223" y="482" width="107" height="21" fill="black"></rect>
+<rect x="173" y="493" width="31" height="21" fill="black"></rect>
+<rect x="14" y="478" width="133" height="21" fill="black"></rect>
+</mask></svg></svg>
+</figure>
+<p>That diagram is itself a fenced <code>d2</code> block in this
+article’s Markdown, rendered by the very filter it describes.</p>
+<h2 id="writing-a-diagram">Writing a diagram</h2>
+<p>Using it is just a fenced code block tagged <code>d2</code>:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```d2</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="in">client -&gt; server: request</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="in">server -&gt; db: query</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Optionally you can attach an <code>alt</code> label:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```d2 {alt=&quot;Request flow&quot;}</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="in">client -&gt; server: request</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>The <code>alt</code> text becomes the SVG’s accessible label. You can
+see it in the wild in <a href="/posts/python-reflex">the Reflex
+post</a>.</p>
+<h2 id="gotchas">Gotchas</h2>
+<h3 id="format-svg-isnt-a-thing"><code>--format svg</code> isn’t a
+thing</h3>
+<p>When I first wrote the filter I passed <code>--format svg</code>,
+assuming D2 would take an explicit output format. It didn’t, and the
+build failed with a spectacularly unhelpful message:</p>
+<pre><code>D2 render failed: Error running d2 (error code 1): &lt;no output&gt;</code></pre>
+<p>The diagram was fine. D2 has no <code>--format</code> flag — the
+output format is determined by the <strong>output filename
+extension</strong> (<code>.svg</code>, in our case), or by
+<code>--stdout-format</code> when writing to stdout. The
+<code>svg</code> value wasn’t the problem; the flag was.</p>
+<p>The <code>&lt;no output&gt;</code> part is a second trap.
+<code>pandoc.pipe</code> reports a failed command’s
+<strong>stderr</strong>, but D2 prints usage errors to
+<strong>stdout</strong>, which pandoc discards when the command exits
+non-zero. So any D2 invocation error surfaces as a blank
+<code>&lt;no output&gt;</code> until you know to look. Dropping
+<code>--format</code> and letting the <code>.svg</code> extension do the
+work was the whole fix.</p>
+<h3 id="limitations">Limitations</h3>
+<p>A couple of things I haven’t solved yet:</p>
+<ul>
+<li><strong>No caching.</strong> <code>d2</code> runs fresh for every
+diagram on every build, because the output directory is wiped each time.
+Fine for a handful of diagrams; it should eventually be cached by
+content hash.</li>
+<li><strong>Duplicate SVG IDs.</strong> D2 emits <code>id</code>
+attributes inside the SVG, so two <em>identical</em> diagrams on one
+page would collide. D2 has a <code>--salt</code> flag for exactly this;
+I just don’t set it yet.</li>
+</ul>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>D2 has turned out to be a pleasant fit for a text-based, shell-driven
+workflow: the diagram is just more Markdown, the build takes care of the
+rest, and the output adapts to light and dark mode for free. If you’re
+on a static site and want diagrams without leaving your editor, a pandoc
+filter like this is a small, self-contained way to get there.</p>
+        </article>
+    </div>
+    <footer>
+        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license"><img src="https://licensebuttons.net/l/by-sa/4.0/88x31.png" alt="Creative Commons BY-SA 4.0" style="height:32px;vertical-align:middle;margin-right:8px;"></a>Ajit Ananthadevan</p>
+    </footer>
+</body>
+</html>
